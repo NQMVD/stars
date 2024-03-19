@@ -9,10 +9,16 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Main extends Application {
+
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        logger.info("Starting application");
         URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
         primaryStage.setTitle("Hello World");
