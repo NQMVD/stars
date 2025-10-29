@@ -8,6 +8,7 @@ public class ExampleTest {
 
     @Test
     public void twoMultipliedByTwoIsFour() {
+        String test = "moin";
         assertEquals(4, 2 * 2, "2 x 2 must be 4");
     }
 }
