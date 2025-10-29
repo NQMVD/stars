@@ -1,5 +1,6 @@
 package mainpackage;
 
+import atlantafx.base.theme.PrimerDark;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         logger.info("Starting application");
         URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
