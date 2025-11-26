@@ -3,7 +3,7 @@
     /* Farbpalette aus deinem Original-Code */
     -color-bg-main: #09090b;      /* Haupt-Hintergrund */
     -color-bg-panel: #18181b;     /* Card/Input Hintergrund */
-    -color-bg-hero: #27272a;      /* Hero Section Hintergrund */
+    /*-color-bg-hero: #27272a; */     /* Hero Section Hintergrund */
     -color-border: #27272a;       /* Rahmen & Grid-Linien */
 
     -color-text-white: #fafafa;
