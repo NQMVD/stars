@@ -1,0 +1,101 @@
+/* style.css */
+.root {
+    /* Farbpalette aus deinem Original-Code */
+    -color-bg-main: #09090b;      /* Haupt-Hintergrund */
+    -color-bg-panel: #18181b;     /* Card/Input Hintergrund */
+    -color-bg-hero: #27272a;      /* Hero Section Hintergrund */
+    -color-border: #27272a;       /* Rahmen & Grid-Linien */
+
+    -color-text-white: #fafafa;
+    -color-text-grey: #71717a;
+    -color-text-muted: #52525b;
+    -color-text-desc: #a1a1aa;
+
+    -fx-background-color: -color-bg-main;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- HEADER & NAVIGATION --- */
+.header-bar {
+    -fx-background-color: -color-bg-main;
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-border-width: 1;
+}
+
+.logo-area {
+    -fx-border-color: transparent -color-border transparent transparent;
+    -fx-border-width: 1;
+}
+
+.nav-text {
+    -fx-text-fill: -color-text-white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.nav-text-muted {
+    -fx-text-fill: -color-text-grey;
+    -fx-font-size: 14px;
+}
+
+.search-container {
+    -fx-background-color: -color-bg-panel;
+    -fx-background-radius: 4;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text-white;
+    -fx-prompt-text-fill: -color-text-muted;
+}
+
+/* --- HERO SECTION --- */
+.hero-grid {
+    -fx-background-color: -color-border; /* Die Lückenfarbe */
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-border-width: 1;
+}
+
+/* --- APP GRID & CARDS --- */
+.grid-container {
+    -fx-background-color: -color-border; /* Erzeugt die Gitterlinien durch Lücken */
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+}
+
+.app-card {
+    -fx-background-color: -color-bg-main;
+    -fx-cursor: hand;
+    -fx-padding: 24;
+    -fx-transition: -fx-background-color 0.2s;
+}
+
+.app-card:hover {
+    -fx-background-color: #101014; /* Leichter Hover-Effekt */
+}
+
+.icon-box {
+    -fx-background-color: -color-bg-panel;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 10;
+}
+
+.card-title {
+    -fx-text-fill: -color-text-white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.card-subtitle {
+    -fx-text-fill: -color-text-muted;
+    -fx-font-size: 11px;
+    -fx-font-family: 'Monospaced';
+}
+
+.card-desc {
+    -fx-text-fill: -color-text-desc;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}

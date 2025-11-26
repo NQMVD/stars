@@ -23,7 +23,7 @@ public class Main extends Application {
     logger.info("Starting application");
     URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
     Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
-    primaryStage.setTitle("Hello Berk");
+    primaryStage.setTitle("STARS");
     primaryStage.setScene(new Scene(root, 300, 275));
     primaryStage.show();
   }
