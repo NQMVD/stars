@@ -1,101 +1,294 @@
-/* style.css */
+/* style.css - AppVault Modern Dark Theme */
+
+/* === ROOT & GLOBAL VARIABLES === */
 .root {
-    /* Farbpalette aus deinem Original-Code */
-    -color-bg-main: #09090b;      /* Haupt-Hintergrund */
-    -color-bg-panel: #18181b;     /* Card/Input Hintergrund */
-    /*-color-bg-hero: #27272a; */     /* Hero Section Hintergrund */
-    -color-border: #27272a;       /* Rahmen & Grid-Linien */
+    /* Deep Dark Theme Palette */
+    -color-bg-main: #0f0f12;
+    -color-bg-sidebar: #0a0a0c;
+    -color-bg-panel: #1a1a1f;
+    -color-bg-card: #16161a;
+    -color-bg-elevated: #1f1f24;
 
-    -color-text-white: #fafafa;
-    -color-text-grey: #71717a;
-    -color-text-muted: #52525b;
-    -color-text-desc: #a1a1aa;
+    /* Borders & Separators */
+    -color-border: #2a2a32;
+    -color-border-subtle: #1f1f24;
+
+    /* Accent Colors - Vibrant Purple/Blue */
+    -color-accent: #8b5cf6;
+    -color-accent-hover: #a78bfa;
+    -color-accent-glow: rgba(139, 92, 246, 0.4);
+
+    /* Text Colors - High Contrast */
+    -color-text-primary: #f4f4f5;
+    -color-text-secondary: #a1a1aa;
+    -color-text-muted: #71717a;
+    -color-text-dim: #52525b;
+
+    /* Status Colors */
+    -color-success: #22c55e;
+    -color-warning: #fbbf24;
 
     -fx-background-color: -color-bg-main;
-    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+    -fx-font-size: 14px;
 }
 
-/* --- HEADER & NAVIGATION --- */
-.header-bar {
-    -fx-background-color: -color-bg-main;
-    -fx-border-color: transparent transparent -color-border transparent;
-    -fx-border-width: 1;
+/* === SCROLLBAR STYLING === */
+.scroll-pane {
+    -fx-background-color: transparent;
 }
 
-.logo-area {
+.scroll-pane>.viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #3f3f46;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #52525b;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+    -fx-background-color: -color-bg-sidebar;
     -fx-border-color: transparent -color-border transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-section-label {
+    -fx-text-fill: -color-text-dim;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-letter-spacing: 0.5px;
+}
+
+/* Navigation Buttons */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text-secondary;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-cursor: hand;
+    -fx-padding: 10 16;
+    -fx-background-radius: 10;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-text-fill: -color-text-primary;
+}
+
+.nav-button.active {
+    -fx-background-color: rgba(139, 92, 246, 0.15);
+    -fx-text-fill: -color-text-primary;
+}
+
+.nav-button-sub {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text-muted;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+}
+
+.nav-button-sub:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-text-fill: -color-text-secondary;
+}
+
+.user-profile {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+    -fx-border-color: -color-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* === TOP BAR === */
+.top-bar {
+    -fx-background-color: -color-bg-main;
+    -fx-border-color: transparent transparent -color-border-subtle transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Search Container */
+.search-container {
+    -fx-background-color: -color-bg-card;
+    -fx-background-radius: 12;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 12;
     -fx-border-width: 1;
 }
 
-.nav-text {
-    -fx-text-fill: -color-text-white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-.nav-text-muted {
-    -fx-text-fill: -color-text-grey;
-    -fx-font-size: 14px;
-}
-
-.search-container {
-    -fx-background-color: -color-bg-panel;
-    -fx-background-radius: 4;
+.search-container:focused-within {
+    -fx-border-color: -color-accent;
 }
 
 .search-field {
     -fx-background-color: transparent;
-    -fx-text-fill: -color-text-white;
+    -fx-text-fill: -color-text-primary;
     -fx-prompt-text-fill: -color-text-muted;
+    -fx-padding: 4 8;
 }
 
-/* --- HERO SECTION --- */
-.hero-grid {
-    -fx-background-color: -color-border; /* Die Lückenfarbe */
-    -fx-border-color: transparent transparent -color-border transparent;
-    -fx-border-width: 1;
-}
-
-/* --- APP GRID & CARDS --- */
-.grid-container {
-    -fx-background-color: -color-border; /* Erzeugt die Gitterlinien durch Lücken */
-    -fx-hgap: 1;
-    -fx-vgap: 1;
-}
-
-.app-card {
-    -fx-background-color: -color-bg-main;
+/* Filter Buttons */
+.filter-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text-muted;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
     -fx-cursor: hand;
-    -fx-padding: 24;
-    -fx-transition: -fx-background-color 0.2s;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-padding: 8 18;
+}
+
+.filter-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-text-fill: -color-text-secondary;
+    -fx-border-color: -color-text-muted;
+}
+
+.filter-button.active {
+    -fx-background-color: -color-text-primary;
+    -fx-text-fill: #0f0f12;
+    -fx-border-color: -color-text-primary;
+    -fx-font-weight: 600;
+}
+
+.feedback-button {
+    -fx-background-color: -color-bg-elevated;
+    -fx-text-fill: -color-text-primary;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-padding: 8 20;
+    -fx-border-color: -color-border;
+    -fx-border-radius: 10;
+}
+
+.feedback-button:hover {
+    -fx-background-color: -color-bg-panel;
+}
+
+/* === FEATURED CARDS === */
+.featured-card {
+    -fx-background-color: -color-bg-card;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 25, 0, 0, 10);
+    -fx-cursor: hand;
+}
+
+.featured-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 35, 0.2, 0, 15);
+}
+
+/* === TRENDING GRID CARDS === */
+.app-card {
+    -fx-background-color: -color-bg-card;
+    -fx-background-radius: 16;
+    -fx-cursor: hand;
+    -fx-border-color: -color-border-subtle;
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+    -fx-padding: 0;
 }
 
 .app-card:hover {
-    -fx-background-color: #101014; /* Leichter Hover-Effekt */
-}
-
-.icon-box {
-    -fx-background-color: -color-bg-panel;
+    -fx-background-color: -color-bg-elevated;
     -fx-border-color: -color-border;
-    -fx-border-radius: 4;
-    -fx-background-radius: 4;
-    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 30, 0.15, 0, 12);
 }
 
+/* Icon Box */
+.icon-box {
+    -fx-background-color: -color-bg-elevated;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+}
+
+/* Card Typography */
 .card-title {
-    -fx-text-fill: -color-text-white;
+    -fx-text-fill: -color-text-primary;
     -fx-font-size: 15px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
 }
 
 .card-subtitle {
     -fx-text-fill: -color-text-muted;
-    -fx-font-size: 11px;
-    -fx-font-family: 'Monospaced';
+    -fx-font-size: 12px;
 }
 
-.card-desc {
-    -fx-text-fill: -color-text-desc;
-    -fx-font-size: 13px;
-    -fx-wrap-text: true;
+/* === BUTTONS === */
+
+/* Primary Install Button - Gradient Accent */
+.install-button {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1);
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(139, 92, 246, 0.3), 8, 0, 0, 2);
+}
+
+.install-button:hover {
+    -fx-background-color: linear-gradient(to right, #a78bfa, #818cf8);
+    -fx-effect: dropshadow(gaussian, rgba(139, 92, 246, 0.5), 15, 0, 0, 0);
+}
+
+/* Featured Card Install Button */
+.install-button-featured {
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-text-fill: #0f0f12;
+    -fx-background-radius: 20;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 10 28;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.2), 10, 0, 0, 0);
+}
+
+.install-button-featured:hover {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 20, 0, 0, 0);
+}
+
+/* Installed / Secondary Button */
+.installed-button {
+    -fx-background-color: -color-bg-elevated;
+    -fx-text-fill: -color-success;
+    -fx-background-radius: 20;
+    -fx-font-weight: 500;
+    -fx-padding: 8 18;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(34, 197, 94, 0.3);
+    -fx-border-radius: 20;
+}
+
+.installed-button:hover {
+    -fx-background-color: rgba(34, 197, 94, 0.1);
+}
+
+/* === RATING BADGE === */
+.rating-badge {
+    -fx-background-color: rgba(251, 191, 36, 0.15);
+    -fx-background-radius: 6;
+    -fx-padding: 4 8;
 }

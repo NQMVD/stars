@@ -18,13 +18,15 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Application.setUserAgentStylesheet(
-      new PrimerDark().getUserAgentStylesheet()
-    );
+            new PrimerDark().getUserAgentStylesheet());
     logger.info("Starting application");
     URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
     Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
-    primaryStage.setTitle("STARS");
-    primaryStage.setScene(new Scene(root, 300, 275));
+    primaryStage.setTitle("AppVault");
+    Scene scene = new Scene(root, 1200, 800);
+    primaryStage.setScene(scene);
+    primaryStage.setMinWidth(600);
+    primaryStage.setMinHeight(500);
     primaryStage.show();
   }
 
