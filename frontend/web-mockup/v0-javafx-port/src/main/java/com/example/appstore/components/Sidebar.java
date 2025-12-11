@@ -1,16 +1,13 @@
 package com.example.appstore.components;
 
 import java.util.function.Consumer;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -61,33 +58,20 @@ public class Sidebar extends VBox {
         addNavButton("Utilities", Feather.TOOL, false); // Feather doesn't have wrench/tool? It has TOOL
         addNavButton("Security", Feather.SHIELD, false);
 
-        // Spacer to push User Profile to bottom
+        // Spacer to push Installation Indicator to bottom
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
         getChildren().add(spacer);
 
-        // User Profile
-        HBox userProfile = new HBox(12);
-        userProfile.getStyleClass().add("user-profile");
-
-        Circle avatar = new Circle(16, Color.web("#ef4444")); // Red avatar
-        Label avatarText = new Label("N");
-        avatarText.setTextFill(Color.WHITE);
-        avatarText.setStyle("-fx-font-weight: bold;");
-        javafx.scene.layout.StackPane avatarPane =
-            new javafx.scene.layout.StackPane(avatar, avatarText);
-
-        VBox userInfo = new VBox(2);
-        Label userName = new Label("John Doe");
-        userName.setStyle(
-            "-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;"
+        // Installation Indicator
+        InstallationIndicator indicator = new InstallationIndicator(
+            "Visual Studio Code",
+            1,
+            InstallationIndicator.Status.PROCESSING
         );
-        Label userPlan = new Label("Free Plan");
-        userPlan.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
-        userInfo.getChildren().addAll(userName, userPlan);
-
-        userProfile.getChildren().addAll(avatarPane, userInfo);
-        getChildren().add(userProfile);
+        VBox indicatorContainer = new VBox(indicator);
+        indicatorContainer.setStyle("-fx-padding: 12px; -fx-border-color: #181818; -fx-border-width: 1px 0 0 0;");
+        getChildren().add(indicatorContainer);
     }
 
     private void addSectionLabel(String text) {

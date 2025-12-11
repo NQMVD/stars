@@ -91,14 +91,14 @@
     -fx-icon-color: #fafafa;
 }
 
-/* User Profile in Sidebar */
-.user-profile {
-    -fx-padding: 16px 24px;
+/* Installation Indicator in Sidebar */
+.installation-indicator {
+    -fx-background-color: #040404;
+    -fx-background-radius: 8px;
     -fx-border-color: #181818;
-    /* Extracted border */
-    -fx-border-width: 1px 0 0 0;
-    -fx-alignment: CENTER_LEFT;
-    -fx-spacing: 12px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 12px;
 }
 
 /* TopBar */
