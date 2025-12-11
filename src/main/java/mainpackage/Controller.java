@@ -1,17 +1,22 @@
 package mainpackage;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.Scene;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,11 +93,16 @@ public class Controller implements Initializable {
     private List<AppData> updatesApps;
 
     private boolean isDarkMode = true;
+    private LibraryService libraryService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+<<<<<<< Updated upstream
         System.out.println("[AppVault] Initializing application...");
 
+=======
+        libraryService = new LibraryService();
+>>>>>>> Stashed changes
         initializeData();
         renderFeatured();
         renderTrending(allApps);
@@ -425,12 +435,94 @@ public class Controller implements Initializable {
         reviews.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 14px;");
         ratingBox.getChildren().addAll(star, rating, reviews);
 
-        Button installBtn = new Button("GET");
-        installBtn.setStyle(
-                "-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 14 48; -fx-background-radius: 24; -fx-cursor: hand;");
-        VBox.setMargin(installBtn, new Insets(16, 0, 0, 0));
+        // Install/Open button area
+        VBox buttonArea = new VBox(8);
+        buttonArea.setAlignment(Pos.CENTER_LEFT);
+        VBox.setMargin(buttonArea, new Insets(16, 0, 0, 0));
 
-        info.getChildren().addAll(title, author, category, ratingBox, installBtn);
+        boolean isInstalled = libraryService.isInstalled(app.title());
+        
+        if (isInstalled) {
+            Button openBtn = new Button("OPEN");
+            openBtn.setStyle(
+                    "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 14 48; -fx-background-radius: 24; -fx-cursor: hand;");
+            openBtn.setOnAction(e -> {
+                // Simulate opening the app
+                openBtn.setText("Running...");
+                openBtn.setDisable(true);
+                Timeline reset = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+                    openBtn.setText("OPEN");
+                    openBtn.setDisable(false);
+                }));
+                reset.play();
+            });
+            buttonArea.getChildren().add(openBtn);
+            
+            // Show installed version
+            libraryService.getInstalledApp(app.title()).ifPresent(installed -> {
+                Label versionLabel = new Label("Installed: v" + installed.installedVersion());
+                versionLabel.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 12px;");
+                buttonArea.getChildren().add(versionLabel);
+            });
+        } else {
+            Button installBtn = new Button("GET");
+            installBtn.setStyle(
+                    "-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 14 48; -fx-background-radius: 24; -fx-cursor: hand;");
+            
+            ProgressBar progressBar = new ProgressBar(0);
+            progressBar.setPrefWidth(140);
+            progressBar.setVisible(false);
+            progressBar.setStyle("-fx-accent: #6366f1;");
+            
+            Label statusLabel = new Label("");
+            statusLabel.setStyle("-fx-text-fill: " + getSecondaryTextColor() + "; -fx-font-size: 12px;");
+            
+            installBtn.setOnAction(e -> {
+                // Start install animation
+                installBtn.setDisable(true);
+                installBtn.setText("Installing...");
+                progressBar.setVisible(true);
+                statusLabel.setText("Downloading...");
+                
+                // Simulate download progress over 3 seconds
+                Timeline timeline = new Timeline();
+                for (int i = 0; i <= 30; i++) {
+                    final int step = i;
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(i * 100), ev -> {
+                        double progress = step / 30.0;
+                        progressBar.setProgress(progress);
+                        if (progress < 0.5) {
+                            statusLabel.setText("Downloading... " + (int)(progress * 200) + "%");
+                        } else if (progress < 0.9) {
+                            statusLabel.setText("Installing...");
+                        } else {
+                            statusLabel.setText("Finishing up...");
+                        }
+                    });
+                    timeline.getKeyFrames().add(keyFrame);
+                }
+                
+                // Complete installation
+                KeyFrame completeFrame = new KeyFrame(Duration.millis(3100), ev -> {
+                    libraryService.installApp(app);
+                    progressBar.setVisible(false);
+                    installBtn.setText("OPEN");
+                    installBtn.setStyle(
+                            "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 14 48; -fx-background-radius: 24; -fx-cursor: hand;");
+                    installBtn.setDisable(false);
+                    statusLabel.setText("Installed! v1.0.0");
+                    
+                    // Refresh library view
+                    renderLibrary();
+                });
+                timeline.getKeyFrames().add(completeFrame);
+                timeline.play();
+            });
+            
+            buttonArea.getChildren().addAll(installBtn, progressBar, statusLabel);
+        }
+
+        info.getChildren().addAll(title, author, category, ratingBox, buttonArea);
 
         header.getChildren().addAll(iconBox, info);
 
@@ -704,14 +796,25 @@ public class Controller implements Initializable {
     }
 
     private void renderLibrary() {
-        if (libraryGrid == null || libraryApps == null)
+        if (libraryGrid == null)
             return;
         libraryGrid.getChildren().clear();
+        
+        List<InstalledApp> installedApps = libraryService.getInstalledApps();
+        
+        if (installedApps.isEmpty()) {
+            // Show empty state
+            Label emptyLabel = new Label("No apps installed yet");
+            emptyLabel.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 16px;");
+            libraryGrid.add(emptyLabel, 0, 0);
+            return;
+        }
+        
         int col = 0;
         int row = 0;
 
-        for (AppData app : libraryApps) {
-            VBox card = createTrendingCard(app);
+        for (InstalledApp app : installedApps) {
+            VBox card = createLibraryCard(app);
             libraryGrid.add(card, col, row);
             col++;
             if (col == 4) {
@@ -719,6 +822,95 @@ public class Controller implements Initializable {
                 row++;
             }
         }
+    }
+
+    private VBox createLibraryCard(InstalledApp app) {
+        VBox card = new VBox(0);
+        card.getStyleClass().add("app-card");
+
+        // Thumbnail with placeholder
+        StackPane thumbnail = new StackPane();
+        thumbnail.setPrefHeight(100);
+        thumbnail.setMinHeight(100);
+        String thumbnailBg = isDarkMode ? "#1c1c1f" : "#e2e8f0";
+        thumbnail.setStyle("-fx-background-color: " + thumbnailBg + "; -fx-background-radius: 14 14 0 0;");
+        thumbnail.setAlignment(Pos.CENTER);
+
+        // App icon in thumbnail
+        StackPane iconBox = new StackPane();
+        iconBox.setMinSize(48, 48);
+        iconBox.setMaxSize(48, 48);
+        String iconColor = app.color().contains("#")
+                ? app.color().substring(app.color().lastIndexOf("#"),
+                Math.min(app.color().lastIndexOf("#") + 7, app.color().length()))
+                : "#6366f1";
+        iconBox.setStyle("-fx-background-color: " + iconColor + "; -fx-background-radius: 12;");
+        iconBox.setAlignment(Pos.CENTER);
+
+        SVGPath icon = new SVGPath();
+        icon.setContent(app.svgPath());
+        icon.setFill(Color.WHITE);
+        icon.setScaleX(1.2);
+        icon.setScaleY(1.2);
+        iconBox.getChildren().add(icon);
+        thumbnail.getChildren().add(iconBox);
+
+        // Details Section
+        VBox details = new VBox(8);
+        details.setPadding(new Insets(14, 14, 14, 14));
+        details.setStyle("-fx-background-color: " + getDetailsBgColor() + "; -fx-background-radius: 0 0 14 14;");
+
+        // Title and version
+        Label title = new Label(app.title());
+        title.setStyle("-fx-text-fill: " + getTextColor() + "; -fx-font-weight: bold; -fx-font-size: 14px;");
+
+        Label version = new Label("v" + app.installedVersion());
+        version.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 11px;");
+
+        Label category = new Label(app.category());
+        category.setStyle("-fx-text-fill: " + getSecondaryTextColor() + "; -fx-font-size: 12px;");
+
+        // Action buttons
+        HBox buttonRow = new HBox(8);
+        buttonRow.setAlignment(Pos.CENTER_LEFT);
+
+        Button updateBtn = new Button("Update");
+        updateBtn.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-size: 11px; -fx-padding: 6 12; -fx-background-radius: 8; -fx-cursor: hand;");
+        updateBtn.setOnAction(e -> {
+            updateBtn.setDisable(true);
+            updateBtn.setText("Updating...");
+            
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), ev -> {
+                libraryService.updateApp(app.title());
+                updateBtn.setText("Updated!");
+                updateBtn.setStyle("-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-size: 11px; -fx-padding: 6 12; -fx-background-radius: 8;");
+                
+                // Refresh after a moment
+                Timeline refresh = new Timeline(new KeyFrame(Duration.seconds(0.5), r -> renderLibrary()));
+                refresh.play();
+            }));
+            timeline.play();
+        });
+
+        Button removeBtn = new Button("Remove");
+        removeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #ef4444; -fx-font-size: 11px; -fx-padding: 6 12; -fx-background-radius: 8; -fx-border-color: #ef4444; -fx-border-radius: 8; -fx-cursor: hand;");
+        removeBtn.setOnAction(e -> {
+            removeBtn.setDisable(true);
+            removeBtn.setText("Removing...");
+            
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), ev -> {
+                libraryService.removeApp(app.title());
+                renderLibrary();
+            }));
+            timeline.play();
+        });
+
+        buttonRow.getChildren().addAll(updateBtn, removeBtn);
+
+        details.getChildren().addAll(title, version, category, buttonRow);
+
+        card.getChildren().addAll(thumbnail, details);
+        return card;
     }
 
     private void renderUpdates() {
