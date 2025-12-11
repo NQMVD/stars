@@ -11,10 +11,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         RootLayout root = new RootLayout();
         Scene scene = new Scene(root, 1200, 800);
-        
+
         // Load CSS
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-        
+        scene
+            .getStylesheets()
+            .add(getClass().getResource("/styles.css").toExternalForm());
+
         primaryStage.setTitle("Desktop App Store");
         primaryStage.setScene(scene);
         primaryStage.show();

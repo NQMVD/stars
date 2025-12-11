@@ -4,7 +4,6 @@ import com.example.appstore.model.InstalledApp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -22,9 +21,9 @@ public class LibraryService {
 
     private static final String LIBRARY_DIR = ".stars";
     private static final String LIBRARY_FILE = "library-v0.json";
-    
+
     private static LibraryService instance;
-    
+
     private final Path libraryPath;
     private final Gson gson;
     private List<InstalledApp> installedApps;
@@ -35,17 +34,19 @@ public class LibraryService {
         this.libraryPath = starsDir.resolve(LIBRARY_FILE);
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.installedApps = new ArrayList<>();
-        
+
         // Ensure directory exists
         try {
             Files.createDirectories(starsDir);
         } catch (IOException e) {
-            System.err.println("Failed to create library directory: " + e.getMessage());
+            System.err.println(
+                "Failed to create library directory: " + e.getMessage()
+            );
         }
-        
+
         loadLibrary();
     }
-    
+
     public static LibraryService getInstance() {
         if (instance == null) {
             instance = new LibraryService();
@@ -86,12 +87,27 @@ public class LibraryService {
     /**
      * Install an app to the library.
      */
-    public void installApp(String id, String name, String developer, String category, String version, String size) {
+    public void installApp(
+        String id,
+        String name,
+        String developer,
+        String category,
+        String version,
+        String size
+    ) {
         if (isInstalled(id)) {
             return; // Already installed
         }
-        
-        InstalledApp installed = new InstalledApp(id, name, developer, category, version, System.currentTimeMillis(), size);
+
+        InstalledApp installed = new InstalledApp(
+            id,
+            name,
+            developer,
+            category,
+            version,
+            System.currentTimeMillis(),
+            size
+        );
         installedApps.add(installed);
         saveLibrary();
     }
@@ -111,17 +127,17 @@ public class LibraryService {
      * Check if an app is installed.
      */
     public boolean isInstalled(String id) {
-        return installedApps.stream()
-                .anyMatch(app -> app.getId().equals(id));
+        return installedApps.stream().anyMatch(app -> app.getId().equals(id));
     }
 
     /**
      * Get an installed app by ID.
      */
     public Optional<InstalledApp> getInstalledApp(String id) {
-        return installedApps.stream()
-                .filter(app -> app.getId().equals(id))
-                .findFirst();
+        return installedApps
+            .stream()
+            .filter(app -> app.getId().equals(id))
+            .findFirst();
     }
 
     /**

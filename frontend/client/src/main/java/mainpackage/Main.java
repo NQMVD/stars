@@ -13,24 +13,27 @@ import org.apache.logging.log4j.Logger;
 
 public class Main extends Application {
 
-  private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    Application.setUserAgentStylesheet(
-            new PrimerDark().getUserAgentStylesheet());
-    logger.info("Starting application");
-    URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
-    Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
-    primaryStage.setTitle("AppVault");
-    Scene scene = new Scene(root, 1200, 800);
-    primaryStage.setScene(scene);
-    primaryStage.setMinWidth(600);
-    primaryStage.setMinHeight(500);
-    primaryStage.show();
-  }
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Application.setUserAgentStylesheet(
+            new PrimerDark().getUserAgentStylesheet()
+        );
+        logger.info("Starting application");
+        URL fxmlFileUrl = getClass()
+            .getClassLoader()
+            .getResource("sample.fxml");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
+        primaryStage.setTitle("AppVault");
+        Scene scene = new Scene(root, 1200, 800);
+        primaryStage.setScene(scene);
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(500);
+        primaryStage.show();
+    }
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

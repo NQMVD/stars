@@ -5,8 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 public class AppCard extends VBox {
@@ -17,14 +17,16 @@ public class AppCard extends VBox {
         setPrefWidth(200);
         setMinWidth(200);
         setMaxWidth(200);
-        
+
         // Icon
         ImageView iconView = new ImageView();
         try {
             // Try to load from resources, fallback to placeholder if fails
             String imagePath = "/images/" + iconPath;
             if (getClass().getResource(imagePath) != null) {
-                iconView.setImage(new Image(getClass().getResourceAsStream(imagePath)));
+                iconView.setImage(
+                    new Image(getClass().getResourceAsStream(imagePath))
+                );
             } else {
                 // Fallback or use a colored rectangle
                 // iconView.setImage(new Image(getClass().getResourceAsStream("/images/placeholder.svg")));
@@ -32,10 +34,10 @@ public class AppCard extends VBox {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         iconView.setFitWidth(64);
         iconView.setFitHeight(64);
-        
+
         // Clip icon to rounded rect
         Rectangle clip = new Rectangle(64, 64);
         clip.setArcWidth(16);
@@ -45,15 +47,17 @@ public class AppCard extends VBox {
         // Text Content
         VBox textContainer = new VBox(4);
         Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;");
-        
+        titleLabel.setStyle(
+            "-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;"
+        );
+
         Label descLabel = new Label(description);
         descLabel.setWrapText(true);
         descLabel.getStyleClass().add("text-muted");
         descLabel.setStyle("-fx-font-size: 12px;");
-        
+
         textContainer.getChildren().addAll(titleLabel, descLabel);
-        
+
         getChildren().addAll(iconView, textContainer);
     }
 }
