@@ -33,36 +33,36 @@
             <HBox alignment="CENTER_LEFT" spacing="12.0">
                 <padding><Insets left="20.0" right="20.0" bottom="36.0" /></padding>
                 <children>
-                    <StackPane style="-fx-background-color: #f4f4f5; -fx-background-radius: 12;">
+                    <StackPane styleClass="logo-icon">
                         <padding><Insets bottom="8.0" left="8.0" right="8.0" top="8.0" /></padding>
                         <children>
-                            <SVGPath content="M4 6h16M4 12h16M4 18h16" fill="#18181b" scaleX="0.9" scaleY="0.9" />
+                            <SVGPath content="M4 6h16M4 12h16M4 18h16" styleClass="logo-svg" scaleX="0.9" scaleY="0.9" />
                         </children>
                     </StackPane>
-                    <Label text="AppVault" style="-fx-text-fill: #f4f4f5; -fx-font-weight: bold; -fx-font-size: 20px;" />
+                    <Label text="AppVault" styleClass="logo-text" />
                 </children>
             </HBox>
 
             <!-- MAIN NAV -->
             <VBox spacing="6.0">
                 <padding><Insets left="16.0" right="16.0" bottom="36.0" /></padding>
-                <Button text="  Discover" styleClass="nav-button, active" graphicTextGap="14" maxWidth="Infinity">
+                <Button fx:id="navDiscover" text="  Discover" styleClass="nav-button, active" graphicTextGap="14" maxWidth="Infinity">
                     <graphic><SVGPath content="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" fill="TRANSPARENT" stroke="#f4f4f5" strokeWidth="1.8"/></graphic>
                 </Button>
-                <Button text="  Library" styleClass="nav-button" graphicTextGap="14" maxWidth="Infinity">
+                <Button fx:id="navLibrary" text="  Library" styleClass="nav-button" graphicTextGap="14" maxWidth="Infinity">
                     <graphic><SVGPath content="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" fill="TRANSPARENT" stroke="#a1a1aa" strokeWidth="1.5"/></graphic>
                 </Button>
-                <Button styleClass="nav-button" maxWidth="Infinity" contentDisplay="GRAPHIC_ONLY">
+                <Button fx:id="navUpdates" styleClass="nav-button" maxWidth="Infinity" contentDisplay="GRAPHIC_ONLY">
                     <graphic>
                         <HBox spacing="14" alignment="CENTER_LEFT" maxWidth="Infinity">
                             <SVGPath content="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" fill="TRANSPARENT" stroke="#a1a1aa" strokeWidth="1.5"/>
-                            <Label text="Updates" style="-fx-text-fill: #a1a1aa; -fx-font-size: 14px;" />
+                            <Label text="Updates" styleClass="nav-button-text" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Label text="3" style="-fx-background-color: #f4f4f5; -fx-text-fill: #18181b; -fx-background-radius: 12; -fx-padding: 2 10; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                            <Label text="3" styleClass="badge-count" />
                         </HBox>
                     </graphic>
                 </Button>
-                <Button text="  Settings" styleClass="nav-button" graphicTextGap="14" maxWidth="Infinity">
+                <Button fx:id="navSettings" text="  Settings" styleClass="nav-button" graphicTextGap="14" maxWidth="Infinity">
                     <graphic><SVGPath content="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" fill="TRANSPARENT" stroke="#a1a1aa" strokeWidth="1.5"/></graphic>
                 </Button>
             </VBox>
@@ -118,76 +118,178 @@
 
     <!-- MAIN CONTENT -->
     <center>
-        <VBox style="-fx-background-color: #0f0f12;">
-            <!-- TOP BAR -->
-            <HBox alignment="CENTER_LEFT" prefHeight="72.0" spacing="0" styleClass="top-bar">
-                <padding><Insets left="48.0" right="48.0" top="16.0" bottom="16.0" /></padding>
-                <children>
-                    <!-- SEARCH -->
-                    <HBox alignment="CENTER_LEFT" styleClass="search-container" prefWidth="320" spacing="10">
-                        <padding><Insets bottom="10.0" left="14.0" right="14.0" top="10.0" /></padding>
-                        <children>
-                            <SVGPath content="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" fill="TRANSPARENT" stroke="#71717a" strokeWidth="2" scaleX="0.8" scaleY="0.8"/>
-                            <TextField fx:id="searchField" promptText="Search apps..." styleClass="search-field" HBox.hgrow="ALWAYS">
-                                <font><Font size="14.0" /></font>
-                            </TextField>
-                        </children>
-                    </HBox>
+        <StackPane fx:id="contentArea">
+            <!-- DISCOVER VIEW -->
+            <VBox fx:id="discoverView" styleClass="content-area">
+                <!-- TOP BAR -->
+                <HBox alignment="CENTER_LEFT" prefHeight="72.0" spacing="0" styleClass="top-bar">
+                    <padding><Insets left="48.0" right="48.0" top="16.0" bottom="16.0" /></padding>
+                    <children>
+                        <!-- SEARCH -->
+                        <HBox alignment="CENTER_LEFT" styleClass="search-container" prefWidth="320" spacing="10">
+                            <padding><Insets bottom="10.0" left="14.0" right="14.0" top="10.0" /></padding>
+                            <children>
+                                <SVGPath content="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" fill="TRANSPARENT" stroke="#71717a" strokeWidth="2" scaleX="0.8" scaleY="0.8"/>
+                                <TextField fx:id="searchField" promptText="Search apps..." styleClass="search-field" HBox.hgrow="ALWAYS">
+                                    <font><Font size="14.0" /></font>
+                                </TextField>
+                            </children>
+                        </HBox>
 
-                    <!-- Spacer -->
-                    <Region HBox.hgrow="ALWAYS" />
+                        <!-- Spacer -->
+                        <Region HBox.hgrow="ALWAYS" />
 
-                    <!-- FILTERS -->
-                    <HBox spacing="8.0" alignment="CENTER">
-                        <Button text="All" styleClass="filter-button, active" />
-                        <Button text="Windows" styleClass="filter-button" graphicTextGap="6">
-                            <graphic><SVGPath content="M0 3h11v11H0zm12 0h11v11H12zM0 15h11v8H0zm12 0h11v8H12z" fill="#71717a" scaleX="0.4" scaleY="0.4"/></graphic>
-                        </Button>
-                        <Button text="macOS" styleClass="filter-button" />
-                        <Button text="Linux" styleClass="filter-button" />
-                    </HBox>
-                </children>
-            </HBox>
+                        <!-- FILTERS -->
+                        <HBox spacing="8.0" alignment="CENTER">
+                            <Button text="All" styleClass="filter-button, active" />
+                            <Button text="Windows" styleClass="filter-button" graphicTextGap="6">
+                                <graphic><SVGPath content="M0 3h11v11H0zm12 0h11v11H12zM0 15h11v8H0zm12 0h11v8H12z" fill="#71717a" scaleX="0.4" scaleY="0.4"/></graphic>
+                            </Button>
+                            <Button text="macOS" styleClass="filter-button" />
+                            <Button text="Linux" styleClass="filter-button" />
+                        </HBox>
+                    </children>
+                </HBox>
 
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #0f0f12; -fx-background-color: #0f0f12;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="32.0" styleClass="content-area">
+                            <padding><Insets top="20.0" left="32.0" right="32.0" bottom="28.0" /></padding>
+                            <children>
+
+                                <!-- FEATURED SECTION -->
+                                <VBox spacing="14.0">
+                                    <Label text="Featured" styleClass="section-title" />
+                                    <HBox fx:id="featuredContainer" spacing="20.0">
+                                        <!-- Populated by Controller -->
+                                    </HBox>
+                                </VBox>
+
+                                <!-- TRENDING SECTION -->
+                                <VBox spacing="14.0">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <Label text="Trending" styleClass="section-title" />
+                                        <Label text="🔥" style="-fx-font-size: 16px;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button text="View All →" styleClass="view-all-btn" />
+                                    </HBox>
+                                    <GridPane fx:id="appsGrid" hgap="16.0" vgap="16.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints vgrow="ALWAYS" />
+                                        </rowConstraints>
+                                    </GridPane>
+                                </VBox>
+
+                                <!-- ALL APPS SECTION -->
+                                <VBox spacing="14.0">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <Label text="All Apps" styleClass="section-title" />
+                                        <Label text="📦" style="-fx-font-size: 16px;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button text="View All →" styleClass="view-all-btn" />
+                                    </HBox>
+                                    <GridPane fx:id="allAppsGrid" hgap="16.0" vgap="16.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints vgrow="ALWAYS" />
+                                        </rowConstraints>
+                                    </GridPane>
+                                </VBox>
+
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
+
+            <!-- LIBRARY VIEW (initially hidden) -->
+            <ScrollPane fx:id="libraryView" fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" visible="false">
                 <content>
-                    <VBox spacing="36.0" style="-fx-background-color: #0f0f12;">
-                        <padding><Insets top="24.0" left="28.0" right="28.0" bottom="36.0" /></padding>
+                    <VBox spacing="24" styleClass="content-area">
+                        <padding><Insets top="32.0" left="32.0" right="32.0" bottom="32.0" /></padding>
                         <children>
-
-                            <!-- FEATURED SECTION -->
-                            <VBox spacing="16.0">
-                                <Label text="Featured" style="-fx-text-fill: #f4f4f5; -fx-font-size: 20px; -fx-font-weight: bold;" />
-                                <HBox fx:id="featuredContainer" spacing="20.0">
-                                    <!-- Populated by Controller -->
-                                </HBox>
-                            </VBox>
-
-                            <!-- TRENDING SECTION -->
-                            <VBox spacing="20.0">
-                                <HBox alignment="CENTER_LEFT" spacing="12">
-                                    <Label text="Trending" style="-fx-text-fill: #f4f4f5; -fx-font-size: 20px; -fx-font-weight: bold;" />
-                                    <Label text="🔥" style="-fx-font-size: 16px;" />
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <Button text="View All →" style="-fx-background-color: transparent; -fx-text-fill: #a1a1aa; -fx-font-size: 13px; -fx-cursor: hand;" />
-                                </HBox>
-                                <GridPane fx:id="appsGrid" hgap="16.0" vgap="16.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints vgrow="ALWAYS" />
-                                    </rowConstraints>
-                                </GridPane>
-                            </VBox>
-
+                            <Label text="My Library" styleClass="section-title" />
+                            <Label text="Apps you have installed" styleClass="section-subtitle" />
+                            <Region prefHeight="8" />
+                            <GridPane fx:id="libraryGrid" hgap="16.0" vgap="16.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                </columnConstraints>
+                            </GridPane>
                         </children>
                     </VBox>
                 </content>
             </ScrollPane>
-        </VBox>
+
+            <!-- UPDATES VIEW (initially hidden) -->
+            <ScrollPane fx:id="updatesView" fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" visible="false">
+                <content>
+                    <VBox spacing="24" styleClass="content-area">
+                        <padding><Insets top="32.0" left="32.0" right="32.0" bottom="32.0" /></padding>
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="16">
+                                <Label text="Updates Available" styleClass="section-title" />
+                                <Label text="3" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 4 12; -fx-font-size: 12px; -fx-font-weight: bold;" />
+                            </HBox>
+                            <Label text="The following apps have updates ready to install" styleClass="section-subtitle" />
+                            <Region prefHeight="8" />
+                            <GridPane fx:id="updatesGrid" hgap="16.0" vgap="16.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                                </columnConstraints>
+                            </GridPane>
+                        </children>
+                    </VBox>
+                </content>
+            </ScrollPane>
+
+            <!-- SETTINGS VIEW (initially hidden) -->
+            <VBox fx:id="settingsView" styleClass="content-area" visible="false">
+                <padding><Insets top="40.0" left="48.0" right="48.0" bottom="40.0" /></padding>
+                <children>
+                    <Label text="Settings" styleClass="section-title" style="-fx-font-size: 28px;" />
+                    <Region prefHeight="32" />
+
+                    <!-- Appearance Section -->
+                    <VBox spacing="16" styleClass="settings-card">
+                        <Label text="Appearance" styleClass="card-heading" />
+                        <HBox alignment="CENTER_LEFT" spacing="20">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Dark Mode" styleClass="card-label" />
+                                <Label text="Switch between dark and light theme" styleClass="card-sublabel" />
+                            </VBox>
+                            <Button fx:id="themeToggleBtn" text="Light Mode" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: 600; -fx-padding: 10 24; -fx-background-radius: 20; -fx-cursor: hand;" />
+                        </HBox>
+                    </VBox>
+                </children>
+            </VBox>
+
+            <!-- APP DETAIL VIEW (initially hidden) -->
+            <ScrollPane fx:id="appDetailView" fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" visible="false">
+                <content>
+                    <VBox fx:id="appDetailContent" spacing="24" styleClass="content-area">
+                        <padding><Insets top="32.0" left="48.0" right="48.0" bottom="40.0" /></padding>
+                        <!-- Content populated dynamically by Controller -->
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </StackPane>
     </center>
 </BorderPane>

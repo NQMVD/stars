@@ -6,10 +6,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.Scene;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,16 +28,79 @@ public class Controller implements Initializable {
     private GridPane appsGrid;
 
     @FXML
+    private GridPane allAppsGrid;
+
+    @FXML
     private TextField searchField;
+
+    // Navigation buttons
+    @FXML
+    private Button navDiscover;
+
+    @FXML
+    private Button navLibrary;
+
+    @FXML
+    private Button navUpdates;
+
+    @FXML
+    private Button navSettings;
+
+    // Views
+    @FXML
+    private StackPane contentArea;
+
+    @FXML
+    private VBox discoverView;
+
+    @FXML
+    private VBox settingsView;
+
+    @FXML
+    private ScrollPane appDetailView;
+
+    @FXML
+    private VBox appDetailContent;
+
+    @FXML
+    private Button themeToggleBtn;
+
+    @FXML
+    private ScrollPane libraryView;
+
+    @FXML
+    private ScrollPane updatesView;
+
+    @FXML
+    private GridPane libraryGrid;
+
+    @FXML
+    private GridPane updatesGrid;
 
     private List<AppData> allApps;
     private List<AppData> featuredApps;
+    private List<AppData> allAppsList;
+    private List<AppData> libraryApps;
+    private List<AppData> updatesApps;
+
+    private boolean isDarkMode = true;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeData();
         renderFeatured();
         renderTrending(allApps);
+        renderAllApps(allAppsList);
+        renderLibrary();
+        renderUpdates();
+
+        // Setup navigation handlers
+        setupNavigation();
+
+        // Setup theme toggle
+        if (themeToggleBtn != null) {
+            themeToggleBtn.setOnAction(e -> toggleTheme());
+        }
 
         if (searchField != null) {
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,6 +118,269 @@ public class Controller implements Initializable {
                 updateGridColumns(newScene.getWidth());
             }
         });
+
+        // Make All Apps grid responsive to width changes
+        allAppsGrid.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.widthProperty().addListener((o, oldWidth, newWidth) -> {
+                    updateAllAppsGridColumns(newWidth.doubleValue());
+                });
+                // Initial update
+                updateAllAppsGridColumns(newScene.getWidth());
+            }
+        });
+    }
+
+    private void setupNavigation() {
+        if (navDiscover != null) {
+            navDiscover.setOnAction(e -> showView("discover"));
+        }
+        if (navLibrary != null) {
+            navLibrary.setOnAction(e -> showView("library"));
+        }
+        if (navUpdates != null) {
+            navUpdates.setOnAction(e -> showView("updates"));
+        }
+        if (navSettings != null) {
+            navSettings.setOnAction(e -> showView("settings"));
+        }
+    }
+
+    private void showView(String viewName) {
+        // Hide all views
+        if (discoverView != null)
+            discoverView.setVisible(false);
+        if (libraryView != null)
+            libraryView.setVisible(false);
+        if (updatesView != null)
+            updatesView.setVisible(false);
+        if (settingsView != null)
+            settingsView.setVisible(false);
+        if (appDetailView != null)
+            appDetailView.setVisible(false);
+
+        // Update active button styling
+        updateNavButtonStyle(navDiscover, false);
+        updateNavButtonStyle(navLibrary, false);
+        updateNavButtonStyle(navUpdates, false);
+        updateNavButtonStyle(navSettings, false);
+
+        // Show selected view
+        switch (viewName) {
+            case "discover":
+                if (discoverView != null)
+                    discoverView.setVisible(true);
+                updateNavButtonStyle(navDiscover, true);
+                break;
+            case "library":
+                if (libraryView != null)
+                    libraryView.setVisible(true);
+                updateNavButtonStyle(navLibrary, true);
+                break;
+            case "updates":
+                if (updatesView != null)
+                    updatesView.setVisible(true);
+                updateNavButtonStyle(navUpdates, true);
+                break;
+            case "settings":
+                if (settingsView != null)
+                    settingsView.setVisible(true);
+                updateNavButtonStyle(navSettings, true);
+                break;
+            case "appDetail":
+                if (appDetailView != null)
+                    appDetailView.setVisible(true);
+                break;
+        }
+    }
+
+    private void updateNavButtonStyle(Button button, boolean isActive) {
+        if (button == null)
+            return;
+        button.getStyleClass().remove("active");
+        if (isActive) {
+            button.getStyleClass().add("active");
+        }
+    }
+
+    private void toggleTheme() {
+        isDarkMode = !isDarkMode;
+        Scene scene = themeToggleBtn.getScene();
+
+        if (isDarkMode) {
+            themeToggleBtn.setText("Light Mode");
+            scene.getRoot().setStyle("-fx-base: #0f0f12;");
+            // Apply dark mode styles
+            applyDarkMode(scene);
+        } else {
+            themeToggleBtn.setText("Dark Mode");
+            scene.getRoot().setStyle("-fx-base: #ffffff;");
+            // Apply light mode styles
+            applyLightMode(scene);
+        }
+
+        // Re-render all cards to apply theme
+        renderFeatured();
+        renderTrending(allApps);
+        renderAllApps(allAppsList);
+        renderLibrary();
+        renderUpdates();
+    }
+
+    private void applyDarkMode(Scene scene) {
+        scene.getRoot().getStyleClass().remove("light-mode");
+    }
+
+    private void applyLightMode(Scene scene) {
+        scene.getRoot().getStyleClass().add("light-mode");
+    }
+
+    // Helper method to get text color based on theme
+    private String getTextColor() {
+        return isDarkMode ? "#f4f4f5" : "#1e293b";
+    }
+
+    private String getSecondaryTextColor() {
+        return isDarkMode ? "#a1a1aa" : "#475569";
+    }
+
+    private String getMutedTextColor() {
+        return isDarkMode ? "#71717a" : "#64748b";
+    }
+
+    private String getCardBgColor() {
+        return isDarkMode ? "#1c1c1f" : "#ffffff";
+    }
+
+    private String getDetailsBgColor() {
+        return isDarkMode ? "#18181b" : "#f8fafc";
+    }
+
+    public void showAppDetail(AppData app) {
+        if (appDetailContent == null)
+            return;
+
+        appDetailContent.getChildren().clear();
+
+        // Back button
+        Button backBtn = new Button("← Back to Discover");
+        backBtn.setStyle(
+                "-fx-background-color: transparent; -fx-text-fill: " + getSecondaryTextColor()
+                        + "; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0;");
+        backBtn.setOnAction(e -> showView("discover"));
+
+        // App header
+        HBox header = new HBox(24);
+        header.setAlignment(Pos.TOP_LEFT);
+
+        // App icon
+        StackPane iconBox = new StackPane();
+        iconBox.setMinSize(120, 120);
+        iconBox.setMaxSize(120, 120);
+        String iconColor = app.color().contains("#")
+                ? app.color().substring(app.color().lastIndexOf("#"),
+                Math.min(app.color().lastIndexOf("#") + 7, app.color().length()))
+                : "#6366f1";
+        iconBox.setStyle("-fx-background-color: " + iconColor + "; -fx-background-radius: 24;");
+        iconBox.setAlignment(Pos.CENTER);
+
+        SVGPath icon = new SVGPath();
+        icon.setContent(app.svgPath());
+        icon.setFill(Color.WHITE);
+        icon.setScaleX(3.0);
+        icon.setScaleY(3.0);
+        iconBox.getChildren().add(icon);
+
+        // App info
+        VBox info = new VBox(8);
+        info.setAlignment(Pos.TOP_LEFT);
+
+        Label title = new Label(app.title());
+        title.setStyle("-fx-text-fill: " + getTextColor() + "; -fx-font-size: 32px; -fx-font-weight: bold;");
+
+        Label author = new Label(app.author());
+        author.setStyle("-fx-text-fill: " + getSecondaryTextColor() + "; -fx-font-size: 16px;");
+
+        Label category = new Label(app.category());
+        category.setStyle("-fx-text-fill: #6366f1; -fx-font-size: 14px; -fx-font-weight: 500;");
+
+        HBox ratingBox = new HBox(8);
+        ratingBox.setAlignment(Pos.CENTER_LEFT);
+        Label star = new Label("★");
+        star.setStyle("-fx-text-fill: #fbbf24; -fx-font-size: 18px;");
+        Label rating = new Label(app.rating().replace("★ ", ""));
+        rating.setStyle("-fx-text-fill: " + getTextColor() + "; -fx-font-size: 18px; -fx-font-weight: 600;");
+        Label reviews = new Label(app.description());
+        reviews.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 14px;");
+        ratingBox.getChildren().addAll(star, rating, reviews);
+
+        Button installBtn = new Button("GET");
+        installBtn.setStyle(
+                "-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 14 48; -fx-background-radius: 24; -fx-cursor: hand;");
+        VBox.setMargin(installBtn, new Insets(16, 0, 0, 0));
+
+        info.getChildren().addAll(title, author, category, ratingBox, installBtn);
+
+        header.getChildren().addAll(iconBox, info);
+
+        // Description section
+        VBox descSection = new VBox(12);
+        descSection.setPadding(new Insets(32, 0, 0, 0));
+
+        Label descTitle = new Label("Description");
+        descTitle.setStyle(
+                "-fx-text-fill: " + getTextColor() + "; -fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label descText = new Label("This is a powerful application that helps you be more productive. " +
+                "With an intuitive interface and advanced features, " + app.title() +
+                " is designed to streamline your workflow and enhance your experience. " +
+                "Download now and discover why millions of users trust this app for their daily tasks.");
+        descText.setStyle("-fx-text-fill: " + getSecondaryTextColor()
+                + "; -fx-font-size: 15px; -fx-line-spacing: 4;");
+        descText.setWrapText(true);
+
+        descSection.getChildren().addAll(descTitle, descText);
+
+        // Screenshots section
+        VBox screenshotsSection = new VBox(16);
+        screenshotsSection.setPadding(new Insets(32, 0, 0, 0));
+
+        Label screenshotsTitle = new Label("Screenshots");
+        screenshotsTitle.setStyle(
+                "-fx-text-fill: " + getTextColor() + "; -fx-font-size: 20px; -fx-font-weight: bold;");
+
+        HBox screenshots = new HBox(16);
+        for (int i = 0; i < 3; i++) {
+            StackPane screenshot = new StackPane();
+            screenshot.setMinSize(280, 180);
+            screenshot.setMaxSize(280, 180);
+            screenshot.setStyle(
+                    "-fx-background-color: " + getCardBgColor() + "; -fx-background-radius: 16;");
+            screenshot.setAlignment(Pos.CENTER);
+
+            SVGPath placeholder = new SVGPath();
+            placeholder.setContent(
+                    "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z");
+            placeholder.setFill(isDarkMode ? Color.rgb(63, 63, 70) : Color.rgb(148, 163, 184));
+            placeholder.setScaleX(1.5);
+            placeholder.setScaleY(1.5);
+
+            Label label = new Label("Screenshot " + (i + 1));
+            label.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 12px;");
+            VBox.setMargin(label, new Insets(8, 0, 0, 0));
+
+            VBox screenshotBox = new VBox(4);
+            screenshotBox.setAlignment(Pos.CENTER);
+            screenshot.getChildren().add(placeholder);
+            screenshotBox.getChildren().addAll(screenshot, label);
+            screenshots.getChildren().add(screenshotBox);
+        }
+
+        screenshotsSection.getChildren().addAll(screenshotsTitle, screenshots);
+
+        appDetailContent.getChildren().addAll(backBtn, header, descSection, screenshotsSection);
+
+        showView("appDetail");
     }
 
     private void updateGridColumns(double sceneWidth) {
@@ -91,6 +419,50 @@ public class Controller implements Initializable {
         int row = 0;
         for (javafx.scene.Node card : cards) {
             appsGrid.add(card, col, row);
+            col++;
+            if (col >= columns) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private void updateAllAppsGridColumns(double sceneWidth) {
+        // Adjust columns based on available width (accounting for sidebar ~240px)
+        double contentWidth = sceneWidth - 240;
+        int columns;
+        if (contentWidth < 500) {
+            columns = 1;
+        } else if (contentWidth < 750) {
+            columns = 2;
+        } else if (contentWidth < 1000) {
+            columns = 3;
+        } else {
+            columns = 4;
+        }
+
+        // Update column constraints
+        allAppsGrid.getColumnConstraints().clear();
+        double percentWidth = 100.0 / columns;
+        for (int i = 0; i < columns; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setHgrow(Priority.ALWAYS);
+            cc.setPercentWidth(percentWidth);
+            allAppsGrid.getColumnConstraints().add(cc);
+        }
+
+        // Re-layout the cards with new column count
+        relayoutAllAppsGrid(columns);
+    }
+
+    private void relayoutAllAppsGrid(int columns) {
+        List<javafx.scene.Node> cards = new ArrayList<>(allAppsGrid.getChildren());
+        allAppsGrid.getChildren().clear();
+
+        int col = 0;
+        int row = 0;
+        for (javafx.scene.Node card : cards) {
+            allAppsGrid.add(card, col, row);
             col++;
             if (col >= columns) {
                 col = 0;
@@ -145,11 +517,120 @@ public class Controller implements Initializable {
                 "(50k)", "★ 4.9", "Free", false,
                 "linear-gradient(135deg, #2496ED, #066da5)",
                 "M4 10h4v4H4v-4zm5 0h4v4H9v-4zm5 0h4v4h-4v-4zm-5-5h4v4H9V5zm5 0h4v4h-4V5z", null));
+
+        // All Apps list
+        allAppsList = new ArrayList<>();
+        allAppsList.add(new AppData("Notion", "Notion Labs", "Productivity",
+                "(180k)", "★ 4.9", "Free", true,
+                "linear-gradient(135deg, #000000, #333333)",
+                "M4 4v16h16V4H4zm2 2h12v12H6V6z", null));
+        allAppsList.add(new AppData("Postman", "Postman Inc.", "Developer Tools",
+                "(95k)", "★ 4.7", "Free", true,
+                "linear-gradient(135deg, #FF6C37, #ff914d)",
+                "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5", null));
+        allAppsList.add(new AppData("Zoom", "Zoom Video", "Communication",
+                "(500k)", "★ 4.5", "Free", false,
+                "linear-gradient(135deg, #2D8CFF, #0B5CFF)",
+                "M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z",
+                null));
+        allAppsList.add(new AppData("1Password", "AgileBits", "Security",
+                "(75k)", "★ 4.8", "Free", true,
+                "linear-gradient(135deg, #1A8CFF, #0066CC)",
+                "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z", null));
+        allAppsList.add(new AppData("Obsidian", "Obsidian", "Notes",
+                "(65k)", "★ 4.9", "Free", false,
+                "linear-gradient(135deg, #7C3AED, #A78BFA)",
+                "M12 2L2 12l10 10 10-10L12 2z", null));
+        allAppsList.add(new AppData("Blender", "Blender Foundation", "3D Graphics",
+                "(120k)", "★ 4.8", "Free", false,
+                "linear-gradient(135deg, #F5792A, #E87D0D)",
+                "M12 2a10 10 0 00-6 18l6-9 6 9a10 10 0 00-6-18z", null));
+        allAppsList.add(new AppData("OBS Studio", "OBS Project", "Video",
+                "(200k)", "★ 4.7", "Free", false,
+                "linear-gradient(135deg, #1D1D1D, #4A4A4A)",
+                "M12 12m-10 0a10 10 0 1020 0 10 10 0 10-20 0", null));
+        allAppsList.add(new AppData("VLC", "VideoLAN", "Media",
+                "(400k)", "★ 4.6", "Free", false,
+                "linear-gradient(135deg, #FF8800, #FF6600)",
+                "M12 2L4 20h16L12 2z", null));
+
+        // Library apps (installed apps)
+        libraryApps = new ArrayList<>();
+        libraryApps.add(new AppData("Visual Studio Code", "Microsoft", "Developer Tools",
+                "(2.5M)", "★ 4.8", "Free", true,
+                "linear-gradient(135deg, #007ACC, #1f6feb)",
+                "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4", null));
+        libraryApps.add(new AppData("Figma", "Figma Inc.", "Design",
+                "(890k)", "★ 4.9", "Free", true,
+                "linear-gradient(135deg, #F24E1E, #FF7262)",
+                "M12 2a4 4 0 00-4 4v4a4 4 0 004 4 4 4 0 004-4V6a4 4 0 00-4-4z", null));
+        libraryApps.add(new AppData("Slack", "Slack Technologies", "Business",
+                "(1.2M)", "★ 4.7", "Free", true,
+                "linear-gradient(135deg, #ECB22E, #36C5F0)",
+                "M6 12a2 2 0 002 2v4h4v-4a2 2 0 10-4-2H6zm12 0a2 2 0 01-2 2v4h-4v-4a2 2 0 114 2h2z",
+                null));
+        libraryApps.add(new AppData("Discord", "Discord Inc.", "Social",
+                "(3.1M)", "★ 4.6", "Free", false,
+                "linear-gradient(135deg, #5865F2, #7289DA)",
+                "M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 00-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 00-5.487 0 12.36 12.36 0 00-.617-1.23A.077.077 0 008.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 00-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 00.031.055 20.03 20.03 0 005.993 2.98.078.078 0 00.084-.026 13.83 13.83 0 001.226-1.963.074.074 0 00-.041-.104 13.175 13.175 0 01-1.872-.878.075.075 0 01-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 01.078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 01.079.009c.12.098.245.195.372.288a.075.075 0 01-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 00-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 00.084.028 19.963 19.963 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z",
+                null));
+
+        // Updates apps (apps with updates available)
+        updatesApps = new ArrayList<>();
+        updatesApps.add(new AppData("Visual Studio Code", "Microsoft", "Update: v1.85.0 → v1.86.0",
+                "New features and bug fixes", "★ 4.8", "Free", true,
+                "linear-gradient(135deg, #007ACC, #1f6feb)",
+                "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4", null));
+        updatesApps.add(new AppData("Figma", "Figma Inc.", "Update: v116.5.2 → v116.6.0",
+                "Performance improvements", "★ 4.9", "Free", true,
+                "linear-gradient(135deg, #F24E1E, #FF7262)",
+                "M12 2a4 4 0 00-4 4v4a4 4 0 004 4 4 4 0 004-4V6a4 4 0 00-4-4z", null));
+        updatesApps.add(new AppData("Slack", "Slack Technologies", "Update: v4.35.126 → v4.36.140",
+                "Security patches", "★ 4.7", "Free", true,
+                "linear-gradient(135deg, #ECB22E, #36C5F0)",
+                "M6 12a2 2 0 002 2v4h4v-4a2 2 0 10-4-2H6zm12 0a2 2 0 01-2 2v4h-4v-4a2 2 0 114 2h2z",
+                null));
+    }
+
+    private void renderLibrary() {
+        if (libraryGrid == null || libraryApps == null)
+            return;
+        libraryGrid.getChildren().clear();
+        int col = 0;
+        int row = 0;
+
+        for (AppData app : libraryApps) {
+            VBox card = createTrendingCard(app);
+            libraryGrid.add(card, col, row);
+            col++;
+            if (col == 4) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private void renderUpdates() {
+        if (updatesGrid == null || updatesApps == null)
+            return;
+        updatesGrid.getChildren().clear();
+        int col = 0;
+        int row = 0;
+
+        for (AppData app : updatesApps) {
+            VBox card = createTrendingCard(app);
+            updatesGrid.add(card, col, row);
+            col++;
+            if (col == 4) {
+                col = 0;
+                row++;
+            }
+        }
     }
 
     private void renderFeatured() {
         featuredContainer.getChildren().clear();
-        featuredContainer.setSpacing(24);
+        featuredContainer.setSpacing(20);
         for (AppData app : featuredApps) {
             VBox card = createFeaturedCard(app);
             HBox.setHgrow(card, Priority.ALWAYS);
@@ -161,12 +642,39 @@ public class Controller implements Initializable {
         appsGrid.getChildren().clear();
         int col = 0;
         int row = 0;
+        int maxApps = 4; // Show only 4 apps (1 row) initially
+        int count = 0;
 
         for (AppData app : appsToRender) {
+            if (count >= maxApps)
+                break;
             VBox card = createTrendingCard(app);
             appsGrid.add(card, col, row);
 
             col++;
+            count++;
+            if (col == 4) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private void renderAllApps(List<AppData> appsToRender) {
+        allAppsGrid.getChildren().clear();
+        int col = 0;
+        int row = 0;
+        int maxApps = 4; // Show only 4 apps (1 row) initially
+        int count = 0;
+
+        for (AppData app : appsToRender) {
+            if (count >= maxApps)
+                break;
+            VBox card = createTrendingCard(app); // Uses same card style as Trending
+            allAppsGrid.add(card, col, row);
+
+            col++;
+            count++;
             if (col == 4) {
                 col = 0;
                 row++;
@@ -187,9 +695,9 @@ public class Controller implements Initializable {
     private VBox createFeaturedCard(AppData app) {
         VBox card = new VBox();
         card.getStyleClass().add("featured-card");
-        card.setMinWidth(280);
-        card.setPrefWidth(350);
-        card.setPrefHeight(300);
+        card.setMinWidth(240);
+        card.setPrefWidth(320);
+        card.setPrefHeight(240);
         card.setMaxWidth(Double.MAX_VALUE);
         card.setAlignment(Pos.TOP_LEFT);
 
@@ -197,70 +705,70 @@ public class Controller implements Initializable {
         card.setStyle("-fx-background-color: " + app.color() + "; -fx-background-radius: 20;");
 
         // Top Content Area - Badge + Headline
-        VBox topContent = new VBox(8);
-        topContent.setPadding(new Insets(28, 28, 20, 28));
+        VBox topContent = new VBox(6);
+        topContent.setPadding(new Insets(20, 20, 12, 20));
         topContent.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(topContent, Priority.ALWAYS);
 
         // Badge (e.g., "WORLD PREMIERE")
-        HBox badge = new HBox(6);
+        HBox badge = new HBox(5);
         badge.setAlignment(Pos.CENTER_LEFT);
         Label badgeText = new Label("FEATURED");
-        badgeText.setStyle("-fx-text-fill: #a78bfa; -fx-font-size: 11px; -fx-font-weight: bold;");
+        badgeText.setStyle("-fx-text-fill: #a78bfa; -fx-font-size: 10px; -fx-font-weight: bold;");
         Label badgeDot = new Label("●");
-        badgeDot.setStyle("-fx-text-fill: #22c55e; -fx-font-size: 8px;");
+        badgeDot.setStyle("-fx-text-fill: #22c55e; -fx-font-size: 7px;");
         badge.getChildren().addAll(badgeText, badgeDot);
 
         // Large Headline
         Label headline = new Label(app.description());
-        headline.setStyle("-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;");
+        headline.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
         headline.setWrapText(true);
-        headline.setMaxWidth(280);
+        headline.setMaxWidth(260);
 
         topContent.getChildren().addAll(badge, headline);
 
         // Bottom Frosted Glass Panel
-        HBox bottomPanel = new HBox(14);
+        HBox bottomPanel = new HBox(12);
         bottomPanel.setAlignment(Pos.CENTER_LEFT);
-        bottomPanel.setPadding(new Insets(16, 20, 16, 20));
-        String panelDefaultStyle = "-fx-background-color: rgba(255, 255, 255, 0.12); -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);";
-        String panelHoverStyle = "-fx-background-color: rgba(255, 255, 255, 0.22); -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);";
+        bottomPanel.setPadding(new Insets(12, 14, 12, 14));
+        String panelDefaultStyle = "-fx-background-color: rgba(255, 255, 255, 0.12); -fx-background-radius: 14; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);";
+        String panelHoverStyle = "-fx-background-color: rgba(255, 255, 255, 0.22); -fx-background-radius: 14; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 4);";
         bottomPanel.setStyle(panelDefaultStyle);
         bottomPanel.setOnMouseEntered(e -> bottomPanel.setStyle(panelHoverStyle));
         bottomPanel.setOnMouseExited(e -> bottomPanel.setStyle(panelDefaultStyle));
 
         // App Icon
         StackPane iconBox = new StackPane();
-        iconBox.setMinSize(52, 52);
-        iconBox.setMaxSize(52, 52);
-        iconBox.setStyle("-fx-background-color: #6366f1; -fx-background-radius: 14;");
+        iconBox.setMinSize(42, 42);
+        iconBox.setMaxSize(42, 42);
+        iconBox.setStyle("-fx-background-color: #6366f1; -fx-background-radius: 12;");
         iconBox.setAlignment(Pos.CENTER);
 
         SVGPath icon = new SVGPath();
         icon.setContent(app.svgPath());
         icon.setFill(Color.WHITE);
-        icon.setScaleX(1.3);
-        icon.setScaleY(1.3);
+        icon.setScaleX(1.0);
+        icon.setScaleY(1.0);
         iconBox.getChildren().add(icon);
 
         // App Info
         VBox appInfo = new VBox(2);
         Label appName = new Label(app.title());
-        appName.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px;");
+        appName.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;");
         Label appCategory = new Label(app.category());
-        appCategory.setStyle("-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 13px;");
+        appCategory.setStyle("-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 11px;");
         appInfo.getChildren().addAll(appName, appCategory);
         HBox.setHgrow(appInfo, Priority.ALWAYS);
 
         // Right side: Button + subtitle
-        VBox buttonArea = new VBox(4);
+        VBox buttonArea = new VBox(3);
         buttonArea.setAlignment(Pos.CENTER_RIGHT);
 
         Button getBtn = new Button("GET");
-        getBtn.setStyle("-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 24; -fx-background-radius: 16; -fx-cursor: hand;");
+        getBtn.setStyle("-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px; -fx-padding: 6 18; -fx-background-radius: 14; -fx-cursor: hand;");
 
         Label priceNote = new Label(app.price().equals("Free") ? "" : "In-App Purchases");
-        priceNote.setStyle("-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10px;");
+        priceNote.setStyle("-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 9px;");
 
         buttonArea.getChildren().addAll(getBtn, priceNote);
 
@@ -268,10 +776,14 @@ public class Controller implements Initializable {
 
         // Wrapper for bottom panel with margin
         VBox bottomWrapper = new VBox();
-        bottomWrapper.setPadding(new Insets(0, 20, 20, 20));
+        bottomWrapper.setPadding(new Insets(0, 14, 14, 14));
         bottomWrapper.getChildren().add(bottomPanel);
 
         card.getChildren().addAll(topContent, bottomWrapper);
+
+        // Add click handler to open app detail
+        card.setOnMouseClicked(e -> showAppDetail(app));
+
         return card;
     }
 
@@ -279,75 +791,79 @@ public class Controller implements Initializable {
         VBox card = new VBox(0);
         card.getStyleClass().add("app-card");
 
-        // Dark Thumbnail with small placeholder icon
+        // Thumbnail with small placeholder icon
         StackPane thumbnail = new StackPane();
-        thumbnail.setPrefHeight(180);
-        thumbnail.setMinHeight(180);
-        thumbnail.setStyle("-fx-background-color: #1c1c1f; -fx-background-radius: 16 16 0 0;");
+        thumbnail.setPrefHeight(140);
+        thumbnail.setMinHeight(140);
+        String thumbnailBg = isDarkMode ? "#1c1c1f" : "#e2e8f0";
+        thumbnail.setStyle("-fx-background-color: " + thumbnailBg + "; -fx-background-radius: 14 14 0 0;");
         thumbnail.setAlignment(Pos.CENTER);
 
         // Small placeholder image icon
         SVGPath placeholderIcon = new SVGPath();
         placeholderIcon.setContent(
                 "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z");
-        placeholderIcon.setFill(Color.rgb(63, 63, 70));
-        placeholderIcon.setScaleX(1.0);
-        placeholderIcon.setScaleY(1.0);
+        placeholderIcon.setFill(isDarkMode ? Color.rgb(63, 63, 70) : Color.rgb(148, 163, 184));
+        placeholderIcon.setScaleX(0.9);
+        placeholderIcon.setScaleY(0.9);
         thumbnail.getChildren().add(placeholderIcon);
 
-        // Details Section - Dark panel
+        // Details Section
         VBox details = new VBox(6);
-        details.setPadding(new Insets(20, 20, 24, 20));
-        details.setStyle("-fx-background-color: #18181b; -fx-background-radius: 0 0 16 16;");
+        details.setPadding(new Insets(14, 14, 16, 14));
+        details.setStyle(
+                "-fx-background-color: " + getDetailsBgColor() + "; -fx-background-radius: 0 0 14 14;");
 
         // Header Row: Colored Icon + Title/Description
-        HBox headerRow = new HBox(16);
+        HBox headerRow = new HBox(12);
         headerRow.setAlignment(Pos.TOP_LEFT);
 
         // Colored Icon Box
         StackPane iconBox = new StackPane();
-        iconBox.setMinSize(60, 60);
-        iconBox.setMaxSize(60, 60);
+        iconBox.setMinSize(48, 48);
+        iconBox.setMaxSize(48, 48);
         String iconColor = app.color().contains("#")
                 ? app.color().substring(app.color().lastIndexOf("#"),
                 Math.min(app.color().lastIndexOf("#") + 7, app.color().length()))
                 : "#6366f1";
-        iconBox.setStyle("-fx-background-color: " + iconColor + "; -fx-background-radius: 16;");
+        iconBox.setStyle("-fx-background-color: " + iconColor + "; -fx-background-radius: 12;");
         iconBox.setAlignment(Pos.CENTER);
 
         SVGPath icon = new SVGPath();
         icon.setContent(app.svgPath());
         icon.setFill(Color.WHITE);
-        icon.setScaleX(1.5);
-        icon.setScaleY(1.5);
+        icon.setScaleX(1.2);
+        icon.setScaleY(1.2);
         iconBox.getChildren().add(icon);
 
         // Title + Description + Rating
-        VBox infoBox = new VBox(3);
+        VBox infoBox = new VBox(2);
         HBox.setHgrow(infoBox, Priority.ALWAYS);
 
         Label title = new Label(app.title());
-        title.setStyle("-fx-text-fill: #f4f4f5; -fx-font-weight: bold; -fx-font-size: 17px;");
+        title.setStyle("-fx-text-fill: " + getTextColor() + "; -fx-font-weight: bold; -fx-font-size: 14px;");
 
         Label description = new Label(app.category());
-        description.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 14px;");
+        description.setStyle("-fx-text-fill: " + getSecondaryTextColor() + "; -fx-font-size: 12px;");
 
         // Rating row
-        HBox ratingRow = new HBox(6);
+        HBox ratingRow = new HBox(5);
         ratingRow.setAlignment(Pos.CENTER_LEFT);
-        ratingRow.setPadding(new Insets(4, 0, 0, 0));
+        ratingRow.setPadding(new Insets(3, 0, 0, 0));
 
         Label starIcon = new Label("★");
-        starIcon.setStyle("-fx-text-fill: #71717a; -fx-font-size: 14px;");
+        starIcon.setStyle("-fx-text-fill: " + getMutedTextColor() + "; -fx-font-size: 12px;");
 
         Label ratingLabel = new Label(app.rating().replace("★ ", ""));
-        ratingLabel.setStyle("-fx-text-fill: #71717a; -fx-font-size: 14px; -fx-font-weight: 500;");
+        ratingLabel.setStyle("-fx-text-fill: " + getMutedTextColor()
+                + "; -fx-font-size: 12px; -fx-font-weight: 500;");
 
         Label separator = new Label("•");
-        separator.setStyle("-fx-text-fill: #52525b; -fx-font-size: 14px;");
+        String separatorColor = isDarkMode ? "#52525b" : "#94a3b8";
+        separator.setStyle("-fx-text-fill: " + separatorColor + "; -fx-font-size: 12px;");
 
         Label badge = new Label("Editor's Choice");
-        badge.setStyle("-fx-text-fill: #6366f1; -fx-font-size: 13px; -fx-font-weight: 500;");
+        badge.setStyle("-fx-text-fill: #6366f1; -fx-font-size: 11px; -fx-font-weight: 500;");
 
         ratingRow.getChildren().addAll(starIcon, ratingLabel, separator, badge);
 
@@ -358,6 +874,10 @@ public class Controller implements Initializable {
         details.getChildren().add(headerRow);
 
         card.getChildren().addAll(thumbnail, details);
+
+        // Add click handler to open app detail
+        card.setOnMouseClicked(e -> showAppDetail(app));
+
         return card;
     }
 }
