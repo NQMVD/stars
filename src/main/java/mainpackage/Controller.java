@@ -46,6 +46,10 @@ public class Controller implements Initializable {
     @FXML
     private Button navSettings;
 
+    // Discover Icon for theme switching
+    @FXML
+    private SVGPath discoverIcon;
+
     // Views
     @FXML
     private StackPane contentArea;
@@ -87,6 +91,8 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("[AppVault] Initializing application...");
+
         initializeData();
         renderFeatured();
         renderTrending(allApps);
@@ -99,11 +105,15 @@ public class Controller implements Initializable {
 
         // Setup theme toggle
         if (themeToggleBtn != null) {
-            themeToggleBtn.setOnAction(e -> toggleTheme());
+            themeToggleBtn.setOnAction(e -> {
+                System.out.println("[AppVault] Theme toggle button clicked");
+                toggleTheme();
+            });
         }
 
         if (searchField != null) {
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("[AppVault] Search query changed: \"" + newValue + "\"");
                 filterApps(newValue);
             });
         }
@@ -111,6 +121,9 @@ public class Controller implements Initializable {
         // Make grid responsive to width changes
         appsGrid.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
+                // Apply system theme when scene is ready
+                applySystemTheme(newScene);
+
                 newScene.widthProperty().addListener((o, oldWidth, newWidth) -> {
                     updateGridColumns(newWidth.doubleValue());
                 });
@@ -129,24 +142,114 @@ public class Controller implements Initializable {
                 updateAllAppsGridColumns(newScene.getWidth());
             }
         });
+
+        System.out.println("[AppVault] Initialization complete");
+    }
+
+    /**
+     * Detects the system theme (dark/light mode) and applies it.
+     * On Windows, checks the registry for the AppsUseLightTheme setting.
+     */
+    private void applySystemTheme(Scene scene) {
+        boolean systemDarkMode = detectSystemDarkMode();
+        System.out.println(
+                "[AppVault] Detected system theme: " + (systemDarkMode ? "Dark Mode" : "Light Mode"));
+
+        if (!systemDarkMode && isDarkMode) {
+            // System is in light mode but app is in dark mode - switch to light
+            isDarkMode = false;
+            themeToggleBtn.setText("Dark Mode");
+            scene.getRoot().setStyle("-fx-base: #ffffff;");
+            applyLightMode(scene);
+
+            // Re-render all cards to apply theme
+            renderFeatured();
+            renderTrending(allApps);
+            renderAllApps(allAppsList);
+            renderLibrary();
+            renderUpdates();
+
+            System.out.println("[AppVault] Applied Light Mode based on system preference");
+        } else if (systemDarkMode && !isDarkMode) {
+            // System is in dark mode but app is in light mode - switch to dark
+            isDarkMode = true;
+            themeToggleBtn.setText("Light Mode");
+            scene.getRoot().setStyle("-fx-base: #0f0f12;");
+            applyDarkMode(scene);
+
+            // Re-render all cards to apply theme
+            renderFeatured();
+            renderTrending(allApps);
+            renderAllApps(allAppsList);
+            renderLibrary();
+            renderUpdates();
+
+            System.out.println("[AppVault] Applied Dark Mode based on system preference");
+        }
+    }
+
+    /**
+     * Detects if the system is using dark mode.
+     * On Windows, reads the AppsUseLightTheme registry value.
+     * Returns true for dark mode, false for light mode.
+     */
+    private boolean detectSystemDarkMode() {
+        try {
+            // Try to detect Windows dark mode via PowerShell
+            ProcessBuilder pb = new ProcessBuilder(
+                    "powershell.exe", "-Command",
+                    "(Get-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize' -Name 'AppsUseLightTheme').AppsUseLightTheme");
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(process.getInputStream()));
+            String result = reader.readLine();
+            process.waitFor();
+
+            if (result != null) {
+                result = result.trim();
+                // AppsUseLightTheme: 0 = Dark Mode, 1 = Light Mode
+                return "0".equals(result);
+            }
+        } catch (Exception e) {
+            System.out.println("[AppVault] Could not detect system theme, defaulting to dark mode: "
+                    + e.getMessage());
+        }
+        // Default to dark mode if detection fails
+        return true;
     }
 
     private void setupNavigation() {
         if (navDiscover != null) {
-            navDiscover.setOnAction(e -> showView("discover"));
+            navDiscover.setOnAction(e -> {
+                System.out.println("[AppVault] Navigation: Discover clicked");
+                showView("discover");
+            });
         }
         if (navLibrary != null) {
-            navLibrary.setOnAction(e -> showView("library"));
+            navLibrary.setOnAction(e -> {
+                System.out.println("[AppVault] Navigation: Library clicked");
+                showView("library");
+            });
         }
         if (navUpdates != null) {
-            navUpdates.setOnAction(e -> showView("updates"));
+            navUpdates.setOnAction(e -> {
+                System.out.println("[AppVault] Navigation: Updates clicked");
+                showView("updates");
+            });
         }
         if (navSettings != null) {
-            navSettings.setOnAction(e -> showView("settings"));
+            navSettings.setOnAction(e -> {
+                System.out.println("[AppVault] Navigation: Settings clicked");
+                showView("settings");
+            });
         }
     }
 
     private void showView(String viewName) {
+        System.out.println("[AppVault] Switching to view: " + viewName);
+
         // Hide all views
         if (discoverView != null)
             discoverView.setVisible(false);
@@ -206,6 +309,7 @@ public class Controller implements Initializable {
     private void toggleTheme() {
         isDarkMode = !isDarkMode;
         Scene scene = themeToggleBtn.getScene();
+        System.out.println("[AppVault] Toggling theme to: " + (isDarkMode ? "Dark Mode" : "Light Mode"));
 
         if (isDarkMode) {
             themeToggleBtn.setText("Light Mode");
@@ -225,6 +329,8 @@ public class Controller implements Initializable {
         renderAllApps(allAppsList);
         renderLibrary();
         renderUpdates();
+
+        System.out.println("[AppVault] Theme applied successfully");
     }
 
     private void applyDarkMode(Scene scene) {
@@ -257,6 +363,8 @@ public class Controller implements Initializable {
     }
 
     public void showAppDetail(AppData app) {
+        System.out.println("[AppVault] Opening app details: " + app.title());
+
         if (appDetailContent == null)
             return;
 
@@ -267,7 +375,10 @@ public class Controller implements Initializable {
         backBtn.setStyle(
                 "-fx-background-color: transparent; -fx-text-fill: " + getSecondaryTextColor()
                         + "; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0;");
-        backBtn.setOnAction(e -> showView("discover"));
+        backBtn.setOnAction(e -> {
+            System.out.println("[AppVault] Back button clicked - returning to Discover");
+            showView("discover");
+        });
 
         // App header
         HBox header = new HBox(24);

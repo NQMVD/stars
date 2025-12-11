@@ -648,3 +648,34 @@
     -fx-text-fill: #0f172a;
     -fx-background-color: #f8fafc;
 }
+
+/* === USERNAME & PRO MEMBER LABELS === */
+.username-label {
+    -fx-text-fill: #f4f4f5;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+}
+
+.pro-member-label {
+    -fx-text-fill: #a1a1aa;
+    -fx-font-size: 12px;
+}
+
+/* Light Mode - Username & Pro Member */
+.light-mode .username-label {
+    -fx-text-fill: #0f172a;
+}
+
+.light-mode .pro-member-label {
+    -fx-text-fill: #475569;
+}
+
+/* === NAV ICON STYLING === */
+/* All navigation icons - white in dark mode, black in light mode */
+.nav-icon {
+    -fx-stroke: #ffffff;
+}
+
+.light-mode .nav-icon {
+    -fx-stroke: #000000;
+}
