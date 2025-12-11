@@ -3,7 +3,6 @@ package mainpackage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -21,7 +20,7 @@ public class LibraryService {
 
     private static final String LIBRARY_DIR = ".stars";
     private static final String LIBRARY_FILE = "library.json";
-    
+
     private final Path libraryPath;
     private final Gson gson;
     private List<InstalledApp> installedApps;
@@ -32,14 +31,16 @@ public class LibraryService {
         this.libraryPath = starsDir.resolve(LIBRARY_FILE);
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.installedApps = new ArrayList<>();
-        
+
         // Ensure directory exists
         try {
             Files.createDirectories(starsDir);
         } catch (IOException e) {
-            System.err.println("Failed to create library directory: " + e.getMessage());
+            System.err.println(
+                "Failed to create library directory: " + e.getMessage()
+            );
         }
-        
+
         loadLibrary();
     }
 
@@ -80,7 +81,7 @@ public class LibraryService {
         if (isInstalled(app.title())) {
             return; // Already installed
         }
-        
+
         String version = "1.0.0"; // Initial version
         InstalledApp installed = InstalledApp.fromAppData(app, version);
         installedApps.add(installed);
@@ -91,7 +92,9 @@ public class LibraryService {
      * Remove an app from the library by title.
      */
     public boolean removeApp(String title) {
-        boolean removed = installedApps.removeIf(app -> app.title().equals(title));
+        boolean removed = installedApps.removeIf(app ->
+            app.title().equals(title)
+        );
         if (removed) {
             saveLibrary();
         }
@@ -102,17 +105,19 @@ public class LibraryService {
      * Check if an app is installed.
      */
     public boolean isInstalled(String title) {
-        return installedApps.stream()
-                .anyMatch(app -> app.title().equals(title));
+        return installedApps
+            .stream()
+            .anyMatch(app -> app.title().equals(title));
     }
 
     /**
      * Get an installed app by title.
      */
     public Optional<InstalledApp> getInstalledApp(String title) {
-        return installedApps.stream()
-                .filter(app -> app.title().equals(title))
-                .findFirst();
+        return installedApps
+            .stream()
+            .filter(app -> app.title().equals(title))
+            .findFirst();
     }
 
     /**

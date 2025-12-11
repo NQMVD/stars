@@ -4,7 +4,6 @@ import com.example.appstore.model.App;
 import com.example.appstore.model.GithubRelease;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -22,36 +21,39 @@ import java.util.function.Consumer;
  * Uses Java 11+ HttpClient for async HTTP requests.
  */
 public class ApiService {
-    
+
     private static ApiService instance;
     private final HttpClient httpClient;
     private final Gson gson;
     private String baseUrl;
-    
+
     private ApiService() {
         this.httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
         this.gson = new Gson();
         // Default to localhost, can be configured
-        this.baseUrl = System.getProperty("api.baseUrl", "http://localhost:4200");
+        this.baseUrl = System.getProperty(
+            "api.baseUrl",
+            "http://localhost:4200"
+        );
     }
-    
+
     public static synchronized ApiService getInstance() {
         if (instance == null) {
             instance = new ApiService();
         }
         return instance;
     }
-    
+
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
-    
+
     public String getBaseUrl() {
         return baseUrl;
     }
-    
+
     /**
      * Get all apps from the API.
      */
@@ -60,11 +62,12 @@ public class ApiService {
             .uri(URI.create(baseUrl + "/api/apps"))
             .GET()
             .build();
-        
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .<List<App>>thenApply(response -> {
                 if (response.statusCode() == 200) {
-                    Type listType = new TypeToken<List<App>>(){}.getType();
+                    Type listType = new TypeToken<List<App>>() {}.getType();
                     List<App> apps = gson.fromJson(response.body(), listType);
                     return apps != null ? apps : new ArrayList<>();
                 }
@@ -76,7 +79,7 @@ public class ApiService {
                 return new ArrayList<>();
             });
     }
-    
+
     /**
      * Get featured apps from the API.
      */
@@ -85,11 +88,12 @@ public class ApiService {
             .uri(URI.create(baseUrl + "/api/apps/featured"))
             .GET()
             .build();
-        
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .<List<App>>thenApply(response -> {
                 if (response.statusCode() == 200) {
-                    Type listType = new TypeToken<List<App>>(){}.getType();
+                    Type listType = new TypeToken<List<App>>() {}.getType();
                     List<App> apps = gson.fromJson(response.body(), listType);
                     return apps != null ? apps : new ArrayList<>();
                 }
@@ -97,11 +101,13 @@ public class ApiService {
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                System.err.println("Failed to fetch featured apps: " + e.getMessage());
+                System.err.println(
+                    "Failed to fetch featured apps: " + e.getMessage()
+                );
                 return new ArrayList<>();
             });
     }
-    
+
     /**
      * Get apps filtered by category.
      */
@@ -120,7 +126,7 @@ public class ApiService {
             return filtered;
         });
     }
-    
+
     /**
      * Get latest release info for an app.
      */
@@ -129,21 +135,26 @@ public class ApiService {
             .uri(URI.create(baseUrl + "/api/apps/" + appId + "/latest"))
             .GET()
             .build();
-        
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(response -> {
                 if (response.statusCode() == 200) {
                     return gson.fromJson(response.body(), GithubRelease.class);
                 }
-                System.err.println("API error getting release: " + response.statusCode());
+                System.err.println(
+                    "API error getting release: " + response.statusCode()
+                );
                 return null;
             })
             .exceptionally(e -> {
-                System.err.println("Failed to fetch release: " + e.getMessage());
+                System.err.println(
+                    "Failed to fetch release: " + e.getMessage()
+                );
                 return null;
             });
     }
-    
+
     /**
      * Get screenshots (images from README) for an app.
      */
@@ -152,23 +163,31 @@ public class ApiService {
             .uri(URI.create(baseUrl + "/api/apps/" + appId + "/screenshots"))
             .GET()
             .build();
-        
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .<List<String>>thenApply(response -> {
                 if (response.statusCode() == 200) {
-                    Type listType = new TypeToken<List<String>>(){}.getType();
-                    List<String> urls = gson.fromJson(response.body(), listType);
+                    Type listType = new TypeToken<List<String>>() {}.getType();
+                    List<String> urls = gson.fromJson(
+                        response.body(),
+                        listType
+                    );
                     return urls != null ? urls : new ArrayList<>();
                 }
-                System.err.println("API error getting screenshots: " + response.statusCode());
+                System.err.println(
+                    "API error getting screenshots: " + response.statusCode()
+                );
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                System.err.println("Failed to fetch screenshots: " + e.getMessage());
+                System.err.println(
+                    "Failed to fetch screenshots: " + e.getMessage()
+                );
                 return new ArrayList<>();
             });
     }
-    
+
     /**
      * Get download URL for an app.
      */

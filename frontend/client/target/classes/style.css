@@ -29,11 +29,7 @@
     -color-warning: #fbbf24;
 
     -fx-background-color: -color-bg-main;
-    -fx-font-family:
-        "Segoe UI",
-        "Inter",
-        -apple-system,
-        sans-serif;
+    -fx-font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
     -fx-font-size: 14px;
 }
 
@@ -42,7 +38,7 @@
     -fx-background-color: transparent;
 }
 
-.scroll-pane > .viewport {
+.scroll-pane>.viewport {
     -fx-background-color: transparent;
 }
 
@@ -347,7 +343,7 @@
     -fx-background-color: #0f0f12;
 }
 
-.content-scroll > .viewport {
+.content-scroll>.viewport {
     -fx-background-color: #0f0f12;
 }
 
@@ -427,9 +423,9 @@
 
 /* ALL ScrollPanes and their viewports */
 .light-mode .scroll-pane,
-.light-mode .scroll-pane > .viewport,
+.light-mode .scroll-pane>.viewport,
 .light-mode .content-scroll,
-.light-mode .content-scroll > .viewport {
+.light-mode .content-scroll>.viewport {
     -fx-background: #ffffff;
     -fx-background-color: #ffffff;
 }
