@@ -85,6 +85,9 @@ public class Controller implements Initializable {
     @FXML
     private GridPane updatesGrid;
 
+    @FXML
+    private VBox installationIndicatorContainer;
+
     private List<AppData> allApps;
     private List<AppData> featuredApps;
     private List<AppData> allAppsList;
@@ -105,6 +108,16 @@ public class Controller implements Initializable {
         renderAllApps(allAppsList);
         renderLibrary();
         renderUpdates();
+
+        // Setup installation indicator
+        if (installationIndicatorContainer != null) {
+            InstallationIndicator indicator = new InstallationIndicator(
+                "Visual Studio Code",
+                1,
+                InstallationIndicator.Status.PROCESSING
+            );
+            installationIndicatorContainer.getChildren().add(indicator);
+        }
 
         // Setup navigation handlers
         setupNavigation();
