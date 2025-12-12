@@ -35,6 +35,7 @@
         -apple-system,
         sans-serif;
     -fx-font-size: 14px;
+    -fx-letter-spacing: 0.5px;
 }
 
 /* === SCROLLBAR STYLING === */
@@ -96,7 +97,7 @@
 }
 
 .nav-button.active {
-    -fx-background-color: rgba(139, 92, 246, 0.15);
+    -fx-background-color: rgba(255, 255, 255, 0.1);
     -fx-text-fill: -color-text-primary;
 }
 
@@ -526,7 +527,7 @@
 }
 
 .light-mode .nav-button.active {
-    -fx-background-color: #e0e7ff;
+    -fx-background-color: rgba(0, 0, 0, 0.08);
     -fx-text-fill: #0f172a;
 }
 
