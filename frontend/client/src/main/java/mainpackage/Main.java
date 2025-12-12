@@ -20,6 +20,17 @@ public class Main extends Application {
         Application.setUserAgentStylesheet(
             new PrimerDark().getUserAgentStylesheet()
         );
+        
+        // Load custom fonts
+        javafx.scene.text.Font violetFont = javafx.scene.text.Font.loadFont(
+            getClass().getResourceAsStream("/fonts/VioletSans-Regular.ttf"), 14
+        );
+        javafx.scene.text.Font styreneFont = javafx.scene.text.Font.loadFont(
+            getClass().getResourceAsStream("/fonts/Styrene.ttf"), 14
+        );
+        logger.info("Loaded fonts - Violet: " + (violetFont != null ? violetFont.getFamily() : "FAILED") 
+            + ", Styrene: " + (styreneFont != null ? styreneFont.getFamily() : "FAILED"));
+        
         logger.info("Starting application");
         URL fxmlFileUrl = getClass()
             .getClassLoader()

@@ -12,6 +12,14 @@ public class Main extends Application {
         RootLayout root = new RootLayout();
         Scene scene = new Scene(root, 1200, 800);
 
+        // Load custom fonts
+        javafx.scene.text.Font.loadFont(
+            getClass().getResourceAsStream("/fonts/VioletSans-Regular.ttf"), 14
+        );
+        javafx.scene.text.Font.loadFont(
+            getClass().getResourceAsStream("/fonts/Styrene.ttf"), 14
+        );
+
         // Load CSS
         scene
             .getStylesheets()

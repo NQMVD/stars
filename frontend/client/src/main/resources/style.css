@@ -29,13 +29,8 @@
     -color-warning: #fbbf24;
 
     -fx-background-color: -color-bg-main;
-    -fx-font-family:
-        "Segoe UI",
-        "Inter",
-        -apple-system,
-        sans-serif;
+    -fx-font-family: "Violet Sans", "Inter", -apple-system, sans-serif;
     -fx-font-size: 14px;
-    -fx-letter-spacing: 0.5px;
 }
 
 /* === SCROLLBAR STYLING === */
@@ -328,6 +323,7 @@
     -fx-text-fill: #f4f4f5;
     -fx-font-weight: bold;
     -fx-font-size: 20px;
+    -fx-font-family: "Styrene A Regular", monospace;
 }
 
 /* === VIEW ALL BUTTON === */
@@ -360,6 +356,8 @@
     -fx-text-fill: #f4f4f5;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
+    -fx-font-family: "Styrene A Regular", monospace;
+    -fx-text-transform: uppercase;
 }
 
 .section-subtitle {
