@@ -246,37 +246,19 @@
                 </Button>
             </VBox>
 
-            <!-- USER PROFILE - Fixed at bottom -->
-            <HBox
-                alignment="CENTER_LEFT"
-                spacing="14.0"
-                styleClass="user-profile"
+            <!-- INSTALLATION INDICATOR - Fixed at bottom -->
+            <VBox
+                fx:id="installationIndicatorContainer"
+                styleClass="installation-indicator-container"
             >
                 <padding><Insets
-                        left="28.0"
-                        right="28.0"
-                        top="20.0"
-                        bottom="20.0"
+                        left="16.0"
+                        right="16.0"
+                        top="12.0"
+                        bottom="12.0"
                     /></padding>
-                <children>
-                    <StackPane
-                        style="-fx-background-color: linear-gradient(to bottom right, #ec4899, #8b5cf6); -fx-background-radius: 50;"
-                    >
-                        <Circle fill="TRANSPARENT" radius="20" />
-                        <Label
-                            text="JD"
-                            style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;"
-                        />
-                    </StackPane>
-                    <VBox spacing="2">
-                        <Label text="John Doe" styleClass="username-label" />
-                        <Label
-                            text="Pro Member"
-                            styleClass="pro-member-label"
-                        />
-                    </VBox>
-                </children>
-            </HBox>
+                <!-- Populated by Controller with InstallationIndicator -->
+            </VBox>
         </VBox>
     </left>
 
