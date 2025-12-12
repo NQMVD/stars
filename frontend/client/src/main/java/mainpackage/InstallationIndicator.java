@@ -105,6 +105,8 @@ public class InstallationIndicator extends VBox {
         controlIcon = new SVGPath();
         controlIcon.setContent("M6 4h4v16H6zM14 4h4v16h-4z"); // Pause icon
         controlIcon.setFill(Color.web("#fafafa"));
+        controlIcon.setStroke(Color.web("#fafafa"));
+        controlIcon.setStrokeWidth(2);
         controlIcon.setScaleX(0.5);
         controlIcon.setScaleY(0.5);
         controlButton.getChildren().add(controlIcon);
