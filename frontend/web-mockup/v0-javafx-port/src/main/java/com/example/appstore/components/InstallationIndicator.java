@@ -47,6 +47,7 @@ public class InstallationIndicator extends VBox {
     private final StackPane iconContainer;
     private final FontIcon stepIcon;
     private final Label statusLabel;
+    private final HBox progressBar;
     private final HBox[] progressSegments;
     private final FontIcon controlIcon;
     private final StackPane controlButton;
@@ -104,7 +105,7 @@ public class InstallationIndicator extends VBox {
         topRow.getChildren().addAll(iconContainer, textInfo, controlButton);
 
         // Progress bar (4 segments)
-        HBox progressBar = new HBox(6);
+        progressBar = new HBox(6);
         progressBar.setPadding(new Insets(8, 0, 0, 0));
 
         progressSegments = new HBox[4];
@@ -133,7 +134,7 @@ public class InstallationIndicator extends VBox {
         if (autoAdvance != null) {
             autoAdvance.stop();
         }
-        autoAdvance = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
+        autoAdvance = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             if (status == Status.PROCESSING && !isPaused) {
                 if (currentStep >= 4) {
                     status = Status.COMPLETED;
@@ -213,24 +214,40 @@ public class InstallationIndicator extends VBox {
         }
 
         // Update progress segments
-        for (int i = 0; i < 4; i++) {
-            String segmentColor;
-            if (i < currentStep - 1) {
-                segmentColor = BLUE_FG; // Completed segments
-            } else if (i == currentStep - 1) {
-                if (status == Status.COMPLETED) {
-                    segmentColor = EMERALD_FG;
-                } else if (status == Status.ERROR) {
-                    segmentColor = RED_FG;
-                } else if (isPaused) {
-                    segmentColor = AMBER_FG;
+        if (status == Status.COMPLETED) {
+            // Merge into one continuous green bar
+            progressBar.setSpacing(0);
+            for (int i = 0; i < 4; i++) {
+                String radius;
+                if (i == 0) {
+                    radius = "3px 0 0 3px"; // Left rounded
+                } else if (i == 3) {
+                    radius = "0 3px 3px 0"; // Right rounded
                 } else {
-                    segmentColor = BLUE_FG;
+                    radius = "0"; // No rounding for middle segments
                 }
-            } else {
-                segmentColor = SECONDARY_BG; // Future segments
+                progressSegments[i].setStyle("-fx-background-color: " + EMERALD_FG + "; -fx-background-radius: " + radius + ";");
             }
-            progressSegments[i].setStyle("-fx-background-color: " + segmentColor + "; -fx-background-radius: 3px;");
+        } else {
+            // Segmented progress bar
+            progressBar.setSpacing(6);
+            for (int i = 0; i < 4; i++) {
+                String segmentColor;
+                if (i < currentStep - 1) {
+                    segmentColor = BLUE_FG; // Completed segments
+                } else if (i == currentStep - 1) {
+                    if (status == Status.ERROR) {
+                        segmentColor = RED_FG;
+                    } else if (isPaused) {
+                        segmentColor = AMBER_FG;
+                    } else {
+                        segmentColor = BLUE_FG;
+                    }
+                } else {
+                    segmentColor = SECONDARY_BG; // Future segments
+                }
+                progressSegments[i].setStyle("-fx-background-color: " + segmentColor + "; -fx-background-radius: 3px;");
+            }
         }
     }
 }
