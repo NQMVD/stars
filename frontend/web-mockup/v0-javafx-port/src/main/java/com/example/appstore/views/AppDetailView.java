@@ -8,9 +8,15 @@ import com.example.appstore.service.InstallationManager;
 import com.example.appstore.service.InstallationManager.InstallationState;
 import com.example.appstore.service.InstallationService;
 import com.example.appstore.service.LibraryService;
+import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
@@ -520,7 +526,7 @@ public class AppDetailView extends ScrollPane {
                         return;
                     }
 
-                    // Create image views for each screenshot
+                    // Create image views for each screenshot - use HttpClient for GitHub URLs
                     java.util.List<javafx.scene.image.ImageView> imageViews =
                         new java.util.ArrayList<>();
                     final int[] currentIndex = { 0 };
@@ -533,87 +539,94 @@ public class AppDetailView extends ScrollPane {
                     StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
                     counterLabel.setTranslateY(-10);
 
-                    for (String url : urls) {
-                        try {
-                            LOG.fine("[AppDetailView] Loading screenshot: " + url);
-                            
-                            // Load image in background
-                            javafx.scene.image.Image img =
-                                new javafx.scene.image.Image(url, true);
-                            
-                            javafx.scene.image.ImageView view =
-                                new javafx.scene.image.ImageView(img);
-                            view.setPreserveRatio(true);
-                            view.setFitHeight(320);
-                            // Constrain width to gallery width to prevent horizontal overflow
-                            view.fitWidthProperty().bind(
-                                gallery.widthProperty().subtract(40) // Leave some padding
-                            );
-                            view.setVisible(false); // Start hidden, show when loaded
-                            
-                            // Track loading state
-                            final int imageIndex = imageViews.size();
-                            imageViews.add(view);
-                            gallery.getChildren().add(view);
-                            
-                            // Listen for load completion or error
-                            img.progressProperty().addListener((obs, oldVal, newVal) -> {
-                                if (newVal.doubleValue() >= 1.0) {
-                                    Platform.runLater(() -> {
-                                        if (img.isError()) {
-                                            LOG.warning("[AppDetailView] Failed to load image: " + url + 
-                                                       " - " + (img.getException() != null ? 
-                                                                img.getException().getMessage() : "unknown error"));
-                                            // Remove failed image from list and gallery
-                                            gallery.getChildren().remove(view);
-                                            imageViews.set(imageIndex, null); // Mark as failed
-                                        } else {
+                    // Create shared HttpClient for loading images with proper headers
+                    HttpClient httpClient = HttpClient.newBuilder()
+                        .followRedirects(HttpClient.Redirect.NORMAL)
+                        .connectTimeout(java.time.Duration.ofSeconds(30))
+                        .build();
+
+                    for (int urlIndex = 0; urlIndex < urls.size(); urlIndex++) {
+                        String url = urls.get(urlIndex);
+                        final int imageIndex = urlIndex;
+                        
+                        LOG.fine("[AppDetailView] Loading screenshot: " + url);
+                        
+                        // Create placeholder ImageView
+                        javafx.scene.image.ImageView view = new javafx.scene.image.ImageView();
+                        view.setPreserveRatio(true);
+                        view.setFitHeight(320);
+                        view.fitWidthProperty().bind(gallery.widthProperty().subtract(40));
+                        view.setVisible(false);
+                        
+                        imageViews.add(view);
+                        gallery.getChildren().add(view);
+                        
+                        // Load image asynchronously using HttpClient with proper headers
+                        loadImageWithHttpClient(httpClient, url).thenAccept(imageBytes -> {
+                            Platform.runLater(() -> {
+                                if (imageBytes != null && imageBytes.length > 0) {
+                                    try {
+                                        javafx.scene.image.Image img = 
+                                            new javafx.scene.image.Image(new ByteArrayInputStream(imageBytes));
+                                        
+                                        if (!img.isError()) {
+                                            view.setImage(img);
                                             LOG.fine("[AppDetailView] Successfully loaded: " + url);
+                                            
                                             // Show first successfully loaded image
                                             if (imageViews.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
                                                 view.setVisible(true);
                                                 currentIndex[0] = imageIndex;
                                             }
+                                        } else {
+                                            LOG.warning("[AppDetailView] Image decode error: " + url);
+                                            gallery.getChildren().remove(view);
+                                            imageViews.set(imageIndex, null);
                                         }
-                                        
-                                        loadedCount[0]++;
-                                        // Update counter when all images attempted
-                                        if (loadedCount[0] >= totalUrls) {
-                                            updateImageCounter(imageViews, counterLabel, currentIndex[0]);
-                                        }
-                                    });
+                                    } catch (Exception e) {
+                                        LOG.warning("[AppDetailView] Failed to create image: " + url + " - " + e.getMessage());
+                                        gallery.getChildren().remove(view);
+                                        imageViews.set(imageIndex, null);
+                                    }
+                                } else {
+                                    LOG.warning("[AppDetailView] Empty or null image data: " + url);
+                                    gallery.getChildren().remove(view);
+                                    imageViews.set(imageIndex, null);
+                                }
+                                
+                                loadedCount[0]++;
+                                // Update counter and check for all failures when all images attempted
+                                if (loadedCount[0] >= totalUrls) {
+                                    if (imageViews.stream().allMatch(v -> v == null)) {
+                                        gallery.getChildren().clear();
+                                        Label errorLabel = new Label("Failed to load screenshots");
+                                        errorLabel.setStyle("-fx-text-fill: #71717a;");
+                                        gallery.getChildren().add(errorLabel);
+                                    } else {
+                                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                                    }
                                 }
                             });
-                            
-                            // Also check for immediate errors (e.g., invalid URL format)
-                            if (img.isError()) {
-                                LOG.warning("[AppDetailView] Immediate error loading: " + url);
+                        }).exceptionally(ex -> {
+                            Platform.runLater(() -> {
+                                LOG.warning("[AppDetailView] HTTP error loading: " + url + " - " + ex.getMessage());
                                 gallery.getChildren().remove(view);
                                 imageViews.set(imageIndex, null);
-                            }
-                            
-                        } catch (Exception e) {
-                            LOG.warning("[AppDetailView] Exception loading image: " + url + " - " + e.getMessage());
-                        }
-                    }
-
-                    // Show first image if it loaded synchronously
-                    for (int i = 0; i < imageViews.size(); i++) {
-                        javafx.scene.image.ImageView v = imageViews.get(i);
-                        if (v != null && !v.getImage().isError() && v.getImage().getProgress() >= 1.0) {
-                            v.setVisible(true);
-                            currentIndex[0] = i;
-                            break;
-                        }
-                    }
-
-                    if (imageViews.isEmpty() || imageViews.stream().allMatch(v -> v == null)) {
-                        Label errorLabel = new Label(
-                            "Failed to load screenshots"
-                        );
-                        errorLabel.setStyle("-fx-text-fill: #71717a;");
-                        gallery.getChildren().add(errorLabel);
-                        return;
+                                
+                                loadedCount[0]++;
+                                if (loadedCount[0] >= totalUrls) {
+                                    if (imageViews.stream().allMatch(v -> v == null)) {
+                                        gallery.getChildren().clear();
+                                        Label errorLabel = new Label("Failed to load screenshots");
+                                        errorLabel.setStyle("-fx-text-fill: #71717a;");
+                                        gallery.getChildren().add(errorLabel);
+                                    } else {
+                                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                                    }
+                                }
+                            });
+                            return null;
+                        });
                     }
 
                     // Navigation arrows
@@ -650,6 +663,36 @@ public class AppDetailView extends ScrollPane {
                     StackPane.setAlignment(navBox, Pos.CENTER);
                 });
             });
+    }
+
+    /**
+     * Load an image from a URL using HttpClient with proper headers.
+     * This is necessary because JavaFX's Image class doesn't send User-Agent headers,
+     * which causes GitHub's raw.githubusercontent.com to reject requests.
+     */
+    private CompletableFuture<byte[]> loadImageWithHttpClient(HttpClient client, String url) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("User-Agent", "Stars-AppStore/1.0 (JavaFX)")
+                .header("Accept", "image/*")
+                .timeout(java.time.Duration.ofSeconds(30))
+                .GET()
+                .build();
+            
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
+                .thenApply(response -> {
+                    if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                        return response.body();
+                    } else {
+                        LOG.warning("[AppDetailView] HTTP " + response.statusCode() + " for: " + url);
+                        return null;
+                    }
+                });
+        } catch (Exception e) {
+            LOG.warning("[AppDetailView] Failed to create request for: " + url + " - " + e.getMessage());
+            return CompletableFuture.completedFuture(null);
+        }
     }
 
     private void switchTab(String tabName) {
