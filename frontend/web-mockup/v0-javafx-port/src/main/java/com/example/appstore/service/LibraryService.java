@@ -85,7 +85,7 @@ public class LibraryService {
     }
 
     /**
-     * Install an app to the library.
+     * Install an app to the library (legacy, no paths).
      */
     public void installApp(
         String id,
@@ -94,6 +94,22 @@ public class LibraryService {
         String category,
         String version,
         String size
+    ) {
+        installApp(id, name, developer, category, version, size, null, null);
+    }
+
+    /**
+     * Install an app to the library with installation paths.
+     */
+    public void installApp(
+        String id,
+        String name,
+        String developer,
+        String category,
+        String version,
+        String size,
+        String installPath,
+        String executablePath
     ) {
         if (isInstalled(id)) {
             return; // Already installed
@@ -106,7 +122,9 @@ public class LibraryService {
             category,
             version,
             System.currentTimeMillis(),
-            size
+            size,
+            installPath,
+            executablePath
         );
         installedApps.add(installed);
         saveLibrary();

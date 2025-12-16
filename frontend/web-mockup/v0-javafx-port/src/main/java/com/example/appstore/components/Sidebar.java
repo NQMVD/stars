@@ -1,6 +1,10 @@
 package com.example.appstore.components;
 
+import com.example.appstore.service.InstallationManager;
+import com.example.appstore.service.InstallationManager.InstallationState;
+
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -13,7 +17,11 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class Sidebar extends VBox {
 
+    private static final Logger LOG = Logger.getLogger(Sidebar.class.getName());
+
     private final Consumer<String> onNavigate;
+    private final VBox indicatorContainer;
+    private InstallationIndicator indicator;
 
     public Sidebar(Consumer<String> onNavigate) {
         this.onNavigate = onNavigate;
@@ -30,7 +38,7 @@ public class Sidebar extends VBox {
             "-fx-background-color: white; -fx-background-radius: 8px; -fx-min-width: 32px; -fx-min-height: 32px;"
         );
         logoIcon.setAlignment(Pos.CENTER);
-        FontIcon appIcon = new FontIcon(Feather.BOX); // Placeholder for AppVault logo
+        FontIcon appIcon = new FontIcon(Feather.BOX);
         appIcon.setIconColor(Color.BLACK);
         appIcon.setIconSize(20);
         logoIcon.getChildren().add(appIcon);
@@ -44,7 +52,7 @@ public class Sidebar extends VBox {
         // Navigation Items
         addNavButton("Discover", Feather.HOME, true);
         addNavButton("Library", Feather.DOWNLOAD, false);
-        addNavButton("Updates", Feather.REFRESH_CW, false, 3); // Badge: 3
+        addNavButton("Updates", Feather.REFRESH_CW, false, 3);
         addNavButton("Settings", Feather.SETTINGS, false);
 
         // Categories
@@ -52,10 +60,10 @@ public class Sidebar extends VBox {
         addNavButton("Developer Tools", Feather.CODE, false);
         addNavButton("Productivity", Feather.BRIEFCASE, false);
         addNavButton("Graphics & Design", Feather.PEN_TOOL, false);
-        addNavButton("Games", Feather.PLAY, false); // Feather doesn't have gamepad, using PLAY
+        addNavButton("Games", Feather.PLAY, false);
         addNavButton("Music & Audio", Feather.MUSIC, false);
         addNavButton("Video", Feather.VIDEO, false);
-        addNavButton("Utilities", Feather.TOOL, false); // Feather doesn't have wrench/tool? It has TOOL
+        addNavButton("Utilities", Feather.TOOL, false);
         addNavButton("Security", Feather.SHIELD, false);
 
         // Spacer to push Installation Indicator to bottom
@@ -63,15 +71,101 @@ public class Sidebar extends VBox {
         VBox.setVgrow(spacer, Priority.ALWAYS);
         getChildren().add(spacer);
 
-        // Installation Indicator
-        InstallationIndicator indicator = new InstallationIndicator(
-            "Visual Studio Code",
-            1,
-            InstallationIndicator.Status.PROCESSING
-        );
-        VBox indicatorContainer = new VBox(indicator);
+        // Installation Indicator container (initially hidden)
+        indicatorContainer = new VBox();
         indicatorContainer.setStyle("-fx-padding: 12px; -fx-border-color: #181818; -fx-border-width: 1px 0 0 0;");
+        indicatorContainer.setVisible(false);
+        indicatorContainer.setManaged(false);
         getChildren().add(indicatorContainer);
+
+        // Listen to InstallationManager state changes
+        setupInstallationListener();
+    }
+
+    private void setupInstallationListener() {
+        InstallationManager manager = InstallationManager.getInstance();
+        
+        // Listen to state changes
+        manager.stateProperty().addListener((obs, oldState, newState) -> {
+            LOG.fine("[Sidebar] Installation state changed: " + 
+                     (oldState != null ? oldState.getPhase() : "null") + " -> " + newState.getPhase());
+            updateIndicator(newState);
+        });
+
+        // Check initial state
+        updateIndicator(manager.getState());
+    }
+
+    private void updateIndicator(InstallationState state) {
+        if (state.isIdle()) {
+            // Hide indicator
+            indicatorContainer.setVisible(false);
+            indicatorContainer.setManaged(false);
+            indicatorContainer.getChildren().clear();
+            indicator = null;
+            LOG.fine("[Sidebar] Hiding installation indicator");
+        } else {
+            // Show indicator
+            if (indicator == null || !state.getAppName().equals(getCurrentIndicatorAppName())) {
+                // Create new indicator
+                indicatorContainer.getChildren().clear();
+                indicator = new InstallationIndicator(state.getAppName());
+                indicator.setOnDismiss(v -> {
+                    LOG.info("[Sidebar] User dismissed installation indicator");
+                    InstallationManager.getInstance().dismiss();
+                });
+                indicatorContainer.getChildren().add(indicator);
+            }
+
+            // Update indicator state
+            updateIndicatorFromState(state);
+
+            indicatorContainer.setVisible(true);
+            indicatorContainer.setManaged(true);
+        }
+    }
+
+    private void updateIndicatorFromState(InstallationState state) {
+        if (indicator == null) return;
+
+        switch (state.getPhase()) {
+            case FETCHING:
+                indicator.update(InstallationIndicator.Step.DOWNLOADING, "Fetching release...");
+                indicator.setStatus(InstallationIndicator.Status.PROCESSING);
+                break;
+            case DOWNLOADING:
+                String msg = String.format("Downloading... %.0f%%", state.getProgress() * 100);
+                indicator.update(InstallationIndicator.Step.DOWNLOADING, msg);
+                indicator.setStatus(InstallationIndicator.Status.PROCESSING);
+                break;
+            case EXTRACTING:
+                indicator.update(InstallationIndicator.Step.EXTRACTING, "Extracting...");
+                indicator.setStatus(InstallationIndicator.Status.PROCESSING);
+                break;
+            case INSTALLING:
+                indicator.update(InstallationIndicator.Step.INSTALLING, state.getMessage());
+                indicator.setStatus(InstallationIndicator.Status.PROCESSING);
+                break;
+            case VERIFYING:
+                indicator.update(InstallationIndicator.Step.VERIFYING, "Verifying...");
+                indicator.setStatus(InstallationIndicator.Status.PROCESSING);
+                break;
+            case COMPLETED:
+                indicator.complete();
+                break;
+            case FAILED:
+                indicator.fail(state.getErrorMessage() != null ? 
+                               state.getErrorMessage() : "Installation failed");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private String getCurrentIndicatorAppName() {
+        // Get app name from current indicator if it exists
+        // This is a simple check - in reality we'd store this
+        return indicator != null ? "current" : null;
     }
 
     private void addSectionLabel(String text) {
@@ -93,7 +187,7 @@ public class Sidebar extends VBox {
         HBox button = new HBox(12);
         button.getStyleClass().add("nav-button");
         if (isSelected) {
-            button.setStyle("-fx-text-fill: white;"); // Selected style handled by CSS hover mostly, but can force here
+            button.setStyle("-fx-text-fill: white;");
         }
 
         FontIcon fontIcon = new FontIcon(icon);
@@ -115,7 +209,7 @@ public class Sidebar extends VBox {
         getChildren().add(button);
 
         button.setOnMouseClicked(e -> {
-            System.out.println("Clicked: " + text);
+            LOG.fine("[Sidebar] Navigation clicked: " + text);
             if (onNavigate != null) onNavigate.accept(text);
         });
     }

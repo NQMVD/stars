@@ -2,10 +2,17 @@ package com.example.appstore.views;
 
 import com.example.appstore.model.App;
 import com.example.appstore.model.GithubRelease;
+import com.example.appstore.model.InstalledApp;
 import com.example.appstore.service.ApiService;
+import com.example.appstore.service.InstallationManager;
+import com.example.appstore.service.InstallationManager.InstallationState;
+import com.example.appstore.service.InstallationService;
 import com.example.appstore.service.LibraryService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -14,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -29,6 +37,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class AppDetailView extends ScrollPane {
+
+    private static final Logger LOG = Logger.getLogger(AppDetailView.class.getName());
 
     private final App app;
     private final Runnable onBack;
@@ -133,74 +143,117 @@ public class AppDetailView extends ScrollPane {
             );
         }
 
-        // Progress indicator for install
-        javafx.scene.control.ProgressBar progressBar =
-            new javafx.scene.control.ProgressBar(0);
-        progressBar.setPrefWidth(120);
-        progressBar.setVisible(false);
+        // Simplified inline progress display
+        VBox progressBox = new VBox(6);
+        progressBox.setAlignment(Pos.CENTER_RIGHT);
+        progressBox.setVisible(false);
+        progressBox.setManaged(false);
+        
+        ProgressBar progressBar = new ProgressBar(0);
+        progressBar.setPrefWidth(150);
+        progressBar.setStyle("-fx-accent: #3b82f6;");
+        
+        Label progressLabel = new Label("Preparing...");
+        progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
+        
+        progressBox.getChildren().addAll(progressBar, progressLabel);
 
         Label statusLabel = new Label("");
         statusLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
 
+        // Check if this app is currently being installed
+        InstallationManager installManager = InstallationManager.getInstance();
+        if (installManager.isInstalling(app.getId())) {
+            // Show progress for ongoing installation
+            installBtn.setVisible(false);
+            installBtn.setManaged(false);
+            progressBox.setVisible(true);
+            progressBox.setManaged(true);
+            
+            // Listen for progress updates
+            installManager.addProgressListener(app.getId(), progress -> {
+                Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
+            });
+        }
+
         installBtn.setOnAction(e -> {
+            LOG.info("[AppDetailView] Install button clicked for: " + app.getName());
+            
             if (libraryService.isInstalled(app.getId())) {
-                // Already installed - just show "Running"
-                installBtn.setText("Running...");
-                installBtn.setDisable(true);
-                Timeline reset = new Timeline(
-                    new KeyFrame(Duration.seconds(1), ev -> {
-                        installBtn.setText("Open");
-                        installBtn.setDisable(false);
-                    })
-                );
-                reset.play();
-            } else {
-                // Simulate install
-                installBtn.setDisable(true);
-                installBtn.setText("Installing...");
-                progressBar.setVisible(true);
-
-                Timeline timeline = new Timeline();
-                for (int i = 0; i <= 20; i++) {
-                    final int step = i;
-                    KeyFrame keyFrame = new KeyFrame(
-                        Duration.millis(i * 100),
-                        ev -> {
-                            double progress = step / 20.0;
-                            progressBar.setProgress(progress);
-                            if (progress < 0.5) {
-                                statusLabel.setText("Downloading...");
-                            } else if (progress < 0.9) {
-                                statusLabel.setText("Installing...");
-                            } else {
-                                statusLabel.setText("Finishing...");
-                            }
-                        }
+                // Already installed - launch the app
+                LOG.info("[AppDetailView] App already installed, attempting to launch");
+                Optional<InstalledApp> installedApp = libraryService.getInstalledApp(app.getId());
+                if (installedApp.isPresent() && installedApp.get().getExecutablePath() != null) {
+                    String execPath = installedApp.get().getExecutablePath();
+                    LOG.info("[AppDetailView] Launching app from: " + execPath);
+                    installBtn.setText("Launching...");
+                    installBtn.setDisable(true);
+                    
+                    try {
+                        InstallationService.getInstance().launchApp(execPath);
+                        LOG.info("[AppDetailView] App launched successfully");
+                        statusLabel.setText("Launched!");
+                    } catch (Exception ex) {
+                        LOG.log(Level.WARNING, "[AppDetailView] Failed to launch app", ex);
+                        statusLabel.setText("Failed to launch: " + ex.getMessage());
+                    }
+                    
+                    Timeline reset = new Timeline(
+                        new KeyFrame(Duration.seconds(1), ev -> {
+                            installBtn.setText("Open");
+                            installBtn.setDisable(false);
+                            statusLabel.setText("");
+                        })
                     );
-                    timeline.getKeyFrames().add(keyFrame);
+                    reset.play();
+                } else {
+                    LOG.warning("[AppDetailView] No executable path found for installed app");
+                    statusLabel.setText("Path not found - reinstall recommended");
                 }
+            } else {
+                // Check if another installation is in progress
+                if (installManager.isInstalling()) {
+                    LOG.warning("[AppDetailView] Another installation is in progress");
+                    statusLabel.setText("Another installation in progress");
+                    return;
+                }
+                
+                // Start installation via InstallationManager
+                LOG.info("[AppDetailView] Starting installation for: " + app.getName());
+                installBtn.setVisible(false);
+                installBtn.setManaged(false);
+                progressBox.setVisible(true);
+                progressBox.setManaged(true);
+                progressBar.setProgress(0);
+                progressLabel.setText("Preparing...");
+                statusLabel.setText("");
 
-                KeyFrame completeFrame = new KeyFrame(
-                    Duration.millis(2100),
-                    ev -> {
-                        // Get version from API or use default
-                        String version = versionLabel
-                                .getText()
-                                .equals("Loading...")
-                            ? "1.0.0"
-                            : versionLabel.getText();
+                // Listen for detailed progress updates
+                installManager.addProgressListener(app.getId(), progress -> {
+                    Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
+                });
+
+                installManager.installApp(app).thenAccept(result -> {
+                    Platform.runLater(() -> {
+                        LOG.info("[AppDetailView] Installation completed: " + result.getVersion());
+                        
+                        // Save to library with real paths
                         libraryService.installApp(
                             app.getId(),
                             app.getName(),
                             app.getOwnerLogin(),
-                            app.getCategory() != null
-                                ? app.getCategory()
-                                : "Unknown",
-                            version,
-                            "100 MB"
+                            app.getCategory() != null ? app.getCategory() : "Unknown",
+                            result.getVersion(),
+                            result.getFormattedSize(),
+                            result.getInstallPath(),
+                            result.getExecutablePath()
                         );
 
-                        progressBar.setVisible(false);
+                        // Update UI to show "Open" button
+                        progressBox.setVisible(false);
+                        progressBox.setManaged(false);
+                        installBtn.setVisible(true);
+                        installBtn.setManaged(true);
                         installBtn.setText("Open");
                         installBtn.setStyle(
                             "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px; -fx-cursor: hand;"
@@ -209,17 +262,34 @@ public class AppDetailView extends ScrollPane {
                         checkIcon.setIconColor(Color.WHITE);
                         installBtn.setGraphic(checkIcon);
                         installBtn.setDisable(false);
-                        statusLabel.setText("Installed!");
-                    }
-                );
-                timeline.getKeyFrames().add(completeFrame);
-                timeline.play();
+                        statusLabel.setText("Installed " + result.getVersion());
+                        
+                        installManager.clearProgressListeners();
+                    });
+                }).exceptionally(ex -> {
+                    Platform.runLater(() -> {
+                        LOG.log(Level.SEVERE, "[AppDetailView] Installation error", ex);
+                        String errorMsg = ex.getCause() != null ? 
+                            ex.getCause().getMessage() : ex.getMessage();
+                        
+                        // Show error and restore install button
+                        progressBox.setVisible(false);
+                        progressBox.setManaged(false);
+                        installBtn.setVisible(true);
+                        installBtn.setManaged(true);
+                        installBtn.setDisable(false);
+                        statusLabel.setText("Failed: " + errorMsg);
+                        
+                        installManager.clearProgressListeners();
+                    });
+                    return null;
+                });
             }
         });
 
         VBox actionBox = new VBox(4);
         actionBox.setAlignment(Pos.CENTER_RIGHT);
-        actionBox.getChildren().addAll(installBtn, progressBar, statusLabel);
+        actionBox.getChildren().addAll(installBtn, progressBox, statusLabel);
 
         actions.getChildren().add(actionBox);
 
@@ -602,5 +672,54 @@ public class AppDetailView extends ScrollPane {
 
         box.getChildren().addAll(l, valueLabel);
         return box;
+    }
+
+    /**
+     * Update the inline progress display based on installation progress.
+     */
+    private void updateProgressDisplay(ProgressBar progressBar, Label progressLabel, 
+                                        InstallationService.InstallProgress progress) {
+        if (progress.isFailed()) {
+            progressLabel.setText("Failed: " + progress.getMessage());
+            progressLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-size: 11px;");
+            return;
+        }
+
+        // Calculate overall progress
+        double overallProgress = 0;
+        String message = progress.getMessage();
+
+        switch (progress.getStage()) {
+            case FETCHING_RELEASE:
+                overallProgress = 0.05;
+                message = "Fetching release...";
+                break;
+            case DOWNLOADING:
+                overallProgress = 0.05 + (progress.getProgress() * 0.6);
+                message = String.format("Downloading... %.0f%%", progress.getProgress() * 100);
+                break;
+            case EXTRACTING:
+                overallProgress = 0.70;
+                message = "Extracting...";
+                break;
+            case INSTALLING:
+                overallProgress = 0.80;
+                message = "Installing...";
+                break;
+            case VERIFYING:
+                overallProgress = 0.95;
+                message = "Verifying...";
+                break;
+            case COMPLETED:
+                overallProgress = 1.0;
+                message = "Complete!";
+                break;
+            default:
+                break;
+        }
+
+        progressBar.setProgress(overallProgress);
+        progressLabel.setText(message);
+        progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
     }
 }

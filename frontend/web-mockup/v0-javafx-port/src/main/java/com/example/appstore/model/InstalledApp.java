@@ -12,6 +12,8 @@ public class InstalledApp {
     private String installedVersion;
     private long installTimestamp;
     private String size;
+    private String installPath;
+    private String executablePath;
 
     public InstalledApp() {}
 
@@ -31,6 +33,30 @@ public class InstalledApp {
         this.installedVersion = installedVersion;
         this.installTimestamp = installTimestamp;
         this.size = size;
+        this.installPath = null;
+        this.executablePath = null;
+    }
+
+    public InstalledApp(
+        String id,
+        String name,
+        String developer,
+        String category,
+        String installedVersion,
+        long installTimestamp,
+        String size,
+        String installPath,
+        String executablePath
+    ) {
+        this.id = id;
+        this.name = name;
+        this.developer = developer;
+        this.category = category;
+        this.installedVersion = installedVersion;
+        this.installTimestamp = installTimestamp;
+        this.size = size;
+        this.installPath = installPath;
+        this.executablePath = executablePath;
     }
 
     // Getters and setters
@@ -90,6 +116,22 @@ public class InstalledApp {
         this.size = size;
     }
 
+    public String getInstallPath() {
+        return installPath;
+    }
+
+    public void setInstallPath(String installPath) {
+        this.installPath = installPath;
+    }
+
+    public String getExecutablePath() {
+        return executablePath;
+    }
+
+    public void setExecutablePath(String executablePath) {
+        this.executablePath = executablePath;
+    }
+
     /**
      * Create a new InstalledApp with an updated version.
      */
@@ -101,7 +143,9 @@ public class InstalledApp {
             this.category,
             newVersion,
             this.installTimestamp,
-            this.size
+            this.size,
+            this.installPath,
+            this.executablePath
         );
     }
 

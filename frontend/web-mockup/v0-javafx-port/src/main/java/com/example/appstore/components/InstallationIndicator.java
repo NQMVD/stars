@@ -1,32 +1,55 @@
 package com.example.appstore.components;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.util.function.Consumer;
+import java.util.logging.Logger;
+
 /**
  * Installation progress indicator component matching the web mockup.
- * Shows 4-step progress: Downloading → Transferring → Installing → Verifying
+ * Shows 4-step progress: Downloading → Extracting → Installing → Verifying
+ * 
+ * This component is externally controlled - call setStep() and setStatus() 
+ * to update the display based on actual installation progress.
  */
 public class InstallationIndicator extends VBox {
+
+    private static final Logger LOG = Logger.getLogger(InstallationIndicator.class.getName());
 
     public enum Status {
         PROCESSING, PAUSED, COMPLETED, ERROR
     }
 
-    private static final String[] STEP_LABELS = {"Downloading", "Transferring", "Installing", "Verifying"};
-    private static final Feather[] STEP_ICONS = {Feather.DOWNLOAD, Feather.REPEAT, Feather.PACKAGE, Feather.CHECK_CIRCLE};
+    public enum Step {
+        DOWNLOADING(1, "Downloading", Feather.DOWNLOAD),
+        EXTRACTING(2, "Extracting", Feather.REPEAT),
+        INSTALLING(3, "Installing", Feather.PACKAGE),
+        VERIFYING(4, "Verifying", Feather.CHECK_CIRCLE);
+
+        private final int index;
+        private final String label;
+        private final Feather icon;
+
+        Step(int index, String label, Feather icon) {
+            this.index = index;
+            this.label = label;
+            this.icon = icon;
+        }
+
+        public int getIndex() { return index; }
+        public String getLabel() { return label; }
+        public Feather getIcon() { return icon; }
+    }
 
     // Colors matching web mockup
     private static final String BLUE_BG = "#3b82f633";
@@ -39,9 +62,11 @@ public class InstallationIndicator extends VBox {
     private static final String AMBER_FG = "#fbbf24";
     private static final String SECONDARY_BG = "#27272a";
 
-    private int currentStep = 1;
+    private Step currentStep = Step.DOWNLOADING;
     private Status status = Status.PROCESSING;
-    private boolean isPaused = false;
+    private String customMessage = null;
+    private Consumer<Void> onCancelClick;
+    private Consumer<Void> onDismissClick;
 
     private final String appName;
     private final StackPane iconContainer;
@@ -51,12 +76,18 @@ public class InstallationIndicator extends VBox {
     private final HBox[] progressSegments;
     private final FontIcon controlIcon;
     private final StackPane controlButton;
-    private Timeline autoAdvance;
 
-    public InstallationIndicator(String appName, int initialStep, Status initialStatus) {
+    public InstallationIndicator(String appName) {
+        this(appName, Step.DOWNLOADING, Status.PROCESSING);
+    }
+
+    public InstallationIndicator(String appName, Step initialStep, Status initialStatus) {
         this.appName = appName;
-        this.currentStep = Math.max(1, Math.min(4, initialStep));
+        this.currentStep = initialStep;
         this.status = initialStatus;
+
+        LOG.info("[InstallationIndicator] Created for app: " + appName + 
+                 ", step: " + initialStep + ", status: " + initialStatus);
 
         getStyleClass().add("installation-indicator");
         setStyle("-fx-background-color: #040404; -fx-background-radius: 8px; -fx-border-color: #181818; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 12px;");
@@ -71,7 +102,7 @@ public class InstallationIndicator extends VBox {
         iconContainer.setMaxSize(32, 32);
         iconContainer.setStyle("-fx-background-radius: 16px;");
 
-        stepIcon = new FontIcon(STEP_ICONS[currentStep - 1]);
+        stepIcon = new FontIcon(currentStep.getIcon());
         stepIcon.setIconSize(16);
         iconContainer.getChildren().add(stepIcon);
 
@@ -87,13 +118,13 @@ public class InstallationIndicator extends VBox {
 
         textInfo.getChildren().addAll(nameLabel, statusLabel);
 
-        // Control button
+        // Control button (cancel/dismiss)
         controlButton = new StackPane();
         controlButton.setMinSize(32, 32);
         controlButton.setMaxSize(32, 32);
         controlButton.setStyle("-fx-background-color: " + SECONDARY_BG + "; -fx-background-radius: 16px; -fx-cursor: hand;");
 
-        controlIcon = new FontIcon(Feather.PAUSE);
+        controlIcon = new FontIcon(Feather.X);
         controlIcon.setIconSize(14);
         controlIcon.setIconColor(Color.web("#fafafa"));
         controlButton.getChildren().add(controlIcon);
@@ -123,55 +154,117 @@ public class InstallationIndicator extends VBox {
 
         // Initial render
         updateUI();
-
-        // Start auto-advance demo (like web version)
-        if (status == Status.PROCESSING && !isPaused) {
-            startAutoAdvance();
-        }
     }
 
-    private void startAutoAdvance() {
-        if (autoAdvance != null) {
-            autoAdvance.stop();
-        }
-        autoAdvance = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            if (status == Status.PROCESSING && !isPaused) {
-                if (currentStep >= 4) {
-                    status = Status.COMPLETED;
-                    autoAdvance.stop();
-                } else {
-                    currentStep++;
-                }
-                updateUI();
-            }
-        }));
-        autoAdvance.setCycleCount(Timeline.INDEFINITE);
-        autoAdvance.play();
+    /**
+     * Set the current installation step.
+     */
+    public void setStep(Step step) {
+        LOG.fine("[InstallationIndicator] Step changed: " + this.currentStep + " -> " + step);
+        this.currentStep = step;
+        this.customMessage = null;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Set the current status.
+     */
+    public void setStatus(Status status) {
+        LOG.fine("[InstallationIndicator] Status changed: " + this.status + " -> " + status);
+        this.status = status;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Set a custom message to display instead of the step label.
+     */
+    public void setMessage(String message) {
+        this.customMessage = message;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Set both step and status at once.
+     */
+    public void update(Step step, Status status) {
+        LOG.fine("[InstallationIndicator] Update: step=" + step + ", status=" + status);
+        this.currentStep = step;
+        this.status = status;
+        this.customMessage = null;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Set both step and custom message.
+     */
+    public void update(Step step, String message) {
+        LOG.fine("[InstallationIndicator] Update: step=" + step + ", message=" + message);
+        this.currentStep = step;
+        this.customMessage = message;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Mark installation as completed.
+     */
+    public void complete() {
+        LOG.info("[InstallationIndicator] Installation completed for: " + appName);
+        this.status = Status.COMPLETED;
+        this.currentStep = Step.VERIFYING;
+        this.customMessage = "Completed";
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Mark installation as failed with error message.
+     */
+    public void fail(String errorMessage) {
+        LOG.warning("[InstallationIndicator] Installation failed for: " + appName + " - " + errorMessage);
+        this.status = Status.ERROR;
+        this.customMessage = errorMessage;
+        runOnFxThread(this::updateUI);
+    }
+
+    /**
+     * Set callback for cancel button click (during installation).
+     */
+    public void setOnCancel(Consumer<Void> handler) {
+        this.onCancelClick = handler;
+    }
+
+    /**
+     * Set callback for dismiss button click (after completion/error).
+     */
+    public void setOnDismiss(Consumer<Void> handler) {
+        this.onDismissClick = handler;
+    }
+
+    public Step getCurrentStep() {
+        return currentStep;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     private void handleControlClick() {
-        if (status == Status.COMPLETED) {
-            // Reset/dismiss
-            currentStep = 1;
-            status = Status.PROCESSING;
-            isPaused = false;
-            startAutoAdvance();
+        LOG.fine("[InstallationIndicator] Control button clicked, status: " + status);
+        if (status == Status.COMPLETED || status == Status.ERROR) {
+            if (onDismissClick != null) {
+                onDismissClick.accept(null);
+            }
         } else {
-            // Toggle pause
-            isPaused = !isPaused;
-            if (!isPaused && status == Status.PROCESSING) {
-                startAutoAdvance();
-            } else if (autoAdvance != null) {
-                autoAdvance.pause();
+            if (onCancelClick != null) {
+                onCancelClick.accept(null);
             }
         }
-        updateUI();
     }
 
     private void updateUI() {
-        // Update icon and colors
-        stepIcon.setIconCode(STEP_ICONS[currentStep - 1]);
+        // Update icon
+        stepIcon.setIconCode(currentStep.getIcon());
 
+        // Determine colors based on status
         String bgColor, fgColor;
         if (status == Status.COMPLETED) {
             bgColor = EMERALD_BG;
@@ -179,7 +272,7 @@ public class InstallationIndicator extends VBox {
         } else if (status == Status.ERROR) {
             bgColor = RED_BG;
             fgColor = RED_FG;
-        } else if (isPaused) {
+        } else if (status == Status.PAUSED) {
             bgColor = AMBER_BG;
             fgColor = AMBER_FG;
         } else {
@@ -192,26 +285,22 @@ public class InstallationIndicator extends VBox {
 
         // Update status text
         String statusText;
-        if (status == Status.COMPLETED) {
+        if (customMessage != null) {
+            statusText = customMessage;
+        } else if (status == Status.COMPLETED) {
             statusText = "COMPLETED";
         } else if (status == Status.ERROR) {
             statusText = "ERROR";
-        } else if (isPaused) {
+        } else if (status == Status.PAUSED) {
             statusText = "PAUSED";
         } else {
-            statusText = STEP_LABELS[currentStep - 1];
+            statusText = currentStep.getLabel();
         }
         statusLabel.setText(statusText);
         statusLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: 500; -fx-text-fill: " + fgColor + ";");
 
         // Update control button icon
-        if (status == Status.COMPLETED) {
-            controlIcon.setIconCode(Feather.X);
-        } else if (isPaused) {
-            controlIcon.setIconCode(Feather.PLAY);
-        } else {
-            controlIcon.setIconCode(Feather.PAUSE);
-        }
+        controlIcon.setIconCode(Feather.X);
 
         // Update progress segments
         if (status == Status.COMPLETED) {
@@ -220,11 +309,11 @@ public class InstallationIndicator extends VBox {
             for (int i = 0; i < 4; i++) {
                 String radius;
                 if (i == 0) {
-                    radius = "3px 0 0 3px"; // Left rounded
+                    radius = "3px 0 0 3px";
                 } else if (i == 3) {
-                    radius = "0 3px 3px 0"; // Right rounded
+                    radius = "0 3px 3px 0";
                 } else {
-                    radius = "0"; // No rounding for middle segments
+                    radius = "0";
                 }
                 progressSegments[i].setStyle("-fx-background-color: " + EMERALD_FG + "; -fx-background-radius: " + radius + ";");
             }
@@ -233,12 +322,12 @@ public class InstallationIndicator extends VBox {
             progressBar.setSpacing(6);
             for (int i = 0; i < 4; i++) {
                 String segmentColor;
-                if (i < currentStep - 1) {
+                if (i < currentStep.getIndex() - 1) {
                     segmentColor = BLUE_FG; // Completed segments
-                } else if (i == currentStep - 1) {
+                } else if (i == currentStep.getIndex() - 1) {
                     if (status == Status.ERROR) {
                         segmentColor = RED_FG;
-                    } else if (isPaused) {
+                    } else if (status == Status.PAUSED) {
                         segmentColor = AMBER_FG;
                     } else {
                         segmentColor = BLUE_FG;
@@ -248,6 +337,14 @@ public class InstallationIndicator extends VBox {
                 }
                 progressSegments[i].setStyle("-fx-background-color: " + segmentColor + "; -fx-background-radius: 3px;");
             }
+        }
+    }
+
+    private void runOnFxThread(Runnable action) {
+        if (Platform.isFxApplicationThread()) {
+            action.run();
+        } else {
+            Platform.runLater(action);
         }
     }
 }
