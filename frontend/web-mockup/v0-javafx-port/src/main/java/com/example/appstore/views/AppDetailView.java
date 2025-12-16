@@ -524,11 +524,23 @@ public class AppDetailView extends ScrollPane {
                     java.util.List<javafx.scene.image.ImageView> imageViews =
                         new java.util.ArrayList<>();
                     final int[] currentIndex = { 0 };
+                    final int[] loadedCount = { 0 };
+                    final int totalUrls = urls.size();
+
+                    // Counter label - declared early so it can be updated from progress listeners
+                    final Label counterLabel = new Label("Loading...");
+                    counterLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+                    StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
+                    counterLabel.setTranslateY(-10);
 
                     for (String url : urls) {
                         try {
+                            LOG.fine("[AppDetailView] Loading screenshot: " + url);
+                            
+                            // Load image in background
                             javafx.scene.image.Image img =
                                 new javafx.scene.image.Image(url, true);
+                            
                             javafx.scene.image.ImageView view =
                                 new javafx.scene.image.ImageView(img);
                             view.setPreserveRatio(true);
@@ -537,15 +549,65 @@ public class AppDetailView extends ScrollPane {
                             view.fitWidthProperty().bind(
                                 gallery.widthProperty().subtract(40) // Leave some padding
                             );
-                            view.setVisible(imageViews.isEmpty()); // Only first is visible
+                            view.setVisible(false); // Start hidden, show when loaded
+                            
+                            // Track loading state
+                            final int imageIndex = imageViews.size();
                             imageViews.add(view);
                             gallery.getChildren().add(view);
+                            
+                            // Listen for load completion or error
+                            img.progressProperty().addListener((obs, oldVal, newVal) -> {
+                                if (newVal.doubleValue() >= 1.0) {
+                                    Platform.runLater(() -> {
+                                        if (img.isError()) {
+                                            LOG.warning("[AppDetailView] Failed to load image: " + url + 
+                                                       " - " + (img.getException() != null ? 
+                                                                img.getException().getMessage() : "unknown error"));
+                                            // Remove failed image from list and gallery
+                                            gallery.getChildren().remove(view);
+                                            imageViews.set(imageIndex, null); // Mark as failed
+                                        } else {
+                                            LOG.fine("[AppDetailView] Successfully loaded: " + url);
+                                            // Show first successfully loaded image
+                                            if (imageViews.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
+                                                view.setVisible(true);
+                                                currentIndex[0] = imageIndex;
+                                            }
+                                        }
+                                        
+                                        loadedCount[0]++;
+                                        // Update counter when all images attempted
+                                        if (loadedCount[0] >= totalUrls) {
+                                            updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // Also check for immediate errors (e.g., invalid URL format)
+                            if (img.isError()) {
+                                LOG.warning("[AppDetailView] Immediate error loading: " + url);
+                                gallery.getChildren().remove(view);
+                                imageViews.set(imageIndex, null);
+                            }
+                            
                         } catch (Exception e) {
-                            System.err.println("Failed to load image: " + url);
+                            LOG.warning("[AppDetailView] Exception loading image: " + url + " - " + e.getMessage());
                         }
                     }
 
-                    if (imageViews.isEmpty()) {
+                    // Show first image if it loaded synchronously
+                    for (int i = 0; i < imageViews.size(); i++) {
+                        javafx.scene.image.ImageView v = imageViews.get(i);
+                        if (v != null && !v.getImage().isError() && v.getImage().getProgress() >= 1.0) {
+                            v.setVisible(true);
+                            currentIndex[0] = i;
+                            break;
+                        }
+                    }
+
+                    if (imageViews.isEmpty() || imageViews.stream().allMatch(v -> v == null)) {
                         Label errorLabel = new Label(
                             "Failed to load screenshots"
                         );
@@ -568,18 +630,13 @@ public class AppDetailView extends ScrollPane {
                     );
 
                     leftBtn.setOnAction(e -> {
-                        imageViews.get(currentIndex[0]).setVisible(false);
-                        currentIndex[0] =
-                            (currentIndex[0] - 1 + imageViews.size()) %
-                            imageViews.size();
-                        imageViews.get(currentIndex[0]).setVisible(true);
+                        navigateImages(imageViews, currentIndex, -1);
+                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
                     });
 
                     rightBtn.setOnAction(e -> {
-                        imageViews.get(currentIndex[0]).setVisible(false);
-                        currentIndex[0] =
-                            (currentIndex[0] + 1) % imageViews.size();
-                        imageViews.get(currentIndex[0]).setVisible(true);
+                        navigateImages(imageViews, currentIndex, 1);
+                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
                     });
 
                     HBox navBox = new HBox();
@@ -588,35 +645,6 @@ public class AppDetailView extends ScrollPane {
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     navBox.getChildren().addAll(leftBtn, spacer, rightBtn);
-
-                    // Counter label
-                    Label counterLabel = new Label("1 / " + imageViews.size());
-                    counterLabel.setStyle(
-                        "-fx-text-fill: #a1a1aa; -fx-font-size: 12px;"
-                    );
-                    StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
-                    counterLabel.setTranslateY(-10);
-
-                    leftBtn.setOnAction(e -> {
-                        imageViews.get(currentIndex[0]).setVisible(false);
-                        currentIndex[0] =
-                            (currentIndex[0] - 1 + imageViews.size()) %
-                            imageViews.size();
-                        imageViews.get(currentIndex[0]).setVisible(true);
-                        counterLabel.setText(
-                            (currentIndex[0] + 1) + " / " + imageViews.size()
-                        );
-                    });
-
-                    rightBtn.setOnAction(e -> {
-                        imageViews.get(currentIndex[0]).setVisible(false);
-                        currentIndex[0] =
-                            (currentIndex[0] + 1) % imageViews.size();
-                        imageViews.get(currentIndex[0]).setVisible(true);
-                        counterLabel.setText(
-                            (currentIndex[0] + 1) + " / " + imageViews.size()
-                        );
-                    });
 
                     gallery.getChildren().addAll(navBox, counterLabel);
                     StackPane.setAlignment(navBox, Pos.CENTER);
@@ -733,5 +761,61 @@ public class AppDetailView extends ScrollPane {
         progressBar.setProgress(overallProgress);
         progressLabel.setText(message);
         progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
+    }
+
+    /**
+     * Navigate through images, skipping null (failed) entries.
+     */
+    private void navigateImages(java.util.List<javafx.scene.image.ImageView> imageViews, 
+                                 int[] currentIndex, int direction) {
+        // Count valid images
+        long validCount = imageViews.stream().filter(v -> v != null).count();
+        if (validCount <= 1) return;
+
+        // Hide current
+        javafx.scene.image.ImageView current = imageViews.get(currentIndex[0]);
+        if (current != null) {
+            current.setVisible(false);
+        }
+
+        // Find next valid image
+        int size = imageViews.size();
+        int next = currentIndex[0];
+        for (int i = 0; i < size; i++) {
+            next = (next + direction + size) % size;
+            if (imageViews.get(next) != null) {
+                break;
+            }
+        }
+
+        currentIndex[0] = next;
+        javafx.scene.image.ImageView nextView = imageViews.get(next);
+        if (nextView != null) {
+            nextView.setVisible(true);
+        }
+    }
+
+    /**
+     * Update the image counter label, accounting for null (failed) images.
+     */
+    private void updateImageCounter(java.util.List<javafx.scene.image.ImageView> imageViews, 
+                                     Label counterLabel, int currentIndex) {
+        // Count valid images
+        long validCount = imageViews.stream().filter(v -> v != null).count();
+        
+        if (validCount == 0) {
+            counterLabel.setText("No images");
+            return;
+        }
+
+        // Find the position of current image among valid ones
+        int position = 0;
+        for (int i = 0; i <= currentIndex && i < imageViews.size(); i++) {
+            if (imageViews.get(i) != null) {
+                position++;
+            }
+        }
+
+        counterLabel.setText(position + " / " + validCount);
     }
 }
