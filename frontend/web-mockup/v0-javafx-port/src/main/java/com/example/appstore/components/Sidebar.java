@@ -22,6 +22,7 @@ public class Sidebar extends VBox {
     private final Consumer<String> onNavigate;
     private final VBox indicatorContainer;
     private InstallationIndicator indicator;
+    private String currentIndicatorAppId;  // Track which app the indicator is for
 
     public Sidebar(Consumer<String> onNavigate) {
         this.onNavigate = onNavigate;
@@ -103,13 +104,15 @@ public class Sidebar extends VBox {
             indicatorContainer.setManaged(false);
             indicatorContainer.getChildren().clear();
             indicator = null;
+            currentIndicatorAppId = null;
             LOG.fine("[Sidebar] Hiding installation indicator");
         } else {
-            // Show indicator
-            if (indicator == null || !state.getAppName().equals(getCurrentIndicatorAppName())) {
-                // Create new indicator
+            // Only create new indicator if app changed
+            if (indicator == null || !state.getAppId().equals(currentIndicatorAppId)) {
+                LOG.info("[Sidebar] Creating indicator for: " + state.getAppName());
                 indicatorContainer.getChildren().clear();
                 indicator = new InstallationIndicator(state.getAppName());
+                currentIndicatorAppId = state.getAppId();
                 indicator.setOnDismiss(v -> {
                     LOG.info("[Sidebar] User dismissed installation indicator");
                     InstallationManager.getInstance().dismiss();
@@ -160,12 +163,6 @@ public class Sidebar extends VBox {
             default:
                 break;
         }
-    }
-
-    private String getCurrentIndicatorAppName() {
-        // Get app name from current indicator if it exists
-        // This is a simple check - in reality we'd store this
-        return indicator != null ? "current" : null;
     }
 
     private void addSectionLabel(String text) {

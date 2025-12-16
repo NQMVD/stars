@@ -86,8 +86,8 @@ public class InstallationIndicator extends VBox {
         this.currentStep = initialStep;
         this.status = initialStatus;
 
-        LOG.info("[InstallationIndicator] Created for app: " + appName + 
-                 ", step: " + initialStep + ", status: " + initialStatus);
+        // Only log at FINE level - constructor is called frequently
+        LOG.fine("[InstallationIndicator] Created for app: " + appName);
 
         getStyleClass().add("installation-indicator");
         setStyle("-fx-background-color: #040404; -fx-background-radius: 8px; -fx-border-color: #181818; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 12px;");
@@ -160,7 +160,9 @@ public class InstallationIndicator extends VBox {
      * Set the current installation step.
      */
     public void setStep(Step step) {
-        LOG.fine("[InstallationIndicator] Step changed: " + this.currentStep + " -> " + step);
+        if (this.currentStep != step) {
+            LOG.fine("[InstallationIndicator] Step: " + this.currentStep + " -> " + step);
+        }
         this.currentStep = step;
         this.customMessage = null;
         runOnFxThread(this::updateUI);
@@ -170,7 +172,9 @@ public class InstallationIndicator extends VBox {
      * Set the current status.
      */
     public void setStatus(Status status) {
-        LOG.fine("[InstallationIndicator] Status changed: " + this.status + " -> " + status);
+        if (this.status != status) {
+            LOG.fine("[InstallationIndicator] Status: " + this.status + " -> " + status);
+        }
         this.status = status;
         runOnFxThread(this::updateUI);
     }
@@ -187,7 +191,11 @@ public class InstallationIndicator extends VBox {
      * Set both step and status at once.
      */
     public void update(Step step, Status status) {
-        LOG.fine("[InstallationIndicator] Update: step=" + step + ", status=" + status);
+        boolean stepChanged = this.currentStep != step;
+        boolean statusChanged = this.status != status;
+        if (stepChanged || statusChanged) {
+            LOG.fine("[InstallationIndicator] Update: step=" + step + ", status=" + status);
+        }
         this.currentStep = step;
         this.status = status;
         this.customMessage = null;
@@ -198,7 +206,10 @@ public class InstallationIndicator extends VBox {
      * Set both step and custom message.
      */
     public void update(Step step, String message) {
-        LOG.fine("[InstallationIndicator] Update: step=" + step + ", message=" + message);
+        // Only log when step changes, not on every progress update
+        if (this.currentStep != step) {
+            LOG.fine("[InstallationIndicator] Step: " + step);
+        }
         this.currentStep = step;
         this.customMessage = message;
         runOnFxThread(this::updateUI);
@@ -208,7 +219,9 @@ public class InstallationIndicator extends VBox {
      * Mark installation as completed.
      */
     public void complete() {
-        LOG.info("[InstallationIndicator] Installation completed for: " + appName);
+        if (this.status != Status.COMPLETED) {
+            LOG.info("[InstallationIndicator] Completed: " + appName);
+        }
         this.status = Status.COMPLETED;
         this.currentStep = Step.VERIFYING;
         this.customMessage = "Completed";
@@ -219,7 +232,9 @@ public class InstallationIndicator extends VBox {
      * Mark installation as failed with error message.
      */
     public void fail(String errorMessage) {
-        LOG.warning("[InstallationIndicator] Installation failed for: " + appName + " - " + errorMessage);
+        if (this.status != Status.ERROR) {
+            LOG.warning("[InstallationIndicator] Failed: " + appName + " - " + errorMessage);
+        }
         this.status = Status.ERROR;
         this.customMessage = errorMessage;
         runOnFxThread(this::updateUI);
