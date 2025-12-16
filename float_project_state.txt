@@ -50,8 +50,8 @@
       "javafx_port": {
         "path": "frontend/web-mockup/v0-javafx-port/",
         "tech": ["Java 17", "JavaFX 21", "Ikonli (Feather icons)", "Gson", "Java HttpClient"],
-        "status": "FUNCTIONAL - CONNECTED TO BACKEND",
-        "completion": "90%",
+        "status": "FUNCTIONAL - INSTALLATION WORKING",
+        "completion": "95%",
         "role": "PRIMARY JAVAFX CLIENT - Port of the web mockup, uses real API",
         "package": "com.example.appstore",
         "key_files": {
@@ -76,7 +76,9 @@
           "Platform filtering",
           "Navigation history stack (goBack support)",
           "Loading indicators during API calls",
-          "Searchable interface for views"
+          "Searchable interface for views",
+          "App installation (download, extract, install to /Applications)",
+          "App launching from detail view"
         ],
         "api_integration": {
           "getApps()": "GET /api/apps - returns List<App>",
@@ -85,7 +87,21 @@
           "getScreenshots(appId)": "GET /api/apps/:id/screenshots - returns List<String>",
           "getDownloadUrl(appId)": "Constructs /api/apps/:id/download URL"
         },
-        "needs": ["Real installation flow", "Library persistence integration", "Polish UI styling"]
+        "installation": {
+          "status": "FUNCTIONAL",
+          "implemented": [
+            "InstallationService with async download/install",
+            "Platform detection (macOS, Windows, Linux)",
+            "DMG mounting and .app extraction for macOS",
+            "ZIP/tar.gz extraction with .app bundle detection",
+            "MSI/EXE installers for Windows",
+            "AppImage/DEB/RPM for Linux",
+            "Progress callbacks during installation",
+            "App launching via 'open' on macOS"
+          ],
+          "macOS_install_path": "/Applications (top-level .app bundles)"
+        },
+        "needs": ["Library persistence integration", "Polish UI styling", "Error handling for edge cases"]
       },
       "javafx_legacy": {
         "path": "frontend/client/",
@@ -130,7 +146,8 @@
       "Add description to app cards",
       "Fix catalog reload on failed requests",
       "Library view styling consistency",
-      "Make library actually work with real installs"
+      "Complete library persistence with real installs",
+      "Handle edge cases in installation (missing assets, unsupported formats)"
     ],
     "commands": {
       "backend": "cd backend && cargo run -r",
@@ -183,25 +200,25 @@
     | Component | Status | Backend Integration | Role |
     |-----------|--------|---------------------|------|
     | Backend (Rust) | 90% | N/A | REST API server |
-    | **JavaFX Port** | **90%** | **CONNECTED** | **Primary client** |
+    | **JavaFX Port** | **95%** | **CONNECTED + INSTALL** | **Primary client** |
     | JavaFX Legacy | 85% | Mock data only | Deprecated/standalone |
     | Web Mockup | 90% | Design only | Visual reference |
 
-    **Overall: Beta - Core functionality working**
+    **Overall: Beta - Core functionality including installation working**
 
     ## Key Achievement
-    The `v0-javafx-port` client is already connected to the backend via `ApiService.java`:
+    The `v0-javafx-port` client is fully connected to the backend via `ApiService.java` and has working installation:
     - Fetches apps from `/api/apps`
     - Fetches featured apps from `/api/apps/featured`
     - Gets release info from `/api/apps/:id/latest`
     - Gets screenshots from `/api/apps/:id/screenshots`
-    - Constructs download URLs for `/api/apps/:id/download`
+    - Downloads and installs apps (macOS: DMG/ZIP/tar.gz to /Applications)
 
     ## Priority Next Steps
-    1. Implement real installation flow (download, extract, verify)
-    2. Connect library persistence to track installed apps
-    3. Polish UI styling to match web mockup exactly
-    4. Add proper error handling for API failures/rate limits
+    1. Complete library persistence to track installed apps
+    2. Polish UI styling to match web mockup exactly
+    3. Add proper error handling for API failures/rate limits
+    4. Handle edge cases in installation (missing assets, unsupported formats)
 
     ## Warnings
     - Backend uses CSV as database (not Supabase - was changed due to connection issues)

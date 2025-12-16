@@ -333,13 +333,161 @@ public class InstallationService {
         if (fileName.endsWith(".dmg")) {
             return installDMG(downloadPath, appName, progressCallback);
         } else if (fileName.endsWith(".zip")) {
-            return extractZip(downloadPath, Paths.get("/Applications"), appName);
+            return extractZipMacOS(downloadPath, progressCallback);
         } else if (fileName.endsWith(".app.tar.gz") || fileName.endsWith(".tar.gz")) {
-            return extractTarGz(downloadPath, Paths.get("/Applications"), appName);
+            return extractTarGzMacOS(downloadPath, progressCallback);
         } else if (fileName.endsWith(".pkg")) {
             return installPKG(downloadPath, progressCallback);
         }
         throw new RuntimeException("Unsupported macOS installer: " + fileName);
+    }
+
+    /**
+     * Extract a ZIP file on macOS.
+     * Finds the .app bundle inside and copies it directly to /Applications.
+     */
+    private Path extractZipMacOS(Path zipPath, Consumer<InstallProgress> progressCallback) throws Exception {
+        reportProgress(progressCallback, new InstallProgress(
+            InstallProgress.Stage.EXTRACTING, 0.3, "Extracting archive..."
+        ));
+        
+        // Extract to a temporary directory first
+        Path tempDir = Files.createTempDirectory("stars-install-");
+        LOG.info("[InstallationService] Extracting zip to temp dir: " + tempDir);
+        
+        try {
+            // Use unzip command for better compatibility
+            ProcessBuilder pb = new ProcessBuilder("unzip", "-q", zipPath.toString(), "-d", tempDir.toString());
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new RuntimeException("Failed to extract zip, exit code: " + exitCode);
+            }
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.5, "Finding application..."
+            ));
+            
+            // Find the .app bundle (may be nested)
+            Path appBundle = findAppBundle(tempDir);
+            if (appBundle == null) {
+                throw new RuntimeException("No .app bundle found in zip archive");
+            }
+            
+            LOG.info("[InstallationService] Found .app bundle: " + appBundle);
+            
+            // Copy to /Applications directly
+            Path targetPath = Paths.get("/Applications", appBundle.getFileName().toString());
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.7, "Copying to Applications..."
+            ));
+            
+            // Remove existing installation if present
+            if (Files.exists(targetPath)) {
+                LOG.info("[InstallationService] Removing existing installation: " + targetPath);
+                deleteDirectory(targetPath);
+            }
+            
+            // Copy the app bundle
+            copyDirectory(appBundle, targetPath);
+            LOG.info("[InstallationService] Installed to: " + targetPath);
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.9, "Finalizing..."
+            ));
+            
+            return targetPath;
+            
+        } finally {
+            // Cleanup temp directory
+            try {
+                deleteDirectory(tempDir);
+            } catch (IOException e) {
+                LOG.warning("[InstallationService] Failed to cleanup temp dir: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Extract a tar.gz file on macOS.
+     * Finds the .app bundle inside and copies it directly to /Applications.
+     */
+    private Path extractTarGzMacOS(Path tarGzPath, Consumer<InstallProgress> progressCallback) throws Exception {
+        reportProgress(progressCallback, new InstallProgress(
+            InstallProgress.Stage.EXTRACTING, 0.3, "Extracting archive..."
+        ));
+        
+        // Extract to a temporary directory first
+        Path tempDir = Files.createTempDirectory("stars-install-");
+        LOG.info("[InstallationService] Extracting tar.gz to temp dir: " + tempDir);
+        
+        try {
+            ProcessBuilder pb = new ProcessBuilder("tar", "-xzf", tarGzPath.toString(), "-C", tempDir.toString());
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new RuntimeException("Failed to extract tar.gz, exit code: " + exitCode);
+            }
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.5, "Finding application..."
+            ));
+            
+            // Find the .app bundle (may be nested)
+            Path appBundle = findAppBundle(tempDir);
+            if (appBundle == null) {
+                throw new RuntimeException("No .app bundle found in tar.gz archive");
+            }
+            
+            LOG.info("[InstallationService] Found .app bundle: " + appBundle);
+            
+            // Copy to /Applications directly
+            Path targetPath = Paths.get("/Applications", appBundle.getFileName().toString());
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.7, "Copying to Applications..."
+            ));
+            
+            // Remove existing installation if present
+            if (Files.exists(targetPath)) {
+                LOG.info("[InstallationService] Removing existing installation: " + targetPath);
+                deleteDirectory(targetPath);
+            }
+            
+            // Copy the app bundle
+            copyDirectory(appBundle, targetPath);
+            LOG.info("[InstallationService] Installed to: " + targetPath);
+            
+            reportProgress(progressCallback, new InstallProgress(
+                InstallProgress.Stage.INSTALLING, 0.9, "Finalizing..."
+            ));
+            
+            return targetPath;
+            
+        } finally {
+            // Cleanup temp directory
+            try {
+                deleteDirectory(tempDir);
+            } catch (IOException e) {
+                LOG.warning("[InstallationService] Failed to cleanup temp dir: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Find a .app bundle in a directory (searches up to 3 levels deep).
+     */
+    private Path findAppBundle(Path directory) throws IOException {
+        try (var stream = Files.walk(directory, 3)) {
+            return stream
+                .filter(p -> p.getFileName().toString().endsWith(".app"))
+                .filter(Files::isDirectory)
+                .findFirst()
+                .orElse(null);
+        }
     }
 
     /**
@@ -684,7 +832,7 @@ public class InstallationService {
         }
         
         try {
-            // For macOS .app bundles
+            // For macOS .app bundles - already directly an app bundle
             if (installPath.toString().endsWith(".app")) {
                 return installPath.toString();
             }
@@ -692,6 +840,14 @@ public class InstallationService {
             // For AppImages
             if (installPath.toString().endsWith(".AppImage")) {
                 return installPath.toString();
+            }
+            
+            // On macOS, search for .app bundle in the install path (for legacy installs)
+            if (platform == Platform.MACOS) {
+                Path appBundle = findAppBundle(installPath);
+                if (appBundle != null) {
+                    return appBundle.toString();
+                }
             }
             
             // Search for executable
