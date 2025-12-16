@@ -300,9 +300,17 @@ public class AppDetailView extends ScrollPane {
         StackPane gallery = new StackPane();
         gallery.setPrefHeight(350);
         gallery.setMinHeight(350);
+        gallery.setMaxHeight(350);
         gallery.setStyle(
             "-fx-background-color: #0d0d0d; -fx-background-radius: 12px; -fx-border-color: #181818; -fx-border-radius: 12px;"
         );
+        // Clip content to prevent images from overflowing
+        javafx.scene.shape.Rectangle clip = new javafx.scene.shape.Rectangle();
+        clip.widthProperty().bind(gallery.widthProperty());
+        clip.heightProperty().bind(gallery.heightProperty());
+        clip.setArcWidth(24);  // Match border-radius
+        clip.setArcHeight(24);
+        gallery.setClip(clip);
 
         // Loading state
         ProgressIndicator galleryLoader = new ProgressIndicator();
@@ -525,6 +533,10 @@ public class AppDetailView extends ScrollPane {
                                 new javafx.scene.image.ImageView(img);
                             view.setPreserveRatio(true);
                             view.setFitHeight(320);
+                            // Constrain width to gallery width to prevent horizontal overflow
+                            view.fitWidthProperty().bind(
+                                gallery.widthProperty().subtract(40) // Leave some padding
+                            );
                             view.setVisible(imageViews.isEmpty()); // Only first is visible
                             imageViews.add(view);
                             gallery.getChildren().add(view);
