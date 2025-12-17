@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub App Store Font-Demo (Scharfkantige Stile)</title>
+  <!-- Lade Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lade alle 10 empfohlenen Google Fonts mit verschiedenen Gewichten -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Urbanist:wght@700;900&family=Space+Mono:wght@400;700&family=Poppins:wght@600;800&family=Sora:wght@700&family=Manrope:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=General+Sans:wght@600;800&family=Outfit:wght@500;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind Konfiguration für Custom Fonts und Farben -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          // Definition der Custom Fonts für die Demos
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            urbanist: ['Urbanist', 'sans-serif'],
+            spacemono: ['Space Mono', 'monospace'],
+            poppins: ['Poppins', 'sans-serif'],
+            manrope: ['Manrope', 'sans-serif'],
+            sora: ['Sora', 'sans-serif'],
+            jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+            generalsans: ['General Sans', 'sans-serif'],
+            ibmplex: ['IBM Plex Sans', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+
+            // Setze Inter als Standard-Sans-Schrift
+            sans: ['Inter', 'sans-serif'],
+          },
+          // GitHub-ähnliche Farbpalette
+          colors: {
+            'gh-bg': '#0d1117',
+            'gh-card': '#161b22',
+            'gh-border': '#30363d',
+            'gh-accent': '#58a6ff',
+            'gh-text': '#c9d1d9',
+            'gh-red': '#f85149',
+            'gh-green': '#3fb950',
+            'gh-yellow': '#d29922',
+            'gh-purple': '#a371f7',
+            'gh-cyan': '#2f81f7',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Setze eine angenehme Standard-Textfarbe und Hintergrundfarbe */
+    body {
+      color: var(--gh-text);
+      background-color: var(--gh-bg);
+      min-height: 100vh;
+    }
+  </style>
+</head>
+
+<body class="font-sans">
+
+  <!-- Hauptcontainer -->
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header und Suche (Eckig) -->
+    <header class="mb-10 p-4 border-b border-gh-border">
+      <h1 class="font-urbanist text-4xl sm:text-5xl font-extrabold text-white mb-2 tracking-tight">
+        GitHub App Store Font-Demo
+      </h1>
+      <p class="text-gh-text/80 text-lg mb-6 font-inter">
+        22 Beispiele mit scharfen Kanten – Fokus auf Typografie und unterschiedliche Stil-Akzente.
+      </p>
+
+      <!-- Suchfeld (Eckig) -->
+      <div class="flex">
+        <input type="text" placeholder="Suchen nach Repo, Entwickler oder Tag..."
+          class="w-full p-3 border border-gh-border bg-gh-card focus:outline-none focus:ring-2 focus:ring-gh-accent text-gh-text shadow-xl font-inter">
+      </div>
+    </header>
+
+    <!-- App-Karten Sektion: 22 Variationen (Scharfkantig) -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 1: KLASSISCH MODERN (Urbanist/Inter) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-2xl hover:shadow-gh-accent/20 transition duration-300">
+        <h2 class="font-urbanist text-xl font-bold text-white mb-2">1. Classic Modern</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-inter">
+          **Titel: Urbanist / Body: Inter**. Der Standard: Klar, professionell, perfekt für UI.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gh-accent">v1.2</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-inter">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 2: RUND & FREUNDLICH (Poppins/Manrope) - Eckig! -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-2 border-gh-purple/50 p-5 shadow-inner shadow-gh-purple/10 transition duration-300">
+        <h2 class="font-poppins text-xl font-extrabold text-white mb-2">2. Friendly Poppins</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-manrope">
+          **Titel: Poppins / Body: Manrope**. Geometrisch, weich, aber mit scharfen Kanten.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-purple/30 pt-3">
+          <span class="font-spacemono text-xs text-gh-purple">v1.0.4</span>
+          <button
+            class="bg-gh-purple text-white font-bold py-1 px-3 text-xs transition duration-150 font-manrope">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 3: FUTURISTISCH SCHNELL (Sora/Jakarta) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-l-4 border-gh-green p-5 shadow-md transition duration-300 hover:bg-gh-card/80">
+        <h2 class="font-sora text-xl font-bold text-gh-green mb-2">3. Sharp Sora</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-jakarta">
+          **Titel: Sora / Body: Jakarta**. Scharfe Linien, technischer Look.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-500">v3.12</span>
+          <button
+            class="bg-gh-green text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-jakarta">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 4: CORPORATE GROTESQUE (GeneralSans/IBMPlex) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-inner transition duration-300">
+        <h2 class="font-generalsans text-xl font-extrabold text-white mb-2">4. General Grotesque</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-ibmplex">
+          **Titel: General Sans / Body: IBM Plex**. Seriös, hohe Konsistenz, Business-tauglich.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gh-yellow">v5.0</span>
+          <button
+            class="bg-gh-card border border-gh-yellow text-gh-yellow hover:bg-gh-yellow/20 font-bold py-1 px-3 text-xs transition duration-150 font-ibmplex">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 5: CODE FOKUS (Urbanist/SpaceMono) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-black/40 border border-gh-purple p-5 shadow-md">
+        <h2 class="font-urbanist text-xl font-bold text-gh-purple mb-2">5. Code Vault</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-spacemono">
+          **Titel: Urbanist / Body: Space Mono**. Monospace-Body für technische Details.
+        </p>
+        <pre
+          class="font-spacemono text-[10px] bg-gh-bg/70 p-2 mb-3 overflow-x-auto text-gh-text border border-gh-purple/50">
+          $ git check -m
+          status: <span class="text-gh-green">clean</span>
+        </pre>
+        <div class="flex justify-between items-center border-t border-gh-purple/50 pt-3">
+          <span class="font-spacemono text-xs text-gh-purple">MONO | CLI</span>
+          <button
+            class="bg-gh-purple/20 text-gh-purple font-bold py-1 px-3 text-xs transition duration-150 font-urbanist">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 6: LIGHT MODE (Poppins/Inter) - Eckig! -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gray-100 border border-gray-300 p-5 shadow-lg text-gray-900">
+        <h2 class="font-poppins text-xl font-bold text-gray-800 mb-2">6. Light UI Mode</h2>
+        <p class="text-gray-600 mb-3 text-xs font-inter">
+          **Titel: Poppins / Body: Inter**. Hoher Kontrast, klare Lesbarkeit im Hellen.
+        </p>
+        <div class="flex justify-between items-center border-t border-gray-300 pt-3">
+          <span class="font-spacemono text-xs text-gh-accent">v0.9</span>
+          <button
+            class="bg-gray-800 text-white font-bold py-1 px-3 text-xs transition duration-150 font-inter">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 7: MINIMAL & CLEAN (Outfit/Manrope) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-b-4 border-gh-cyan p-5 shadow-2xl">
+        <h2 class="font-outfit text-xl font-bold text-white mb-2">7. Outfit Minimal</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-manrope">
+          **Titel: Outfit / Body: Manrope**. Sehr sauber, schmale Buchstaben. Perfekt für viel Text.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gh-cyan">Clean Code</span>
+          <button
+            class="bg-gh-cyan text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-outfit">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 8: BOLD & TECHNICAL (Sora/IBMPlex) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-red p-5 shadow-xl hover:shadow-gh-red/20 transition duration-300">
+        <h2 class="font-sora text-xl font-bold text-gh-red mb-2">8. Bold Security</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-ibmplex">
+          **Titel: Sora / Body: IBM Plex**. Starke Präsenz, guter Kontrast.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Security</span>
+          <button
+            class="bg-gh-red text-white font-bold py-1 px-3 text-xs transition duration-150 font-sora">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 9: SIMPLE LEGIBILITY (Jakarta/Inter) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-2 border-gh-border p-5">
+        <h2 class="font-jakarta text-xl font-bold text-white mb-2">9. Jakarta Clean</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-inter">
+          **Titel: Jakarta / Body: Inter**. Fokus auf Lesbarkeit in allen Elementen.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">High Legibility</span>
+          <button
+            class="bg-gh-accent/80 text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-jakarta">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 10: SERIÖS & STRUKTURIERT (IBMPlex/GeneralSans) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-r-4 border-gh-yellow p-5 shadow-2xl">
+        <h2 class="font-ibmplex text-xl font-bold text-white mb-2">10. IBM Structure</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-generalsans">
+          **Titel: IBM Plex / Body: General Sans**. Sehr seriös und gut strukturiert.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">System</span>
+          <button
+            class="bg-gh-yellow text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-generalsans">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 11: GEOMETRIC BALANCE (Manrope/Poppins) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-md">
+        <h2 class="font-manrope text-xl font-bold text-white mb-2">11. Manrope Balance</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-poppins">
+          **Titel: Manrope / Body: Poppins**. Zwei sehr runde und ausgewogene Schriften (im Text), aber scharfe Kanten
+          im Design.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Balanced</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-poppins">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 12: CONTRASTED GROTESQUE (GeneralSans/Urbanist) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-lg">
+        <h2 class="font-generalsans text-xl font-extrabold text-white mb-2">12. General Bold</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-urbanist">
+          **Titel: General Sans / Body: Urbanist**. Hoher Kontrast zwischen Titel- und Body-Stil.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Contrast</span>
+          <button
+            class="bg-gh-accent/80 text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-urbanist">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 13: UI OPTIMIZED (Inter/Jakarta) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-4 border-gh-cyan/50 p-5 shadow-md">
+        <h2 class="font-inter text-xl font-bold text-white mb-2">13. Inter UI</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-jakarta">
+          **Titel: Inter / Body: Jakarta**. Maximale UI-Kompatibilität und Lesbarkeit.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gh-accent">Design</span>
+          <button
+            class="bg-gh-cyan text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-jakarta">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 14: MONOSPACE TITLE (SpaceMono/Inter) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-inner">
+        <h2 class="font-spacemono text-xl font-bold text-white mb-2">14. Mono Title</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-inter">
+          **Titel: Space Mono / Body: Inter**. Monospace-Titel für einen Retro-Tech-Look.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Retro</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-inter">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 15: CLEANEST BODY (Outfit/IBMPlex) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-l-4 border-gh-purple p-5 shadow-md">
+        <h2 class="font-outfit text-xl font-bold text-white mb-2">15. Outfit Clean</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-ibmplex">
+          **Titel: Outfit / Body: IBM Plex**. Zwei sehr klare, fast industrielle Schriften.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Industrial</span>
+          <button
+            class="w-full bg-gh-purple text-white font-bold py-1 px-3 text-xs transition duration-150 font-outfit">Installieren</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 16: UNCOMMON PAIR (Jakarta/Sora) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-red p-5 shadow-xl">
+        <h2 class="font-jakarta text-xl font-bold text-white mb-2">16. Jakarta/Sora</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-sora">
+          **Titel: Jakarta / Body: Sora**. Sora als Body ist ungewöhnlich, verleiht aber Schärfe.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Unusual</span>
+          <button
+            class="bg-gh-red text-white font-bold py-1 px-3 text-xs transition duration-150 font-sora">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 17: PLAYFUL TECH (Poppins/SpaceMono) - Eckig! -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-4 border-gh-yellow/50 p-5 shadow-2xl">
+        <h2 class="font-poppins text-xl font-extrabold text-white mb-2">17. Playful Tech</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-spacemono">
+          **Titel: Poppins / Body: Space Mono**. Poppins lockert den strengen Monospace-Stil auf.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gh-yellow">Playful</span>
+          <button
+            class="bg-gh-yellow text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-poppins">Run</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 18: SIMPLE & ELEGANT (Inter/Urbanist) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-r-4 border-gh-accent p-5 shadow-lg">
+        <h2 class="font-inter text-xl font-bold text-white mb-2">18. Inter Elegant</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-urbanist">
+          **Titel: Inter / Body: Urbanist**. Dezenter, aber starker Auftritt.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Elegant</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-urbanist">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 19: DYNAMIC DUO (Sora/Manrope) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-green/70 p-5 shadow-xl hover:bg-gh-card/80 transition duration-300">
+        <h2 class="font-sora text-xl font-bold text-white mb-2">19. Sora Dynamic</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-manrope">
+          **Titel: Sora / Body: Manrope**. Sharp Title, weicher, gut lesbarer Body.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Dynamic</span>
+          <button
+            class="bg-gh-green text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-manrope">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 20: MONOTYPE (IBMPlex/IBMPlex) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border border-gh-border p-5 shadow-md">
+        <h2 class="font-ibmplex text-xl font-bold text-white mb-2">20. Monotype Standard</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-ibmplex">
+          **Titel & Body: IBM Plex Sans**. Maximale Konsistenz durch eine einzige Schriftfamilie.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Consistent</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-ibmplex">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 21: PURE GROTESQUE (Urbanist/Jakarta) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-4 border-gray-500 p-5 shadow-lg">
+        <h2 class="font-urbanist text-xl font-bold text-white mb-2">21. Pure Grotesque</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-jakarta">
+          **Titel: Urbanist / Body: Jakarta**. Fokussiert auf Geometrie und Struktur.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Focus</span>
+          <button
+            class="bg-gh-accent text-gh-bg font-bold py-1 px-3 text-xs transition duration-150 font-jakarta">Details</button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- STIL 22: ACCENT CARD (GeneralSans/Inter) -->
+      <!-- ---------------------------------------------------- -->
+      <div class="bg-gh-card border-4 border-gh-red p-5 shadow-xl hover:bg-gh-card/80 transition duration-300">
+        <h2 class="font-generalsans text-xl font-bold text-white mb-2">22. General/Inter</h2>
+        <p class="text-gh-text/90 mb-3 text-xs font-inter">
+          **Titel: General Sans / Body: Inter**. Grotesque Title mit bewährter Inter-Lesbarkeit.
+        </p>
+        <div class="flex justify-between items-center border-t border-gh-border pt-3">
+          <span class="font-spacemono text-xs text-gray-400">Accent</span>
+          <button
+            class="bg-gh-red text-white font-bold py-1 px-3 text-xs transition duration-150 font-inter">Details</button>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- Footer / Hinweis -->
+    <footer class="mt-12 text-center text-gray-500 text-xs p-4 border-t border-gh-border">
+      <p>Font-Demo: Alle Kanten sind scharf und rechteckig, während die Farb- und Stil-Akzente die Wirkung der
+        Schriftarten betonen.</p>
+    </footer>
+
+  </div>
+
+</body>
+
+</html>
