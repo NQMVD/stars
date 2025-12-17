@@ -30,6 +30,7 @@ public class ApiService {
     private ApiService() {
         this.httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
+            .followRedirects(HttpClient.Redirect.NORMAL)
             .build();
         this.gson = new Gson();
         // Default to localhost, can be configured

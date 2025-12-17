@@ -5,8 +5,6 @@ backend:
 frontend:
     cd frontend/web-mockup/v0-javafx-port && \
         mvn javafx:run \
-        --enable-native-access=javafx.web \
-        --enable-native-access=javafx.graphics \
         2>&1 | tee client.log
 
 web-mockup:
