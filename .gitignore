@@ -81,5 +81,14 @@ frontend/client/target
 
 # Fonts
 Styrene.ttf
-frontend/web-mockup/v0-javafx-port/styrene.ttf
-frontend/web-mockup/v0-javafx-port/styrene.ttf
+frontend/web-mockup/v0-javafx-port/src/main/resources/fonts/Styrene.ttf
+frontend/client/src/main/resources/fonts/Styrene.ttf
+frontend/Styrene.ttf
+VioletSans-Regular.ttf
+frontend/web-mockup/v0-javafx-port/src/main/resources/fonts/VioletSans-Regular.ttf
+frontend/client/src/main/resources/fonts/VioletSans-Regular.ttf
+frontend/VioletSans-Regular.ttf
+Disket-Mono-Regular.ttf
+frontend/web-mockup/v0-javafx-port/src/main/resources/fonts/Disket-Mono-Regular.ttf
+frontend/client/src/main/resources/fonts/Disket-Mono-Regular.ttf
+frontend/Disket-Mono-Regular.ttf
