@@ -501,7 +501,7 @@ public class InstallationService {
         
         // Mount the DMG
         ProcessBuilder mount = new ProcessBuilder(
-            "hdiutil", "attach", dmgPath.toString(), "-nobrowse", "-quiet"
+            "hdiutil", "attach", dmgPath.toString(), "-nobrowse"
         );
         Process mountProcess = mount.start();
         
