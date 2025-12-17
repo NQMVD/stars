@@ -38,6 +38,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -526,8 +527,8 @@ public class AppDetailView extends ScrollPane {
                         return;
                     }
 
-                    // Create image views for each screenshot - use HttpClient for GitHub URLs
-                    java.util.List<javafx.scene.image.ImageView> imageViews =
+                    // Create nodes for each screenshot - use HttpClient for GitHub URLs
+                    java.util.List<Node> galleryItems =
                         new java.util.ArrayList<>();
                     final int[] currentIndex = { 0 };
                     final int[] loadedCount = { 0 };
@@ -551,82 +552,108 @@ public class AppDetailView extends ScrollPane {
                         
                         LOG.fine("[AppDetailView] Loading screenshot: " + url);
                         
-                        // Create placeholder ImageView
-                        javafx.scene.image.ImageView view = new javafx.scene.image.ImageView();
-                        view.setPreserveRatio(true);
-                        view.setFitHeight(320);
-                        view.fitWidthProperty().bind(gallery.widthProperty().subtract(40));
-                        view.setVisible(false);
-                        
-                        imageViews.add(view);
-                        gallery.getChildren().add(view);
-                        
-                        // Load image asynchronously using HttpClient with proper headers
-                        loadImageWithHttpClient(httpClient, url).thenAccept(imageBytes -> {
-                            Platform.runLater(() -> {
-                                if (imageBytes != null && imageBytes.length > 0) {
-                                    try {
-                                        javafx.scene.image.Image img = 
-                                            new javafx.scene.image.Image(new ByteArrayInputStream(imageBytes));
-                                        
-                                        if (!img.isError()) {
-                                            view.setImage(img);
-                                            LOG.fine("[AppDetailView] Successfully loaded: " + url);
+                        if (url.toLowerCase().contains(".svg")) {
+                            WebView webView = new WebView();
+                            webView.setPageFill(Color.TRANSPARENT);
+                            webView.getEngine().load(url);
+                            
+                            webView.setPrefHeight(320);
+                            webView.maxWidthProperty().bind(gallery.widthProperty().subtract(40));
+                            webView.setVisible(false);
+
+                            galleryItems.add(webView);
+                            gallery.getChildren().add(webView);
+
+                            // Treat SVG as immediately "loaded" for the counter
+                            loadedCount[0]++;
+
+                            // Show first successfully loaded item
+                            if (galleryItems.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
+                                webView.setVisible(true);
+                                currentIndex[0] = imageIndex;
+                            }
+
+                            if (loadedCount[0] >= totalUrls) {
+                                updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                            }
+                        } else {
+                            // Create placeholder ImageView
+                            javafx.scene.image.ImageView view = new javafx.scene.image.ImageView();
+                            view.setPreserveRatio(true);
+                            view.setFitHeight(320);
+                            view.fitWidthProperty().bind(gallery.widthProperty().subtract(40));
+                            view.setVisible(false);
+                            
+                            galleryItems.add(view);
+                            gallery.getChildren().add(view);
+                            
+                            // Load image asynchronously using HttpClient with proper headers
+                            loadImageWithHttpClient(httpClient, url).thenAccept(imageBytes -> {
+                                Platform.runLater(() -> {
+                                    if (imageBytes != null && imageBytes.length > 0) {
+                                        try {
+                                            javafx.scene.image.Image img = 
+                                                new javafx.scene.image.Image(new ByteArrayInputStream(imageBytes));
                                             
-                                            // Show first successfully loaded image
-                                            if (imageViews.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
-                                                view.setVisible(true);
-                                                currentIndex[0] = imageIndex;
+                                            if (!img.isError()) {
+                                                view.setImage(img);
+                                                LOG.fine("[AppDetailView] Successfully loaded: " + url);
+                                                
+                                                // Show first successfully loaded image
+                                                if (galleryItems.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
+                                                    view.setVisible(true);
+                                                    currentIndex[0] = imageIndex;
+                                                }
+                                            } else {
+                                                LOG.warning("[AppDetailView] Image decode error: " + url);
+                                                gallery.getChildren().remove(view);
+                                                galleryItems.set(imageIndex, null);
                                             }
-                                        } else {
-                                            LOG.warning("[AppDetailView] Image decode error: " + url);
+                                        } catch (Exception e) {
+                                            LOG.warning("[AppDetailView] Failed to create image: " + url + " - " + e.getMessage());
                                             gallery.getChildren().remove(view);
-                                            imageViews.set(imageIndex, null);
+                                            galleryItems.set(imageIndex, null);
                                         }
-                                    } catch (Exception e) {
-                                        LOG.warning("[AppDetailView] Failed to create image: " + url + " - " + e.getMessage());
+                                    } else {
+                                        LOG.warning("[AppDetailView] Empty or null image data: " + url);
                                         gallery.getChildren().remove(view);
-                                        imageViews.set(imageIndex, null);
+                                        galleryItems.set(imageIndex, null);
                                     }
-                                } else {
-                                    LOG.warning("[AppDetailView] Empty or null image data: " + url);
+                                    
+                                    loadedCount[0]++;
+                                    // Update counter and check for all failures when all images attempted
+                                    if (loadedCount[0] >= totalUrls) {
+                                        if (galleryItems.stream().allMatch(v -> v == null)) {
+                                            gallery.getChildren().clear();
+                                            Label errorLabel = new Label("Failed to load screenshots");
+                                            errorLabel.setStyle("-fx-text-fill: #71717a;");
+                                            gallery.getChildren().add(errorLabel);
+                                        } else {
+                                            updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                                        }
+                                    }
+                                });
+                            }).exceptionally(ex -> {
+                                Platform.runLater(() -> {
+                                    LOG.warning("[AppDetailView] HTTP error loading: " + url + " - " + ex.getMessage());
                                     gallery.getChildren().remove(view);
-                                    imageViews.set(imageIndex, null);
-                                }
-                                
-                                loadedCount[0]++;
-                                // Update counter and check for all failures when all images attempted
-                                if (loadedCount[0] >= totalUrls) {
-                                    if (imageViews.stream().allMatch(v -> v == null)) {
-                                        gallery.getChildren().clear();
-                                        Label errorLabel = new Label("Failed to load screenshots");
-                                        errorLabel.setStyle("-fx-text-fill: #71717a;");
-                                        gallery.getChildren().add(errorLabel);
-                                    } else {
-                                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                                    galleryItems.set(imageIndex, null);
+                                    
+                                    loadedCount[0]++;
+                                    if (loadedCount[0] >= totalUrls) {
+                                        if (galleryItems.stream().allMatch(v -> v == null)) {
+                                            gallery.getChildren().clear();
+                                            Label errorLabel = new Label("Failed to load screenshots");
+                                            errorLabel.setStyle("-fx-text-fill: #71717a;");
+                                            gallery.getChildren().add(errorLabel);
+                                        } else {
+                                            updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                                        }
                                     }
-                                }
+                                });
+                                return null;
                             });
-                        }).exceptionally(ex -> {
-                            Platform.runLater(() -> {
-                                LOG.warning("[AppDetailView] HTTP error loading: " + url + " - " + ex.getMessage());
-                                gallery.getChildren().remove(view);
-                                imageViews.set(imageIndex, null);
-                                
-                                loadedCount[0]++;
-                                if (loadedCount[0] >= totalUrls) {
-                                    if (imageViews.stream().allMatch(v -> v == null)) {
-                                        gallery.getChildren().clear();
-                                        Label errorLabel = new Label("Failed to load screenshots");
-                                        errorLabel.setStyle("-fx-text-fill: #71717a;");
-                                        gallery.getChildren().add(errorLabel);
-                                    } else {
-                                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
-                                    }
-                                }
-                            });
-                            return null;
-                        });
+                        }
                     }
 
                     // Navigation arrows
@@ -643,13 +670,13 @@ public class AppDetailView extends ScrollPane {
                     );
 
                     leftBtn.setOnAction(e -> {
-                        navigateImages(imageViews, currentIndex, -1);
-                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                        navigateImages(galleryItems, currentIndex, -1);
+                        updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
                     });
 
                     rightBtn.setOnAction(e -> {
-                        navigateImages(imageViews, currentIndex, 1);
-                        updateImageCounter(imageViews, counterLabel, currentIndex[0]);
+                        navigateImages(galleryItems, currentIndex, 1);
+                        updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
                     });
 
                     HBox navBox = new HBox();
@@ -809,30 +836,30 @@ public class AppDetailView extends ScrollPane {
     /**
      * Navigate through images, skipping null (failed) entries.
      */
-    private void navigateImages(java.util.List<javafx.scene.image.ImageView> imageViews, 
+    private void navigateImages(java.util.List<Node> galleryItems, 
                                  int[] currentIndex, int direction) {
         // Count valid images
-        long validCount = imageViews.stream().filter(v -> v != null).count();
+        long validCount = galleryItems.stream().filter(v -> v != null).count();
         if (validCount <= 1) return;
 
         // Hide current
-        javafx.scene.image.ImageView current = imageViews.get(currentIndex[0]);
+        Node current = galleryItems.get(currentIndex[0]);
         if (current != null) {
             current.setVisible(false);
         }
 
         // Find next valid image
-        int size = imageViews.size();
+        int size = galleryItems.size();
         int next = currentIndex[0];
         for (int i = 0; i < size; i++) {
             next = (next + direction + size) % size;
-            if (imageViews.get(next) != null) {
+            if (galleryItems.get(next) != null) {
                 break;
             }
         }
 
         currentIndex[0] = next;
-        javafx.scene.image.ImageView nextView = imageViews.get(next);
+        Node nextView = galleryItems.get(next);
         if (nextView != null) {
             nextView.setVisible(true);
         }
@@ -841,10 +868,10 @@ public class AppDetailView extends ScrollPane {
     /**
      * Update the image counter label, accounting for null (failed) images.
      */
-    private void updateImageCounter(java.util.List<javafx.scene.image.ImageView> imageViews, 
+    private void updateImageCounter(java.util.List<Node> galleryItems, 
                                      Label counterLabel, int currentIndex) {
         // Count valid images
-        long validCount = imageViews.stream().filter(v -> v != null).count();
+        long validCount = galleryItems.stream().filter(v -> v != null).count();
         
         if (validCount == 0) {
             counterLabel.setText("No images");
@@ -853,8 +880,8 @@ public class AppDetailView extends ScrollPane {
 
         // Find the position of current image among valid ones
         int position = 0;
-        for (int i = 0; i <= currentIndex && i < imageViews.size(); i++) {
-            if (imageViews.get(i) != null) {
+        for (int i = 0; i <= currentIndex && i < galleryItems.size(); i++) {
+            if (galleryItems.get(i) != null) {
                 position++;
             }
         }
