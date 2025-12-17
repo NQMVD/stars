@@ -78,3 +78,8 @@ $RECYCLE.BIN/
 .nfs*
 frontend/web-mockup/v0-javafx-port/target
 frontend/client/target
+
+# Fonts
+Styrene.ttf
+frontend/web-mockup/v0-javafx-port/styrene.ttf
+frontend/web-mockup/v0-javafx-port/styrene.ttf
