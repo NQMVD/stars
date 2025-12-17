@@ -1,0 +1,35 @@
+# -----------------------------------------------
+# statui :: Global Settings
+# -----------------------------------------------
+# All endpoints will use these values by default
+
+# Default interval (in seconds) to ping all endpoints
+default_interval = 10
+
+# Default timeout (in seconds) for any single request
+default_timeout = 5
+
+# -----------------------------------------------
+# statui :: Endpoints
+# -----------------------------------------------
+# Each [[endpoints]] block is a new site to monitor.
+
+[[endpoints]]
+name = "version"
+url = "http://localhost:4200/api/version"
+
+[[endpoints]]
+name = "catalog_info"
+url = "http://localhost:4200/api/catalog_info"
+
+[[endpoints]]
+name = "apps"
+url = "http://localhost:4200/api/apps"
+
+[[endpoints]]
+name = "apps/wezterm/latest"
+url = "http://localhost:4200/api/apps/wezterm/latest"
+
+[[endpoints]]
+name = "apps/wezterm/screenshots"
+url = "http://localhost:4200/api/apps/wezterm/screenshots"
