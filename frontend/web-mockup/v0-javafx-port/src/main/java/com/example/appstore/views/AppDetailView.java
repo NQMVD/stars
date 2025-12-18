@@ -8,6 +8,7 @@ import com.example.appstore.service.InstallationManager;
 import com.example.appstore.service.InstallationManager.InstallationState;
 import com.example.appstore.service.InstallationService;
 import com.example.appstore.service.LibraryService;
+import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -294,9 +295,32 @@ public class AppDetailView extends ScrollPane {
             }
         });
 
+        // GitHub Button
+        Button githubBtn = new Button();
+        FontIcon githubIcon = new FontIcon(Feather.GITHUB);
+        githubIcon.setIconColor(Color.WHITE);
+        githubIcon.setIconSize(16);
+        githubBtn.setGraphic(githubIcon);
+        githubBtn.setStyle(
+            "-fx-background-color: #1f2937; -fx-text-fill: white; -fx-background-radius: 6px; -fx-padding: 10 12; -fx-font-size: 14px; -fx-cursor: hand; -fx-border-color: #374151; -fx-border-radius: 6px; -fx-border-width: 1;"
+        );
+        githubBtn.setOnAction(e -> {
+            try {
+                String githubUrl = "https://github.com/" + app.getOwnerLogin() + "/" + app.getId();
+                Desktop.getDesktop().browse(new URI(githubUrl));
+            } catch (Exception ex) {
+                LOG.log(Level.WARNING, "[AppDetailView] Failed to open GitHub repo", ex);
+            }
+        });
+
+        // Button container - install and github buttons side by side
+        HBox buttonsBox = new HBox(8);
+        buttonsBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonsBox.getChildren().addAll(githubBtn, installBtn);
+
         VBox actionBox = new VBox(4);
         actionBox.setAlignment(Pos.CENTER_RIGHT);
-        actionBox.getChildren().addAll(installBtn, progressBox, statusLabel);
+        actionBox.getChildren().addAll(buttonsBox, progressBox, statusLabel);
 
         actions.getChildren().add(actionBox);
 
