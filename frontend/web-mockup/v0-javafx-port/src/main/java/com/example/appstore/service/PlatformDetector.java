@@ -2,7 +2,8 @@ package com.example.appstore.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class PlatformDetector {
 
-    private static final Logger LOG = Logger.getLogger(PlatformDetector.class.getName());
+    private static final Logger LOG = LogManager.getLogger(PlatformDetector.class);
 
     public enum Platform {
         WINDOWS,
@@ -34,7 +35,7 @@ public class PlatformDetector {
 
         String os = System.getProperty("os.name").toLowerCase();
         String arch = System.getProperty("os.arch");
-        LOG.info("[PlatformDetector] Detecting platform - OS: " + os + ", Arch: " + arch);
+        LOG.debug("Detecting platform - OS: {}, Arch: {}", os, arch);
 
         if (os.contains("win")) {
             cachedPlatform = Platform.WINDOWS;
@@ -43,11 +44,11 @@ public class PlatformDetector {
         } else if (os.contains("linux") || os.contains("nix") || os.contains("nux")) {
             cachedPlatform = detectLinuxDistribution();
         } else {
-            LOG.warning("[PlatformDetector] Unknown OS, defaulting to LINUX_GENERIC");
+            LOG.warn("Unknown OS: {}, defaulting to LINUX_GENERIC", os);
             cachedPlatform = Platform.LINUX_GENERIC;
         }
 
-        LOG.info("[PlatformDetector] Detected platform: " + getPlatformDisplayName(cachedPlatform));
+        LOG.info("Detected platform: {}", getPlatformDisplayName(cachedPlatform));
         return cachedPlatform;
     }
 
@@ -58,19 +59,20 @@ public class PlatformDetector {
         try {
             String osRelease = executeCommand("cat", "/etc/os-release");
             String lowerRelease = osRelease.toLowerCase();
-            LOG.fine("[PlatformDetector] /etc/os-release contents: " + osRelease.substring(0, Math.min(200, osRelease.length())));
+            LOG.debug("/etc/os-release contents (first 200 chars): {}", 
+                    osRelease.substring(0, Math.min(200, osRelease.length())));
 
             if (lowerRelease.contains("ubuntu") || 
                 lowerRelease.contains("debian") ||
                 lowerRelease.contains("pop!_os") ||
                 lowerRelease.contains("mint") ||
                 lowerRelease.contains("elementary")) {
-                LOG.info("[PlatformDetector] Detected Debian-based Linux");
+                LOG.info("Detected Debian-based Linux distribution");
                 return Platform.LINUX_DEB;
             } else if (lowerRelease.contains("arch") || 
                        lowerRelease.contains("manjaro") ||
                        lowerRelease.contains("endeavouros")) {
-                LOG.info("[PlatformDetector] Detected Arch-based Linux");
+                LOG.info("Detected Arch-based Linux distribution");
                 return Platform.LINUX_ARCH;
             } else if (lowerRelease.contains("fedora") || 
                        lowerRelease.contains("rhel") ||
@@ -78,14 +80,14 @@ public class PlatformDetector {
                        lowerRelease.contains("rocky") ||
                        lowerRelease.contains("alma") ||
                        lowerRelease.contains("opensuse")) {
-                LOG.info("[PlatformDetector] Detected RPM-based Linux");
+                LOG.info("Detected RPM-based Linux distribution");
                 return Platform.LINUX_RPM;
             }
         } catch (Exception e) {
-            LOG.warning("[PlatformDetector] Failed to detect Linux distribution: " + e.getMessage());
+            LOG.warn("Failed to detect Linux distribution: {}", e.getMessage(), e);
         }
 
-        LOG.info("[PlatformDetector] Unknown Linux distribution, using generic");
+        LOG.info("Unknown Linux distribution, using generic");
         return Platform.LINUX_GENERIC;
     }
 

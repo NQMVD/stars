@@ -4,6 +4,8 @@ import com.example.appstore.model.App;
 import com.example.appstore.model.GithubRelease;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -22,6 +24,7 @@ import java.util.function.Consumer;
  */
 public class ApiService {
 
+    private static final Logger LOG = LogManager.getLogger(ApiService.class);
     private static ApiService instance;
     private final HttpClient httpClient;
     private final Gson gson;
@@ -38,6 +41,7 @@ public class ApiService {
             "api.baseUrl",
             "http://localhost:4200"
         );
+        LOG.info("ApiService initialized with base URL: {}", baseUrl);
     }
 
     public static synchronized ApiService getInstance() {
@@ -48,6 +52,7 @@ public class ApiService {
     }
 
     public void setBaseUrl(String baseUrl) {
+        LOG.info("Changing API base URL from {} to {}", this.baseUrl, baseUrl);
         this.baseUrl = baseUrl;
     }
 
@@ -59,8 +64,10 @@ public class ApiService {
      * Get all apps from the API.
      */
     public CompletableFuture<List<App>> getApps() {
+        String url = baseUrl + "/api/apps";
+        LOG.debug("Fetching apps from: {}", url);
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(baseUrl + "/api/apps"))
+            .uri(URI.create(url))
             .GET()
             .build();
 
@@ -70,13 +77,15 @@ public class ApiService {
                 if (response.statusCode() == 200) {
                     Type listType = new TypeToken<List<App>>() {}.getType();
                     List<App> apps = gson.fromJson(response.body(), listType);
+                    int count = apps != null ? apps.size() : 0;
+                    LOG.info("Successfully fetched {} apps from API", count);
                     return apps != null ? apps : new ArrayList<>();
                 }
-                System.err.println("API error: " + response.statusCode());
+                LOG.error("API request failed with status code: {} for URL: {}", response.statusCode(), url);
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                System.err.println("Failed to fetch apps: " + e.getMessage());
+                LOG.error("Failed to fetch apps from {}: {}", url, e.getMessage(), e);
                 return new ArrayList<>();
             });
     }
@@ -85,8 +94,10 @@ public class ApiService {
      * Get featured apps from the API.
      */
     public CompletableFuture<List<App>> getFeaturedApps() {
+        String url = baseUrl + "/api/apps/featured";
+        LOG.debug("Fetching featured apps from: {}", url);
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(baseUrl + "/api/apps/featured"))
+            .uri(URI.create(url))
             .GET()
             .build();
 
@@ -96,15 +107,15 @@ public class ApiService {
                 if (response.statusCode() == 200) {
                     Type listType = new TypeToken<List<App>>() {}.getType();
                     List<App> apps = gson.fromJson(response.body(), listType);
+                    int count = apps != null ? apps.size() : 0;
+                    LOG.info("Successfully fetched {} featured apps from API", count);
                     return apps != null ? apps : new ArrayList<>();
                 }
-                System.err.println("API error: " + response.statusCode());
+                LOG.error("API request failed with status code: {} for URL: {}", response.statusCode(), url);
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                System.err.println(
-                    "Failed to fetch featured apps: " + e.getMessage()
-                );
+                LOG.error("Failed to fetch featured apps from {}: {}", url, e.getMessage(), e);
                 return new ArrayList<>();
             });
     }
@@ -113,9 +124,11 @@ public class ApiService {
      * Get apps filtered by category.
      */
     public CompletableFuture<List<App>> getAppsByCategory(String category) {
+        LOG.debug("Filtering apps by category: {}", category);
         // For now, filter client-side since backend doesn't have query param yet
         return getApps().thenApply(apps -> {
             if (category == null || category.isEmpty()) {
+                LOG.debug("No category filter specified, returning all apps");
                 return apps;
             }
             List<App> filtered = new ArrayList<>();
@@ -124,6 +137,7 @@ public class ApiService {
                     filtered.add(app);
                 }
             }
+            LOG.info("Filtered {} apps by category '{}' from {} total apps", filtered.size(), category, apps.size());
             return filtered;
         });
     }
@@ -132,8 +146,10 @@ public class ApiService {
      * Get latest release info for an app.
      */
     public CompletableFuture<GithubRelease> getLatestRelease(String appId) {
+        String url = baseUrl + "/api/apps/" + appId + "/latest";
+        LOG.debug("Fetching latest release for app: {} from: {}", appId, url);
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(baseUrl + "/api/apps/" + appId + "/latest"))
+            .uri(URI.create(url))
             .GET()
             .build();
 
@@ -141,17 +157,22 @@ public class ApiService {
             .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(response -> {
                 if (response.statusCode() == 200) {
-                    return gson.fromJson(response.body(), GithubRelease.class);
+                    GithubRelease release = gson.fromJson(response.body(), GithubRelease.class);
+                    if (release != null) {
+                        LOG.info("Successfully fetched release for app {}: {} ({})", 
+                                appId, release.getTagName(), release.getName());
+                    } else {
+                        LOG.warn("Received null release data for app: {}", appId);
+                    }
+                    return release;
                 }
-                System.err.println(
-                    "API error getting release: " + response.statusCode()
-                );
+                LOG.error("API request failed with status code: {} for URL: {} (app: {})", 
+                        response.statusCode(), url, appId);
                 return null;
             })
             .exceptionally(e -> {
-                System.err.println(
-                    "Failed to fetch release: " + e.getMessage()
-                );
+                LOG.error("Failed to fetch release for app {} from {}: {}", 
+                        appId, url, e.getMessage(), e);
                 return null;
             });
     }
@@ -160,8 +181,10 @@ public class ApiService {
      * Get screenshots (images from README) for an app.
      */
     public CompletableFuture<List<String>> getScreenshots(String appId) {
+        String url = baseUrl + "/api/apps/" + appId + "/screenshots";
+        LOG.debug("Fetching screenshots for app: {} from: {}", appId, url);
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(baseUrl + "/api/apps/" + appId + "/screenshots"))
+            .uri(URI.create(url))
             .GET()
             .build();
 
@@ -174,17 +197,17 @@ public class ApiService {
                         response.body(),
                         listType
                     );
+                    int count = urls != null ? urls.size() : 0;
+                    LOG.info("Successfully fetched {} screenshots for app: {}", count, appId);
                     return urls != null ? urls : new ArrayList<>();
                 }
-                System.err.println(
-                    "API error getting screenshots: " + response.statusCode()
-                );
+                LOG.error("API request failed with status code: {} for URL: {} (app: {})", 
+                        response.statusCode(), url, appId);
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                System.err.println(
-                    "Failed to fetch screenshots: " + e.getMessage()
-                );
+                LOG.error("Failed to fetch screenshots for app {} from {}: {}", 
+                        appId, url, e.getMessage(), e);
                 return new ArrayList<>();
             });
     }
@@ -193,6 +216,8 @@ public class ApiService {
      * Get download URL for an app.
      */
     public String getDownloadUrl(String appId) {
-        return baseUrl + "/api/apps/" + appId + "/download";
+        String url = baseUrl + "/api/apps/" + appId + "/download";
+        LOG.debug("Generated download URL for app {}: {}", appId, url);
+        return url;
     }
 }

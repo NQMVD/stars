@@ -4,8 +4,7 @@ backend:
 
 frontend:
     cd frontend/web-mockup/v0-javafx-port && \
-        mvn javafx:run \
-        2>&1 | tee client.log
+        mvn javafx:run
 
 web-mockup:
     cd frontend/web-mockup/v0-desktop-appstore-mockup && pnpm run dev

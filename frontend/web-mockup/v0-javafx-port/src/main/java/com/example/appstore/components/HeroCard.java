@@ -104,9 +104,9 @@ public class HeroCard extends VBox {
                     openBtn.setStyle(
                         "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20; -fx-font-size: 13px;"
                     );
-                    openBtn.setOnAction(openEvent ->
-                        System.out.println("Opening " + title)
-                    );
+                    openBtn.setOnAction(openEvent -> {
+                        // TODO: Implement app launch functionality
+                    });
                     footer.getChildren().add(openBtn);
                 });
                 pause.play();

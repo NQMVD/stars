@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Manages installation state globally, providing observable properties
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class InstallationManager {
 
-    private static final Logger LOG = Logger.getLogger(InstallationManager.class.getName());
+    private static final Logger LOG = LogManager.getLogger(InstallationManager.class);
     private static InstallationManager instance;
 
     /**
@@ -107,7 +107,7 @@ public class InstallationManager {
     private String currentAppId = null;
 
     private InstallationManager() {
-        LOG.info("[InstallationManager] Initialized");
+        LOG.info("InstallationManager initialized");
     }
 
     public static synchronized InstallationManager getInstance() {
@@ -176,7 +176,7 @@ public class InstallationManager {
     public void dismiss() {
         InstallationState state = currentState.get();
         if (state.needsDismiss()) {
-            LOG.info("[InstallationManager] Dismissing installation state for: " + state.getAppName());
+            LOG.info("Dismissing installation state for app: {}", state.getAppName());
             currentAppId = null;
             clearProgressListeners();
             updateState(InstallationState.idle());
@@ -189,13 +189,14 @@ public class InstallationManager {
      */
     public CompletableFuture<InstallResult> installApp(App app) {
         if (isInstalling()) {
-            LOG.warning("[InstallationManager] Cannot start installation - another installation is in progress");
+            LOG.warn("Cannot start installation - another installation is in progress (current: {})", 
+                    currentState.get().getAppName());
             return CompletableFuture.failedFuture(
                 new IllegalStateException("Another installation is already in progress")
             );
         }
 
-        LOG.info("[InstallationManager] Starting installation for: " + app.getName());
+        LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
         currentAppId = app.getId();
 
         // Set initial state
@@ -206,12 +207,12 @@ public class InstallationManager {
 
         return InstallationService.getInstance().installApp(app, this::handleProgress)
             .thenApply(result -> {
-                LOG.info("[InstallationManager] Installation completed for: " + app.getName());
+                LOG.info("Installation completed successfully for app: {} (id: {})", app.getName(), app.getId());
                 updateState(InstallationState.completed(app.getId(), app.getName(), result));
                 return result;
             })
             .exceptionally(ex -> {
-                LOG.log(Level.SEVERE, "[InstallationManager] Installation failed for: " + app.getName(), ex);
+                LOG.error("Installation failed for app: {} (id: {})", app.getName(), app.getId(), ex);
                 String errorMsg = ex.getCause() != null ? 
                     ex.getCause().getMessage() : ex.getMessage();
                 updateState(InstallationState.failed(app.getId(), app.getName(), errorMsg));
@@ -225,7 +226,7 @@ public class InstallationManager {
             try {
                 listener.accept(progress);
             } catch (Exception e) {
-                LOG.warning("[InstallationManager] Progress listener error: " + e.getMessage());
+                LOG.warn("Progress listener error: {}", e.getMessage(), e);
             }
         }
 

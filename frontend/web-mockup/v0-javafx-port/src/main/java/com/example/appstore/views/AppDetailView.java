@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -46,7 +46,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class AppDetailView extends ScrollPane {
 
-    private static final Logger LOG = Logger.getLogger(AppDetailView.class.getName());
+    private static final Logger LOG = LogManager.getLogger(AppDetailView.class);
 
     private final App app;
     private final Runnable onBack;
@@ -185,24 +185,24 @@ public class AppDetailView extends ScrollPane {
         }
 
         installBtn.setOnAction(e -> {
-            LOG.info("[AppDetailView] Install button clicked for: " + app.getName());
+            LOG.info("Install button clicked for app: {} (id: {})", app.getName(), app.getId());
             
             if (libraryService.isInstalled(app.getId())) {
                 // Already installed - launch the app
-                LOG.info("[AppDetailView] App already installed, attempting to launch");
+                LOG.info("App already installed, attempting to launch: {} (id: {})", app.getName(), app.getId());
                 Optional<InstalledApp> installedApp = libraryService.getInstalledApp(app.getId());
                 if (installedApp.isPresent() && installedApp.get().getExecutablePath() != null) {
                     String execPath = installedApp.get().getExecutablePath();
-                    LOG.info("[AppDetailView] Launching app from: " + execPath);
+                    LOG.info("Launching app from: {} (app: {})", execPath, app.getName());
                     installBtn.setText("Launching...");
                     installBtn.setDisable(true);
                     
                     try {
                         InstallationService.getInstance().launchApp(execPath);
-                        LOG.info("[AppDetailView] App launched successfully");
+                        LOG.info("App launched successfully: {} (executable: {})", app.getName(), execPath);
                         statusLabel.setText("Launched!");
                     } catch (Exception ex) {
-                        LOG.log(Level.WARNING, "[AppDetailView] Failed to launch app", ex);
+                        LOG.warn("Failed to launch app: {} (executable: {})", app.getName(), execPath, ex);
                         statusLabel.setText("Failed to launch: " + ex.getMessage());
                     }
                     
@@ -215,19 +215,19 @@ public class AppDetailView extends ScrollPane {
                     );
                     reset.play();
                 } else {
-                    LOG.warning("[AppDetailView] No executable path found for installed app");
+                    LOG.warn("No executable path found for installed app: {} (id: {})", app.getName(), app.getId());
                     statusLabel.setText("Path not found - reinstall recommended");
                 }
             } else {
                 // Check if another installation is in progress
                 if (installManager.isInstalling()) {
-                    LOG.warning("[AppDetailView] Another installation is in progress");
+                    LOG.warn("Another installation is in progress, cannot start installation for: {}", app.getName());
                     statusLabel.setText("Another installation in progress");
                     return;
                 }
                 
                 // Start installation via InstallationManager
-                LOG.info("[AppDetailView] Starting installation for: " + app.getName());
+                LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
                 installBtn.setVisible(false);
                 installBtn.setManaged(false);
                 progressBox.setVisible(true);
@@ -243,7 +243,8 @@ public class AppDetailView extends ScrollPane {
 
                 installManager.installApp(app).thenAccept(result -> {
                     Platform.runLater(() -> {
-                        LOG.info("[AppDetailView] Installation completed: " + result.getVersion());
+                        LOG.info("Installation completed for app: {} (id: {}, version: {})", 
+                                app.getName(), app.getId(), result.getVersion());
                         
                         // Save to library with real paths
                         libraryService.installApp(
@@ -276,7 +277,7 @@ public class AppDetailView extends ScrollPane {
                     });
                 }).exceptionally(ex -> {
                     Platform.runLater(() -> {
-                        LOG.log(Level.SEVERE, "[AppDetailView] Installation error", ex);
+                        LOG.error("Installation error for app: {} (id: {})", app.getName(), app.getId(), ex);
                         String errorMsg = ex.getCause() != null ? 
                             ex.getCause().getMessage() : ex.getMessage();
                         
@@ -309,7 +310,7 @@ public class AppDetailView extends ScrollPane {
                 String githubUrl = "https://github.com/" + app.getOwnerLogin() + "/" + app.getId();
                 Desktop.getDesktop().browse(new URI(githubUrl));
             } catch (Exception ex) {
-                LOG.log(Level.WARNING, "[AppDetailView] Failed to open GitHub repo", ex);
+                LOG.warn("Failed to open GitHub repo for app: {} (id: {})", app.getName(), app.getId(), ex);
             }
         });
 
@@ -574,7 +575,7 @@ public class AppDetailView extends ScrollPane {
                         String url = urls.get(urlIndex);
                         final int imageIndex = urlIndex;
                         
-                        LOG.fine("[AppDetailView] Loading screenshot: " + url);
+                        LOG.debug("Loading screenshot {} for app {}: {}", imageIndex + 1, app.getName(), url);
                         
                         if (url.toLowerCase().contains(".svg")) {
                             WebView webView = new WebView();
@@ -621,7 +622,8 @@ public class AppDetailView extends ScrollPane {
                                             
                                             if (!img.isError()) {
                                                 view.setImage(img);
-                                                LOG.fine("[AppDetailView] Successfully loaded: " + url);
+                                                LOG.debug("Successfully loaded screenshot {} for app {}: {}", 
+                                                        imageIndex + 1, app.getName(), url);
                                                 
                                                 // Show first successfully loaded image
                                                 if (galleryItems.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
@@ -629,17 +631,20 @@ public class AppDetailView extends ScrollPane {
                                                     currentIndex[0] = imageIndex;
                                                 }
                                             } else {
-                                                LOG.warning("[AppDetailView] Image decode error: " + url);
+                                                LOG.warn("Image decode error for screenshot {} of app {}: {}", 
+                                                        imageIndex + 1, app.getName(), url);
                                                 gallery.getChildren().remove(view);
                                                 galleryItems.set(imageIndex, null);
                                             }
                                         } catch (Exception e) {
-                                            LOG.warning("[AppDetailView] Failed to create image: " + url + " - " + e.getMessage());
+                                            LOG.warn("Failed to create image for screenshot {} of app {}: {} - {}", 
+                                                    imageIndex + 1, app.getName(), url, e.getMessage(), e);
                                             gallery.getChildren().remove(view);
                                             galleryItems.set(imageIndex, null);
                                         }
                                     } else {
-                                        LOG.warning("[AppDetailView] Empty or null image data: " + url);
+                                        LOG.warn("Empty or null image data for screenshot {} of app {}: {}", 
+                                                imageIndex + 1, app.getName(), url);
                                         gallery.getChildren().remove(view);
                                         galleryItems.set(imageIndex, null);
                                     }
@@ -659,7 +664,8 @@ public class AppDetailView extends ScrollPane {
                                 });
                             }).exceptionally(ex -> {
                                 Platform.runLater(() -> {
-                                    LOG.warning("[AppDetailView] HTTP error loading: " + url + " - " + ex.getMessage());
+                                    LOG.warn("HTTP error loading screenshot {} for app {}: {} - {}", 
+                                            imageIndex + 1, app.getName(), url, ex.getMessage(), ex);
                                     gallery.getChildren().remove(view);
                                     galleryItems.set(imageIndex, null);
                                     
@@ -736,12 +742,12 @@ public class AppDetailView extends ScrollPane {
                     if (response.statusCode() >= 200 && response.statusCode() < 300) {
                         return response.body();
                     } else {
-                        LOG.warning("[AppDetailView] HTTP " + response.statusCode() + " for: " + url);
+                        LOG.warn("HTTP {} for screenshot URL: {} (app: {})", response.statusCode(), url, app.getName());
                         return null;
                     }
                 });
         } catch (Exception e) {
-            LOG.warning("[AppDetailView] Failed to create request for: " + url + " - " + e.getMessage());
+            LOG.warn("Failed to create HTTP request for screenshot URL: {} (app: {}) - {}", url, app.getName(), e.getMessage(), e);
             return CompletableFuture.completedFuture(null);
         }
     }

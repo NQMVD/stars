@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -25,9 +25,7 @@ import java.util.zip.ZipInputStream;
  */
 public class InstallationService {
 
-    private static final Logger LOG = Logger.getLogger(
-        InstallationService.class.getName()
-    );
+    private static final Logger LOG = LogManager.getLogger(InstallationService.class);
     private static InstallationService instance;
 
     /**
@@ -149,7 +147,7 @@ public class InstallationService {
     }
 
     private InstallationService() {
-        LOG.info("[InstallationService] Initialized");
+        LOG.info("InstallationService initialized");
     }
 
     public static synchronized InstallationService getInstance() {
@@ -170,23 +168,12 @@ public class InstallationService {
         App app,
         Consumer<InstallProgress> progressCallback
     ) {
-        LOG.info(
-            "[InstallationService] Starting installation for: " +
-                app.getName() +
-                " (id: " +
-                app.getId() +
-                ")"
-        );
+        LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return doInstall(app, progressCallback);
             } catch (Exception e) {
-                LOG.log(
-                    Level.SEVERE,
-                    "[InstallationService] Installation failed for: " +
-                        app.getName(),
-                    e
-                );
+                LOG.error("Installation failed for app: {} (id: {})", app.getName(), app.getId(), e);
                 reportProgress(
                     progressCallback,
                     new InstallProgress(
@@ -205,18 +192,12 @@ public class InstallationService {
         Consumer<InstallProgress> progressCallback
     ) throws Exception {
         Platform platform = PlatformDetector.detectPlatform();
-        LOG.info(
-            "[InstallationService] Detected platform: " +
-                PlatformDetector.getPlatformDisplayName(platform) +
-                ", arch: " +
-                PlatformDetector.getArchitecture()
-        );
+        LOG.info("Detected platform: {}, arch: {}", 
+                PlatformDetector.getPlatformDisplayName(platform), 
+                PlatformDetector.getArchitecture());
 
         // Stage 1: Fetch release info
-        LOG.info(
-            "[InstallationService] Stage 1: Fetching release info for " +
-                app.getId()
-        );
+        LOG.info("Stage 1: Fetching release info for app: {}", app.getId());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -231,69 +212,40 @@ public class InstallationService {
             .get(); // Blocking get since we're in async context
 
         if (release == null) {
-            LOG.warning(
-                "[InstallationService] No release found for: " + app.getName()
-            );
+            LOG.warn("No release found for app: {} (id: {})", app.getName(), app.getId());
             throw new RuntimeException("No release found for " + app.getName());
         }
 
-        LOG.info(
-            "[InstallationService] Found release: " +
-                release.getTagName() +
-                " (" +
-                release.getName() +
-                ")"
-        );
+        LOG.info("Found release: {} ({})", release.getTagName(), release.getName());
 
         List<GithubAsset> assets = release.getAssets();
         if (assets == null || assets.isEmpty()) {
-            LOG.warning(
-                "[InstallationService] No assets in release for: " +
-                    app.getName()
-            );
+            LOG.warn("No assets in release for app: {} (id: {})", app.getName(), app.getId());
             throw new RuntimeException(
                 "No downloadable assets found for " + app.getName()
             );
         }
 
-        LOG.info(
-            "[InstallationService] Release has " + assets.size() + " assets:"
-        );
+        LOG.info("Release has {} assets:", assets.size());
         for (GithubAsset asset : assets) {
-            LOG.fine(
-                "[InstallationService]   - " +
-                    asset.getName() +
-                    " (" +
-                    formatBytes(asset.getSize()) +
-                    ")"
-            );
+            LOG.debug("  - {} ({})", asset.getName(), formatBytes(asset.getSize()));
         }
 
         // Find the best asset for this platform
         GithubAsset bestAsset = findBestAsset(assets, platform);
         if (bestAsset == null) {
-            LOG.warning(
-                "[InstallationService] No compatible asset found for platform: " +
-                    platform
-            );
+            LOG.warn("No compatible asset found for platform: {} (app: {})", 
+                    platform, app.getName());
             throw new RuntimeException(
                 "No compatible download found for " +
                     PlatformDetector.getPlatformDisplayName(platform)
             );
         }
 
-        LOG.info(
-            "[InstallationService] Selected asset: " +
-                bestAsset.getName() +
-                " (" +
-                formatBytes(bestAsset.getSize()) +
-                ")"
-        );
+        LOG.info("Selected asset: {} ({})", bestAsset.getName(), formatBytes(bestAsset.getSize()));
 
         // Stage 2: Download
-        LOG.info(
-            "[InstallationService] Stage 2: Downloading " + bestAsset.getName()
-        );
+        LOG.info("Stage 2: Downloading asset: {}", bestAsset.getName());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -315,18 +267,10 @@ public class InstallationService {
             );
         });
         long downloadTime = System.currentTimeMillis() - downloadStart;
-        LOG.info(
-            "[InstallationService] Download completed in " +
-                downloadTime +
-                "ms, saved to: " +
-                downloadPath
-        );
+        LOG.info("Download completed in {}ms, saved to: {}", downloadTime, downloadPath);
 
         // Stage 3: Extract/Install
-        LOG.info(
-            "[InstallationService] Stage 3: Installing from " +
-                bestAsset.getName()
-        );
+        LOG.info("Stage 3: Installing from asset: {}", bestAsset.getName());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -345,15 +289,10 @@ public class InstallationService {
             progressCallback
         );
         long installTime = System.currentTimeMillis() - installStart;
-        LOG.info(
-            "[InstallationService] Installation completed in " +
-                installTime +
-                "ms, installed to: " +
-                installPath
-        );
+        LOG.info("Installation completed in {}ms, installed to: {}", installTime, installPath);
 
         // Stage 4: Verify
-        LOG.info("[InstallationService] Stage 4: Verifying installation");
+        LOG.info("Stage 4: Verifying installation");
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -368,27 +307,18 @@ public class InstallationService {
             app.getName(),
             platform
         );
-        LOG.info("[InstallationService] Found executable: " + executablePath);
+        LOG.info("Found executable: {}", executablePath);
 
         // Cleanup download
         try {
             Files.deleteIfExists(downloadPath);
-            LOG.fine(
-                "[InstallationService] Cleaned up download file: " +
-                    downloadPath
-            );
+            LOG.debug("Cleaned up download file: {}", downloadPath);
         } catch (IOException e) {
-            LOG.warning(
-                "[InstallationService] Failed to cleanup download: " +
-                    e.getMessage()
-            );
+            LOG.warn("Failed to cleanup download file {}: {}", downloadPath, e.getMessage(), e);
         }
 
         // Stage 5: Complete
-        LOG.info(
-            "[InstallationService] Stage 5: Installation complete for " +
-                app.getName()
-        );
+        LOG.info("Stage 5: Installation complete for app: {} (id: {})", app.getName(), app.getId());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -571,9 +501,7 @@ public class InstallationService {
 
         // Extract to a temporary directory first
         Path tempDir = Files.createTempDirectory("stars-install-");
-        LOG.info(
-            "[InstallationService] Extracting zip to temp dir: " + tempDir
-        );
+        LOG.debug("Extracting zip to temp dir: {}", tempDir);
 
         try {
             // Use unzip command for better compatibility
@@ -610,7 +538,7 @@ public class InstallationService {
                 );
             }
 
-            LOG.info("[InstallationService] Found .app bundle: " + appBundle);
+            LOG.info("Found .app bundle: {}", appBundle);
 
             // Copy to /Applications directly
             Path targetPath = Paths.get(
@@ -629,16 +557,13 @@ public class InstallationService {
 
             // Remove existing installation if present
             if (Files.exists(targetPath)) {
-                LOG.info(
-                    "[InstallationService] Removing existing installation: " +
-                        targetPath
-                );
+                LOG.info("Removing existing installation: {}", targetPath);
                 deleteDirectory(targetPath);
             }
 
             // Copy the app bundle
             copyDirectory(appBundle, targetPath);
-            LOG.info("[InstallationService] Installed to: " + targetPath);
+            LOG.info("Installed to: {}", targetPath);
 
             reportProgress(
                 progressCallback,
@@ -655,10 +580,7 @@ public class InstallationService {
             try {
                 deleteDirectory(tempDir);
             } catch (IOException e) {
-                LOG.warning(
-                    "[InstallationService] Failed to cleanup temp dir: " +
-                        e.getMessage()
-                );
+                LOG.warn("Failed to cleanup temp dir {}: {}", tempDir, e.getMessage(), e);
             }
         }
     }
@@ -682,9 +604,7 @@ public class InstallationService {
 
         // Extract to a temporary directory first
         Path tempDir = Files.createTempDirectory("stars-install-");
-        LOG.info(
-            "[InstallationService] Extracting tar.gz to temp dir: " + tempDir
-        );
+        LOG.debug("Extracting tar.gz to temp dir: {}", tempDir);
 
         try {
             ProcessBuilder pb = new ProcessBuilder(
@@ -720,7 +640,7 @@ public class InstallationService {
                 );
             }
 
-            LOG.info("[InstallationService] Found .app bundle: " + appBundle);
+            LOG.info("Found .app bundle: {}", appBundle);
 
             // Copy to /Applications directly
             Path targetPath = Paths.get(
@@ -739,16 +659,13 @@ public class InstallationService {
 
             // Remove existing installation if present
             if (Files.exists(targetPath)) {
-                LOG.info(
-                    "[InstallationService] Removing existing installation: " +
-                        targetPath
-                );
+                LOG.info("Removing existing installation: {}", targetPath);
                 deleteDirectory(targetPath);
             }
 
             // Copy the app bundle
             copyDirectory(appBundle, targetPath);
-            LOG.info("[InstallationService] Installed to: " + targetPath);
+            LOG.info("Installed to: {}", targetPath);
 
             reportProgress(
                 progressCallback,
@@ -765,10 +682,7 @@ public class InstallationService {
             try {
                 deleteDirectory(tempDir);
             } catch (IOException e) {
-                LOG.warning(
-                    "[InstallationService] Failed to cleanup temp dir: " +
-                        e.getMessage()
-                );
+                LOG.warn("Failed to cleanup temp dir {}: {}", tempDir, e.getMessage(), e);
             }
         }
     }
@@ -1127,7 +1041,7 @@ public class InstallationService {
 
         // check if the package was installed successfully
         if (exitCode != 0) {
-            LOG.log(Level.SEVERE, "Failed to install package: " + debPath);
+            LOG.error("Failed to install DEB package: {} (exit code: {})", debPath, exitCode);
             throw new Exception("Failed to install package");
         }
 
@@ -1314,67 +1228,47 @@ public class InstallationService {
      */
     public void launchApp(String executablePath) throws IOException {
         Platform platform = PlatformDetector.detectPlatform();
-        LOG.info(
-            "[InstallationService] Launching app: " +
-                executablePath +
-                " on platform: " +
-                platform
-        );
+        LOG.info("Launching app: {} on platform: {}", executablePath, platform);
 
         ProcessBuilder pb;
         if (platform == Platform.MACOS) {
             if (executablePath.endsWith(".app")) {
-                LOG.fine(
-                    "[InstallationService] Using 'open' command for .app bundle"
-                );
+                LOG.debug("Using 'open' command for .app bundle");
                 pb = new ProcessBuilder("open", executablePath);
             } else {
-                LOG.fine("[InstallationService] Executing directly");
+                LOG.debug("Executing directly on macOS");
                 pb = new ProcessBuilder(executablePath);
             }
         } else if (platform == Platform.WINDOWS) {
-            LOG.fine("[InstallationService] Using 'cmd /c start' for Windows");
+            LOG.debug("Using 'cmd /c start' for Windows");
             pb = new ProcessBuilder("cmd", "/c", "start", "", executablePath);
         } else {
             // Linux
-            LOG.fine("[InstallationService] Executing directly on Linux");
+            LOG.debug("Executing directly on Linux");
             pb = new ProcessBuilder(executablePath);
         }
 
         pb.redirectErrorStream(true);
         Process process = pb.start();
-        LOG.info(
-            "[InstallationService] App launched successfully, PID: " +
-                process.pid()
-        );
+        LOG.info("App launched successfully, PID: {}", process.pid());
     }
 
     /**
      * Uninstall an application.
      */
     public boolean uninstallApp(String installPath) {
-        LOG.info("[InstallationService] Uninstalling app at: " + installPath);
+        LOG.info("Uninstalling app at: {}", installPath);
         try {
             Path path = Paths.get(installPath);
             if (Files.exists(path)) {
                 deleteDirectory(path);
-                LOG.info(
-                    "[InstallationService] Successfully uninstalled: " +
-                        installPath
-                );
+                LOG.info("Successfully uninstalled: {}", installPath);
                 return true;
             } else {
-                LOG.warning(
-                    "[InstallationService] Install path does not exist: " +
-                        installPath
-                );
+                LOG.warn("Install path does not exist: {}", installPath);
             }
         } catch (IOException e) {
-            LOG.log(
-                Level.SEVERE,
-                "[InstallationService] Failed to uninstall: " + installPath,
-                e
-            );
+            LOG.error("Failed to uninstall: {}", installPath, e);
         }
         return false;
     }
