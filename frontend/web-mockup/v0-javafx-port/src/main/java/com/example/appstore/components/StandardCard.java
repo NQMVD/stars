@@ -142,9 +142,9 @@ public class StandardCard extends VBox {
                     openBtn.setStyle(
                         "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand;"
                     );
-                    openBtn.setOnAction(openEvent ->
-                        System.out.println("Opening " + title)
-                    );
+                    openBtn.setOnAction(openEvent -> {
+                        // TODO: Implement app launch functionality
+                    });
                     actionBtnContainer.getChildren().add(openBtn);
                 });
                 pause.play();

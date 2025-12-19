@@ -4,7 +4,8 @@ import com.example.appstore.service.InstallationManager;
 import com.example.appstore.service.InstallationManager.InstallationState;
 
 import java.util.function.Consumer;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -17,7 +18,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class Sidebar extends VBox {
 
-    private static final Logger LOG = Logger.getLogger(Sidebar.class.getName());
+    private static final Logger LOG = LogManager.getLogger(Sidebar.class);
 
     private final Consumer<String> onNavigate;
     private final VBox indicatorContainer;
@@ -88,8 +89,13 @@ public class Sidebar extends VBox {
         
         // Listen to state changes
         manager.stateProperty().addListener((obs, oldState, newState) -> {
-            LOG.fine("[Sidebar] Installation state changed: " + 
-                     (oldState != null ? oldState.getPhase() : "null") + " -> " + newState.getPhase());
+            // Only log when phase actually changes, not on every progress update
+            if (oldState == null || oldState.getPhase() != newState.getPhase()) {
+                LOG.debug("Installation phase changed: {} -> {} (app: {})", 
+                         oldState != null ? oldState.getPhase() : "null", 
+                         newState.getPhase(),
+                         newState.getAppName());
+            }
             updateIndicator(newState);
         });
 
@@ -105,11 +111,11 @@ public class Sidebar extends VBox {
             indicatorContainer.getChildren().clear();
             indicator = null;
             currentIndicatorAppId = null;
-            LOG.fine("[Sidebar] Hiding installation indicator");
+            LOG.debug("Hiding installation indicator");
         } else {
             // Only create new indicator if app changed
             if (indicator == null || !state.getAppId().equals(currentIndicatorAppId)) {
-                LOG.info("[Sidebar] Creating indicator for: " + state.getAppName());
+                LOG.info("Creating indicator for app: {}", state.getAppName());
                 indicatorContainer.getChildren().clear();
                 indicator = new InstallationIndicator(state.getAppName());
                 currentIndicatorAppId = state.getAppId();
@@ -206,7 +212,7 @@ public class Sidebar extends VBox {
         getChildren().add(button);
 
         button.setOnMouseClicked(e -> {
-            LOG.fine("[Sidebar] Navigation clicked: " + text);
+            LOG.debug("Navigation clicked: {}", text);
             if (onNavigate != null) onNavigate.accept(text);
         });
     }

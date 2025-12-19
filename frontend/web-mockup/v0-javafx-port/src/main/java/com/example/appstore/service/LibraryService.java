@@ -4,6 +4,8 @@ import com.example.appstore.model.InstalledApp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -19,6 +21,7 @@ import java.util.Optional;
  */
 public class LibraryService {
 
+    private static final Logger LOG = LogManager.getLogger(LibraryService.class);
     private static final String LIBRARY_DIR = ".stars";
     private static final String LIBRARY_FILE = "library-v0.json";
 
@@ -38,13 +41,13 @@ public class LibraryService {
         // Ensure directory exists
         try {
             Files.createDirectories(starsDir);
+            LOG.debug("Library directory ensured: {}", starsDir);
         } catch (IOException e) {
-            System.err.println(
-                "Failed to create library directory: " + e.getMessage()
-            );
+            LOG.error("Failed to create library directory: {}", starsDir, e);
         }
 
         loadLibrary();
+        LOG.info("LibraryService initialized, library path: {}", libraryPath);
     }
 
     public static LibraryService getInstance() {
@@ -59,6 +62,7 @@ public class LibraryService {
      */
     public void loadLibrary() {
         if (!Files.exists(libraryPath)) {
+            LOG.info("Library file does not exist, starting with empty library: {}", libraryPath);
             installedApps = new ArrayList<>();
             return;
         }
@@ -67,8 +71,9 @@ public class LibraryService {
             Type listType = new TypeToken<List<InstalledApp>>() {}.getType();
             List<InstalledApp> loaded = gson.fromJson(reader, listType);
             installedApps = loaded != null ? loaded : new ArrayList<>();
+            LOG.info("Loaded {} installed apps from library: {}", installedApps.size(), libraryPath);
         } catch (IOException e) {
-            System.err.println("Failed to load library: " + e.getMessage());
+            LOG.error("Failed to load library from {}: {}", libraryPath, e.getMessage(), e);
             installedApps = new ArrayList<>();
         }
     }
@@ -79,8 +84,9 @@ public class LibraryService {
     public void saveLibrary() {
         try (Writer writer = new FileWriter(libraryPath.toFile())) {
             gson.toJson(installedApps, writer);
+            LOG.debug("Saved {} installed apps to library: {}", installedApps.size(), libraryPath);
         } catch (IOException e) {
-            System.err.println("Failed to save library: " + e.getMessage());
+            LOG.error("Failed to save library to {}: {}", libraryPath, e.getMessage(), e);
         }
     }
 
@@ -112,6 +118,7 @@ public class LibraryService {
         String executablePath
     ) {
         if (isInstalled(id)) {
+            LOG.debug("App {} ({}) is already installed, skipping", name, id);
             return; // Already installed
         }
 
@@ -127,6 +134,7 @@ public class LibraryService {
             executablePath
         );
         installedApps.add(installed);
+        LOG.info("Added app to library: {} (id: {}, version: {})", name, id, version);
         saveLibrary();
     }
 
@@ -136,7 +144,10 @@ public class LibraryService {
     public boolean removeApp(String id) {
         boolean removed = installedApps.removeIf(app -> app.getId().equals(id));
         if (removed) {
+            LOG.info("Removed app from library: {}", id);
             saveLibrary();
+        } else {
+            LOG.debug("App not found in library: {}", id);
         }
         return removed;
     }
@@ -169,10 +180,13 @@ public class LibraryService {
                 String currentVersion = app.getInstalledVersion();
                 String newVersion = bumpVersion(currentVersion);
                 installedApps.set(i, app.withUpdatedVersion(newVersion));
+                LOG.info("Updated app version: {} (id: {}) from {} to {}", 
+                        app.getName(), id, currentVersion, newVersion);
                 saveLibrary();
                 return true;
             }
         }
+        LOG.warn("App not found for update: {}", id);
         return false;
     }
 

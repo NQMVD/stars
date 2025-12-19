@@ -13,7 +13,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.function.Consumer;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Installation progress indicator component matching the web mockup.
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class InstallationIndicator extends VBox {
 
-    private static final Logger LOG = Logger.getLogger(InstallationIndicator.class.getName());
+    private static final Logger LOG = LogManager.getLogger(InstallationIndicator.class);
 
     public enum Status {
         PROCESSING, PAUSED, COMPLETED, ERROR
@@ -86,8 +87,8 @@ public class InstallationIndicator extends VBox {
         this.currentStep = initialStep;
         this.status = initialStatus;
 
-        // Only log at FINE level - constructor is called frequently
-        LOG.fine("[InstallationIndicator] Created for app: " + appName);
+        // Only log at DEBUG level - constructor is called frequently
+        LOG.debug("Created InstallationIndicator for app: {}", appName);
 
         getStyleClass().add("installation-indicator");
         setStyle("-fx-background-color: #040404; -fx-background-radius: 8px; -fx-border-color: #181818; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 12px;");
@@ -161,7 +162,7 @@ public class InstallationIndicator extends VBox {
      */
     public void setStep(Step step) {
         if (this.currentStep != step) {
-            LOG.fine("[InstallationIndicator] Step: " + this.currentStep + " -> " + step);
+            LOG.debug("Step changed: {} -> {} (app: {})", this.currentStep, step, appName);
         }
         this.currentStep = step;
         this.customMessage = null;
@@ -173,7 +174,7 @@ public class InstallationIndicator extends VBox {
      */
     public void setStatus(Status status) {
         if (this.status != status) {
-            LOG.fine("[InstallationIndicator] Status: " + this.status + " -> " + status);
+            LOG.debug("Status changed: {} -> {} (app: {})", this.status, status, appName);
         }
         this.status = status;
         runOnFxThread(this::updateUI);
@@ -194,7 +195,7 @@ public class InstallationIndicator extends VBox {
         boolean stepChanged = this.currentStep != step;
         boolean statusChanged = this.status != status;
         if (stepChanged || statusChanged) {
-            LOG.fine("[InstallationIndicator] Update: step=" + step + ", status=" + status);
+            LOG.debug("Update: step={}, status={} (app: {})", step, status, appName);
         }
         this.currentStep = step;
         this.status = status;
@@ -208,7 +209,7 @@ public class InstallationIndicator extends VBox {
     public void update(Step step, String message) {
         // Only log when step changes, not on every progress update
         if (this.currentStep != step) {
-            LOG.fine("[InstallationIndicator] Step: " + step);
+            LOG.debug("Step changed: {} -> {} (app: {})", this.currentStep, step, appName);
         }
         this.currentStep = step;
         this.customMessage = message;
@@ -233,7 +234,7 @@ public class InstallationIndicator extends VBox {
      */
     public void fail(String errorMessage) {
         if (this.status != Status.ERROR) {
-            LOG.warning("[InstallationIndicator] Failed: " + appName + " - " + errorMessage);
+            LOG.warn("Installation failed for app: {} - {}", appName, errorMessage);
         }
         this.status = Status.ERROR;
         this.customMessage = errorMessage;
@@ -263,7 +264,7 @@ public class InstallationIndicator extends VBox {
     }
 
     private void handleControlClick() {
-        LOG.fine("[InstallationIndicator] Control button clicked, status: " + status);
+        LOG.debug("Control button clicked, status: {} (app: {})", status, appName);
         if (status == Status.COMPLETED || status == Status.ERROR) {
             if (onDismissClick != null) {
                 onDismissClick.accept(null);
