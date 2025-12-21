@@ -1,6 +1,15 @@
 backend:
     cd backend && cargo run -r
 
+serve-backend:
+    cd backend && cargo build --release
+    pueue add \
+        --group SERVICES \
+        -w /root/repos/stars/backend/ \
+        /root/repos/stars/backend/target/release/backend-service
+    sleep 1
+    pueue status
+
 frontend:
     cd frontend/web-mockup/v0-javafx-port && \
         mvn javafx:run
