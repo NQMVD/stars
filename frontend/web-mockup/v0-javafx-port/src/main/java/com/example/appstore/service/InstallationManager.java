@@ -3,56 +3,63 @@ package com.example.appstore.service;
 import com.example.appstore.model.App;
 import com.example.appstore.service.InstallationService.InstallProgress;
 import com.example.appstore.service.InstallationService.InstallResult;
-
-import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * Manages installation state globally, providing observable properties
  * for UI components (like the Sidebar's InstallationIndicator) to bind to.
- * 
+ *
  * This is a singleton that tracks the currently active installation and
  * provides callbacks for progress updates.
  */
 public class InstallationManager {
 
-    private static final Logger LOG = LogManager.getLogger(InstallationManager.class);
+    private static final Logger LOG = LogManager.getLogger(
+        InstallationManager.class
+    );
     private static InstallationManager instance;
 
     /**
      * Represents the current state of an installation.
      */
     public static class InstallationState {
+
         public enum Phase {
-            IDLE,           // No installation in progress
-            FETCHING,       // Fetching release info
-            DOWNLOADING,    // Downloading asset
-            EXTRACTING,     // Extracting archive
-            INSTALLING,     // Installing to system
-            VERIFYING,      // Verifying installation
-            COMPLETED,      // Installation complete (awaiting dismiss)
-            FAILED          // Installation failed (awaiting dismiss)
+            IDLE, // No installation in progress
+            FETCHING, // Fetching release info
+            DOWNLOADING, // Downloading asset
+            EXTRACTING, // Extracting archive
+            INSTALLING, // Installing to system
+            VERIFYING, // Verifying installation
+            COMPLETED, // Installation complete (awaiting dismiss)
+            FAILED, // Installation failed (awaiting dismiss)
         }
 
         private final String appId;
         private final String appName;
         private final Phase phase;
-        private final double progress;  // 0.0 to 1.0 for DOWNLOADING phase
+        private final double progress; // 0.0 to 1.0 for DOWNLOADING phase
         private final String message;
         private final String errorMessage;
         private final InstallResult result;
 
-        private InstallationState(String appId, String appName, Phase phase, 
-                                   double progress, String message, 
-                                   String errorMessage, InstallResult result) {
+        private InstallationState(
+            String appId,
+            String appName,
+            Phase phase,
+            double progress,
+            String message,
+            String errorMessage,
+            InstallResult result
+        ) {
             this.appId = appId;
             this.appName = appName;
             this.phase = phase;
@@ -63,47 +70,127 @@ public class InstallationManager {
         }
 
         public static InstallationState idle() {
-            return new InstallationState(null, null, Phase.IDLE, 0, null, null, null);
+            return new InstallationState(
+                null,
+                null,
+                Phase.IDLE,
+                0,
+                null,
+                null,
+                null
+            );
         }
 
-        public static InstallationState inProgress(String appId, String appName, 
-                                                    Phase phase, double progress, String message) {
-            return new InstallationState(appId, appName, phase, progress, message, null, null);
+        public static InstallationState inProgress(
+            String appId,
+            String appName,
+            Phase phase,
+            double progress,
+            String message
+        ) {
+            return new InstallationState(
+                appId,
+                appName,
+                phase,
+                progress,
+                message,
+                null,
+                null
+            );
         }
 
-        public static InstallationState completed(String appId, String appName, InstallResult result) {
-            return new InstallationState(appId, appName, Phase.COMPLETED, 1.0, 
-                                         "Completed", null, result);
+        public static InstallationState completed(
+            String appId,
+            String appName,
+            InstallResult result
+        ) {
+            return new InstallationState(
+                appId,
+                appName,
+                Phase.COMPLETED,
+                1.0,
+                "Completed",
+                null,
+                result
+            );
         }
 
-        public static InstallationState failed(String appId, String appName, String errorMessage) {
-            return new InstallationState(appId, appName, Phase.FAILED, 0, 
-                                         "Failed", errorMessage, null);
+        public static InstallationState failed(
+            String appId,
+            String appName,
+            String errorMessage
+        ) {
+            return new InstallationState(
+                appId,
+                appName,
+                Phase.FAILED,
+                0,
+                "Failed",
+                errorMessage,
+                null
+            );
         }
 
-        public String getAppId() { return appId; }
-        public String getAppName() { return appName; }
-        public Phase getPhase() { return phase; }
-        public double getProgress() { return progress; }
-        public String getMessage() { return message; }
-        public String getErrorMessage() { return errorMessage; }
-        public InstallResult getResult() { return result; }
-
-        public boolean isIdle() { return phase == Phase.IDLE; }
-        public boolean isActive() { 
-            return phase != Phase.IDLE && phase != Phase.COMPLETED && phase != Phase.FAILED; 
+        public String getAppId() {
+            return appId;
         }
-        public boolean isCompleted() { return phase == Phase.COMPLETED; }
-        public boolean isFailed() { return phase == Phase.FAILED; }
-        public boolean needsDismiss() { return phase == Phase.COMPLETED || phase == Phase.FAILED; }
+
+        public String getAppName() {
+            return appName;
+        }
+
+        public Phase getPhase() {
+            return phase;
+        }
+
+        public double getProgress() {
+            return progress;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public InstallResult getResult() {
+            return result;
+        }
+
+        public boolean isIdle() {
+            return phase == Phase.IDLE;
+        }
+
+        public boolean isActive() {
+            return (
+                phase != Phase.IDLE &&
+                phase != Phase.COMPLETED &&
+                phase != Phase.FAILED
+            );
+        }
+
+        public boolean isCompleted() {
+            return phase == Phase.COMPLETED;
+        }
+
+        public boolean isFailed() {
+            return phase == Phase.FAILED;
+        }
+
+        public boolean needsDismiss() {
+            return phase == Phase.COMPLETED || phase == Phase.FAILED;
+        }
     }
 
     // Observable property for UI binding
-    private final ObjectProperty<InstallationState> currentState = 
+    private final ObjectProperty<InstallationState> currentState =
         new SimpleObjectProperty<>(InstallationState.idle());
 
     // Listeners for detailed progress (used by AppDetailView)
-    private final List<Consumer<InstallProgress>> progressListeners = new ArrayList<>();
+    private final List<Consumer<InstallProgress>> progressListeners =
+        new ArrayList<>();
     private String currentAppId = null;
 
     private InstallationManager() {
@@ -150,7 +237,10 @@ public class InstallationManager {
      * Add a progress listener for a specific app.
      * Used by AppDetailView to get detailed progress for the app being viewed.
      */
-    public void addProgressListener(String appId, Consumer<InstallProgress> listener) {
+    public void addProgressListener(
+        String appId,
+        Consumer<InstallProgress> listener
+    ) {
         if (appId.equals(currentAppId)) {
             progressListeners.add(listener);
         }
@@ -176,7 +266,10 @@ public class InstallationManager {
     public void dismiss() {
         InstallationState state = currentState.get();
         if (state.needsDismiss()) {
-            LOG.info("Dismissing installation state for app: {}", state.getAppName());
+            LOG.info(
+                "Dismissing installation state for app: {}",
+                state.getAppName()
+            );
             currentAppId = null;
             clearProgressListeners();
             updateState(InstallationState.idle());
@@ -189,33 +282,69 @@ public class InstallationManager {
      */
     public CompletableFuture<InstallResult> installApp(App app) {
         if (isInstalling()) {
-            LOG.warn("Cannot start installation - another installation is in progress (current: {})", 
-                    currentState.get().getAppName());
+            LOG.warn(
+                "Cannot start installation - another installation is in progress (current: {})",
+                currentState.get().getAppName()
+            );
             return CompletableFuture.failedFuture(
-                new IllegalStateException("Another installation is already in progress")
+                new IllegalStateException(
+                    "Another installation is already in progress"
+                )
             );
         }
 
-        LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
+        LOG.info(
+            "Starting installation for app: {} (id: {})",
+            app.getName(),
+            app.getId()
+        );
         currentAppId = app.getId();
 
         // Set initial state
-        updateState(InstallationState.inProgress(
-            app.getId(), app.getName(),
-            InstallationState.Phase.FETCHING, 0, "Preparing..."
-        ));
+        updateState(
+            InstallationState.inProgress(
+                app.getId(),
+                app.getName(),
+                InstallationState.Phase.FETCHING,
+                0,
+                "Preparing..."
+            )
+        );
 
-        return InstallationService.getInstance().installApp(app, this::handleProgress)
+        return InstallationService.getInstance()
+            .installApp(app, this::handleProgress)
             .thenApply(result -> {
-                LOG.info("Installation completed successfully for app: {} (id: {})", app.getName(), app.getId());
-                updateState(InstallationState.completed(app.getId(), app.getName(), result));
+                LOG.info(
+                    "Installation completed successfully for app: {} (id: {})",
+                    app.getName(),
+                    app.getId()
+                );
+                updateState(
+                    InstallationState.completed(
+                        app.getId(),
+                        app.getName(),
+                        result
+                    )
+                );
                 return result;
             })
             .exceptionally(ex -> {
-                LOG.error("Installation failed for app: {} (id: {})", app.getName(), app.getId(), ex);
-                String errorMsg = ex.getCause() != null ? 
-                    ex.getCause().getMessage() : ex.getMessage();
-                updateState(InstallationState.failed(app.getId(), app.getName(), errorMsg));
+                LOG.error(
+                    "Installation failed for app: {} (id: {})",
+                    app.getName(),
+                    app.getId(),
+                    ex
+                );
+                String errorMsg = ex.getCause() != null
+                    ? ex.getCause().getMessage()
+                    : ex.getMessage();
+                updateState(
+                    InstallationState.failed(
+                        app.getId(),
+                        app.getName(),
+                        errorMsg
+                    )
+                );
                 throw new RuntimeException(ex);
             });
     }
@@ -264,10 +393,15 @@ public class InstallationManager {
                 return;
         }
 
-        updateState(InstallationState.inProgress(
-            state.getAppId(), state.getAppName(),
-            phase, progressValue, message
-        ));
+        updateState(
+            InstallationState.inProgress(
+                state.getAppId(),
+                state.getAppName(),
+                phase,
+                progressValue,
+                message
+            )
+        );
     }
 
     private void updateState(InstallationState newState) {

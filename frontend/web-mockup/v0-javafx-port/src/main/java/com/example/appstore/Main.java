@@ -1,11 +1,11 @@
 package com.example.appstore;
 
 import com.example.appstore.layout.RootLayout;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main extends Application {
 
@@ -19,10 +19,12 @@ public class Main extends Application {
 
         // Load custom fonts
         javafx.scene.text.Font.loadFont(
-            getClass().getResourceAsStream("/fonts/VioletSans-Regular.ttf"), 14
+            getClass().getResourceAsStream("/fonts/VioletSans-Regular.ttf"),
+            14
         );
         javafx.scene.text.Font.loadFont(
-            getClass().getResourceAsStream("/fonts/Styrene.ttf"), 14
+            getClass().getResourceAsStream("/fonts/Styrene.ttf"),
+            14
         );
 
         // Load CSS

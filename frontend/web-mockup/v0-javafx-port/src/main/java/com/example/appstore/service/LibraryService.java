@@ -4,8 +4,6 @@ import com.example.appstore.model.InstalledApp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -14,6 +12,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Service for managing the user's app library with JSON persistence.
@@ -21,7 +21,9 @@ import java.util.Optional;
  */
 public class LibraryService {
 
-    private static final Logger LOG = LogManager.getLogger(LibraryService.class);
+    private static final Logger LOG = LogManager.getLogger(
+        LibraryService.class
+    );
     private static final String LIBRARY_DIR = ".stars";
     private static final String LIBRARY_FILE = "library-v0.json";
 
@@ -62,7 +64,10 @@ public class LibraryService {
      */
     public void loadLibrary() {
         if (!Files.exists(libraryPath)) {
-            LOG.info("Library file does not exist, starting with empty library: {}", libraryPath);
+            LOG.info(
+                "Library file does not exist, starting with empty library: {}",
+                libraryPath
+            );
             installedApps = new ArrayList<>();
             return;
         }
@@ -71,9 +76,18 @@ public class LibraryService {
             Type listType = new TypeToken<List<InstalledApp>>() {}.getType();
             List<InstalledApp> loaded = gson.fromJson(reader, listType);
             installedApps = loaded != null ? loaded : new ArrayList<>();
-            LOG.info("Loaded {} installed apps from library: {}", installedApps.size(), libraryPath);
+            LOG.info(
+                "Loaded {} installed apps from library: {}",
+                installedApps.size(),
+                libraryPath
+            );
         } catch (IOException e) {
-            LOG.error("Failed to load library from {}: {}", libraryPath, e.getMessage(), e);
+            LOG.error(
+                "Failed to load library from {}: {}",
+                libraryPath,
+                e.getMessage(),
+                e
+            );
             installedApps = new ArrayList<>();
         }
     }
@@ -84,9 +98,18 @@ public class LibraryService {
     public void saveLibrary() {
         try (Writer writer = new FileWriter(libraryPath.toFile())) {
             gson.toJson(installedApps, writer);
-            LOG.debug("Saved {} installed apps to library: {}", installedApps.size(), libraryPath);
+            LOG.debug(
+                "Saved {} installed apps to library: {}",
+                installedApps.size(),
+                libraryPath
+            );
         } catch (IOException e) {
-            LOG.error("Failed to save library to {}: {}", libraryPath, e.getMessage(), e);
+            LOG.error(
+                "Failed to save library to {}: {}",
+                libraryPath,
+                e.getMessage(),
+                e
+            );
         }
     }
 
@@ -134,7 +157,12 @@ public class LibraryService {
             executablePath
         );
         installedApps.add(installed);
-        LOG.info("Added app to library: {} (id: {}, version: {})", name, id, version);
+        LOG.info(
+            "Added app to library: {} (id: {}, version: {})",
+            name,
+            id,
+            version
+        );
         saveLibrary();
     }
 
@@ -180,8 +208,13 @@ public class LibraryService {
                 String currentVersion = app.getInstalledVersion();
                 String newVersion = bumpVersion(currentVersion);
                 installedApps.set(i, app.withUpdatedVersion(newVersion));
-                LOG.info("Updated app version: {} (id: {}) from {} to {}", 
-                        app.getName(), id, currentVersion, newVersion);
+                LOG.info(
+                    "Updated app version: {} (id: {}) from {} to {}",
+                    app.getName(),
+                    id,
+                    currentVersion,
+                    newVersion
+                );
                 saveLibrary();
                 return true;
             }

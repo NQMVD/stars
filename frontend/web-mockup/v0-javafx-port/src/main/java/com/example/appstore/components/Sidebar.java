@@ -2,10 +2,7 @@ package com.example.appstore.components;
 
 import com.example.appstore.service.InstallationManager;
 import com.example.appstore.service.InstallationManager.InstallationState;
-
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -13,6 +10,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -23,7 +22,7 @@ public class Sidebar extends VBox {
     private final Consumer<String> onNavigate;
     private final VBox indicatorContainer;
     private InstallationIndicator indicator;
-    private String currentIndicatorAppId;  // Track which app the indicator is for
+    private String currentIndicatorAppId; // Track which app the indicator is for
 
     public Sidebar(Consumer<String> onNavigate) {
         this.onNavigate = onNavigate;
@@ -75,7 +74,9 @@ public class Sidebar extends VBox {
 
         // Installation Indicator container (initially hidden)
         indicatorContainer = new VBox();
-        indicatorContainer.setStyle("-fx-padding: 12px; -fx-border-color: #181818; -fx-border-width: 1px 0 0 0;");
+        indicatorContainer.setStyle(
+            "-fx-padding: 12px; -fx-border-color: #181818; -fx-border-width: 1px 0 0 0;"
+        );
         indicatorContainer.setVisible(false);
         indicatorContainer.setManaged(false);
         getChildren().add(indicatorContainer);
@@ -86,18 +87,25 @@ public class Sidebar extends VBox {
 
     private void setupInstallationListener() {
         InstallationManager manager = InstallationManager.getInstance();
-        
+
         // Listen to state changes
-        manager.stateProperty().addListener((obs, oldState, newState) -> {
-            // Only log when phase actually changes, not on every progress update
-            if (oldState == null || oldState.getPhase() != newState.getPhase()) {
-                LOG.debug("Installation phase changed: {} -> {} (app: {})", 
-                         oldState != null ? oldState.getPhase() : "null", 
-                         newState.getPhase(),
-                         newState.getAppName());
-            }
-            updateIndicator(newState);
-        });
+        manager
+            .stateProperty()
+            .addListener((obs, oldState, newState) -> {
+                // Only log when phase actually changes, not on every progress update
+                if (
+                    oldState == null ||
+                    oldState.getPhase() != newState.getPhase()
+                ) {
+                    LOG.debug(
+                        "Installation phase changed: {} -> {} (app: {})",
+                        oldState != null ? oldState.getPhase() : "null",
+                        newState.getPhase(),
+                        newState.getAppName()
+                    );
+                }
+                updateIndicator(newState);
+            });
 
         // Check initial state
         updateIndicator(manager.getState());
@@ -114,7 +122,10 @@ public class Sidebar extends VBox {
             LOG.debug("Hiding installation indicator");
         } else {
             // Only create new indicator if app changed
-            if (indicator == null || !state.getAppId().equals(currentIndicatorAppId)) {
+            if (
+                indicator == null ||
+                !state.getAppId().equals(currentIndicatorAppId)
+            ) {
                 LOG.info("Creating indicator for app: {}", state.getAppName());
                 indicatorContainer.getChildren().clear();
                 indicator = new InstallationIndicator(state.getAppName());
@@ -139,32 +150,50 @@ public class Sidebar extends VBox {
 
         switch (state.getPhase()) {
             case FETCHING:
-                indicator.update(InstallationIndicator.Step.DOWNLOADING, "Fetching release...");
+                indicator.update(
+                    InstallationIndicator.Step.DOWNLOADING,
+                    "Fetching release..."
+                );
                 indicator.setStatus(InstallationIndicator.Status.PROCESSING);
                 break;
             case DOWNLOADING:
-                String msg = String.format("Downloading... %.0f%%", state.getProgress() * 100);
+                String msg = String.format(
+                    "Downloading... %.0f%%",
+                    state.getProgress() * 100
+                );
                 indicator.update(InstallationIndicator.Step.DOWNLOADING, msg);
                 indicator.setStatus(InstallationIndicator.Status.PROCESSING);
                 break;
             case EXTRACTING:
-                indicator.update(InstallationIndicator.Step.EXTRACTING, "Extracting...");
+                indicator.update(
+                    InstallationIndicator.Step.EXTRACTING,
+                    "Extracting..."
+                );
                 indicator.setStatus(InstallationIndicator.Status.PROCESSING);
                 break;
             case INSTALLING:
-                indicator.update(InstallationIndicator.Step.INSTALLING, state.getMessage());
+                indicator.update(
+                    InstallationIndicator.Step.INSTALLING,
+                    state.getMessage()
+                );
                 indicator.setStatus(InstallationIndicator.Status.PROCESSING);
                 break;
             case VERIFYING:
-                indicator.update(InstallationIndicator.Step.VERIFYING, "Verifying...");
+                indicator.update(
+                    InstallationIndicator.Step.VERIFYING,
+                    "Verifying..."
+                );
                 indicator.setStatus(InstallationIndicator.Status.PROCESSING);
                 break;
             case COMPLETED:
                 indicator.complete();
                 break;
             case FAILED:
-                indicator.fail(state.getErrorMessage() != null ? 
-                               state.getErrorMessage() : "Installation failed");
+                indicator.fail(
+                    state.getErrorMessage() != null
+                        ? state.getErrorMessage()
+                        : "Installation failed"
+                );
                 break;
             default:
                 break;
