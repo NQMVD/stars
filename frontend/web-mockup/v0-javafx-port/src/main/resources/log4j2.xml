@@ -14,7 +14,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout>
                 <Pattern
-                >%style{%d{HH:mm:ss}}{dim} %highlight{%-5level}{ERROR=red bold, WARN=yellow bold, INFO=green, DEBUG=blue, TRACE=blue} %style{%logger{1}}{cyan} - %msg%n</Pattern>
+                >%style{%d{HH:mm:ss}}{dim} %highlight{%-5level}{ERROR=red bold, WARN=yellow bold, INFO=green, DEBUG=blue, TRACE=blue} %style{%logger{1}}{green} - %msg%n</Pattern>
             </PatternLayout>
         </Console>
 
