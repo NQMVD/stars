@@ -1,0 +1,2875 @@
+[
+  {
+    "full_name": "Senjay-id/GMLoader",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/Senjay-id/GMLoader",
+    "stargazers_count": 9,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "piskelapp/piskel",
+    "is_desktop_app": false,
+    "description": "A simple web-based tool for Spriting and Pixel art.",
+    "html_url": "https://github.com/piskelapp/piskel",
+    "stargazers_count": 12159,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "charmbracelet/mods",
+    "is_desktop_app": true,
+    "description": "AI on the command line",
+    "html_url": "https://github.com/charmbracelet/mods",
+    "stargazers_count": 4347,
+    "installable_assets": [
+      {
+        "name": "mods-1.8.1-1.aarch64.rpm",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1-1.aarch64.rpm"
+      },
+      {
+        "name": "mods-1.8.1-1.armv7hl.rpm",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1-1.armv7hl.rpm"
+      },
+      {
+        "name": "mods-1.8.1-1.i386.rpm",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1-1.i386.rpm"
+      },
+      {
+        "name": "mods-1.8.1-1.x86_64.rpm",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1-1.x86_64.rpm"
+      },
+      {
+        "name": "mods-1.8.1.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_amd64.deb",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_amd64.deb"
+      },
+      {
+        "name": "mods_1.8.1_arm64.deb",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_arm64.deb"
+      },
+      {
+        "name": "mods_1.8.1_armhf.deb",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_armhf.deb"
+      },
+      {
+        "name": "mods_1.8.1_Darwin_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Darwin_arm64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Darwin_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Darwin_x86_64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Freebsd_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Freebsd_arm64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Freebsd_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Freebsd_x86_64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_i386.deb",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_i386.deb"
+      },
+      {
+        "name": "mods_1.8.1_Linux_arm.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Linux_arm.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Linux_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Linux_arm64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Linux_i386.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Linux_i386.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Linux_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Linux_x86_64.tar.gz"
+      },
+      {
+        "name": "mods_1.8.1_Windows_arm64.zip",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Windows_arm64.zip"
+      },
+      {
+        "name": "mods_1.8.1_Windows_x86_64.zip",
+        "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Windows_x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "TheR1D/shell_gpt",
+    "is_desktop_app": false,
+    "description": "A command-line productivity tool powered by AI large language models like GPT-4, will help you accomplish your tasks faster and more efficiently.",
+    "html_url": "https://github.com/TheR1D/shell_gpt",
+    "stargazers_count": 11609,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "1bardesign/batteries",
+    "is_desktop_app": false,
+    "description": "Reusable dependencies for games made with lua (especially with love)",
+    "html_url": "https://github.com/1bardesign/batteries",
+    "stargazers_count": 420,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "1bardesign/batteries-examples",
+    "is_desktop_app": false,
+    "description": "Semi-interactive examples for batteries",
+    "html_url": "https://github.com/1bardesign/batteries-examples",
+    "stargazers_count": 20,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "kittybupu/openVCB",
+    "is_desktop_app": true,
+    "description": "An open source implementation of the Virtual Circuit Board loader, assembler, and simulation engine. ",
+    "html_url": "https://github.com/kittybupu/openVCB",
+    "stargazers_count": 92,
+    "installable_assets": [
+      {
+        "name": "badApple.960000tps.zip",
+        "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/badApple.960000tps.zip"
+      },
+      {
+        "name": "badAppleFullRes.720000tps.zip",
+        "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/badAppleFullRes.720000tps.zip"
+      },
+      {
+        "name": "OpenVCB.Editor.MACOS.BETA.0.8.6.zip",
+        "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/OpenVCB.Editor.MACOS.BETA.0.8.6.zip"
+      },
+      {
+        "name": "OpenVCB.Editor.WIN.BETA.0.8.b.zip",
+        "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/OpenVCB.Editor.WIN.BETA.0.8.b.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "aseprite/Aseprite-Script-Examples",
+    "is_desktop_app": false,
+    "description": "Examples of scripts for Aseprite v1.2.10 that you can modify and use for your own custom actions",
+    "html_url": "https://github.com/aseprite/Aseprite-Script-Examples",
+    "stargazers_count": 302,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "gammons/ultralist",
+    "is_desktop_app": false,
+    "description": "Simple task management for tech folks.",
+    "html_url": "https://github.com/gammons/ultralist",
+    "stargazers_count": 954,
+    "installable_assets": [
+      {
+        "name": "ultralistdarwin_amd64.tar.gz",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralistdarwin_amd64.tar.gz"
+      },
+      {
+        "name": "ultralistlinux_386.tar.gz",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralistlinux_386.tar.gz"
+      },
+      {
+        "name": "ultralistlinux_amd64.tar.gz",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralistlinux_amd64.tar.gz"
+      },
+      {
+        "name": "ultralistlinux_arm.tar.gz",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralistlinux_arm.tar.gz"
+      },
+      {
+        "name": "ultralistlinux_arm64.tar.gz",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralistlinux_arm64.tar.gz"
+      },
+      {
+        "name": "ultralist_win.zip",
+        "download_url": "https://github.com/gammons/ultralist/releases/download/1.7.0/ultralist_win.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "aseprite/aseprite",
+    "is_desktop_app": false,
+    "description": "Animated sprite editor & pixel art tool (Windows, macOS, Linux)",
+    "html_url": "https://github.com/aseprite/aseprite",
+    "stargazers_count": 34961,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "leona/helix-gpt",
+    "is_desktop_app": false,
+    "description": "Code assistant language server for Helix with support for Copilot/OpenAI/Codeium/Ollama",
+    "html_url": "https://github.com/leona/helix-gpt",
+    "stargazers_count": 701,
+    "installable_assets": [
+      {
+        "name": "helix-gpt-0.34-x86_64-linux.tar.gz",
+        "download_url": "https://github.com/leona/helix-gpt/releases/download/0.34/helix-gpt-0.34-x86_64-linux.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux"
+    ]
+  },
+  {
+    "full_name": "CraigglesO/.config",
+    "is_desktop_app": false,
+    "description": "Config files, from helix, nvim, alacritty, tmux, yazi, zellij, and more...",
+    "html_url": "https://github.com/CraigglesO/.config",
+    "stargazers_count": 6,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "getsavvyinc/savvy-cli",
+    "is_desktop_app": false,
+    "description": "Automatically capture and surface your team's tribal knowledge",
+    "html_url": "https://github.com/getsavvyinc/savvy-cli",
+    "stargazers_count": 429,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "watchexec/watchexec",
+    "is_desktop_app": true,
+    "description": "Executes commands in response to file modifications",
+    "html_url": "https://github.com/watchexec/watchexec",
+    "stargazers_count": 6588,
+    "installable_assets": [
+      {
+        "name": "watchexec-2.3.2-aarch64-apple-darwin.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-apple-darwin.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-gnu.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-gnu.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-gnu.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-gnu.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-gnu.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-gnu.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-musl.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-musl.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-musl.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-musl.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-aarch64-unknown-linux-musl.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-aarch64-unknown-linux-musl.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-armv7-unknown-linux-gnueabihf.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-armv7-unknown-linux-gnueabihf.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-armv7-unknown-linux-gnueabihf.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-armv7-unknown-linux-gnueabihf.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-armv7-unknown-linux-gnueabihf.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-armv7-unknown-linux-gnueabihf.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-i686-unknown-linux-musl.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-i686-unknown-linux-musl.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-i686-unknown-linux-musl.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-i686-unknown-linux-musl.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-i686-unknown-linux-musl.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-i686-unknown-linux-musl.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-powerpc64le-unknown-linux-gnu.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-powerpc64le-unknown-linux-gnu.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-powerpc64le-unknown-linux-gnu.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-powerpc64le-unknown-linux-gnu.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-powerpc64le-unknown-linux-gnu.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-powerpc64le-unknown-linux-gnu.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-s390x-unknown-linux-gnu.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-s390x-unknown-linux-gnu.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-s390x-unknown-linux-gnu.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-s390x-unknown-linux-gnu.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-s390x-unknown-linux-gnu.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-s390x-unknown-linux-gnu.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-apple-darwin.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-apple-darwin.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-gnu.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-gnu.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-gnu.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-gnu.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-gnu.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-gnu.tar.xz"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-musl.deb",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.deb"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-musl.rpm",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.rpm"
+      },
+      {
+        "name": "watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz",
+        "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "face-hh/webx",
+    "is_desktop_app": true,
+    "description": "An alternative for the World Wide Web - browse websites such as buss://yippie.rizz made in HTML, CSS and Lua. Custom web browser, custom HTML rendering engine, custom search engine, and more.",
+    "html_url": "https://github.com/face-hh/webx",
+    "stargazers_count": 1924,
+    "installable_assets": [
+      {
+        "name": "Bussin_Napture-portable.paf.exe",
+        "download_url": "https://github.com/face-hh/webx/releases/download/v1.3.1/Bussin_Napture-portable.paf.exe"
+      },
+      {
+        "name": "Bussin_Napture-x86_64.AppImage",
+        "download_url": "https://github.com/face-hh/webx/releases/download/v1.3.1/Bussin_Napture-x86_64.AppImage"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "Hiroya-W/polybar-sequoia-theme",
+    "is_desktop_app": false,
+    "description": "Sequoia theme for polybar",
+    "html_url": "https://github.com/Hiroya-W/polybar-sequoia-theme",
+    "stargazers_count": 1,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "taylor85345/hyprland-dotfiles",
+    "is_desktop_app": false,
+    "description": "My dotfiles for Hyprland",
+    "html_url": "https://github.com/taylor85345/hyprland-dotfiles",
+    "stargazers_count": 299,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "rust-lang/rustlings",
+    "is_desktop_app": false,
+    "description": ":crab: Small exercises to get you used to reading and writing Rust code!",
+    "html_url": "https://github.com/rust-lang/rustlings",
+    "stargazers_count": 61086,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "collinalexbell/HackMatrix",
+    "is_desktop_app": false,
+    "description": "A 3d Linux desktop environment (and game engine)",
+    "html_url": "https://github.com/collinalexbell/HackMatrix",
+    "stargazers_count": 568,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "BalanceBalls/nekot",
+    "is_desktop_app": false,
+    "description": "A portable terminal AI interface",
+    "html_url": "https://github.com/BalanceBalls/nekot",
+    "stargazers_count": 136,
+    "installable_assets": [
+      {
+        "name": "nekot_0.7.9_darwin_amd64.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_darwin_amd64.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_darwin_arm64.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_darwin_arm64.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_linux_386.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_linux_386.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_linux_amd64.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_linux_amd64.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_linux_arm64.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_linux_arm64.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_linux_armv6.tar.gz",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_linux_armv6.tar.gz"
+      },
+      {
+        "name": "nekot_0.7.9_windows_386.zip",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_windows_386.zip"
+      },
+      {
+        "name": "nekot_0.7.9_windows_amd64.zip",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_windows_amd64.zip"
+      },
+      {
+        "name": "nekot_0.7.9_windows_arm64.zip",
+        "download_url": "https://github.com/BalanceBalls/nekot/releases/download/v0.7.9/nekot_0.7.9_windows_arm64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "charm-and-friends/freeze.nvim",
+    "is_desktop_app": false,
+    "description": "A wrapper for charm's freeze cli tool for usage in neovim",
+    "html_url": "https://github.com/charm-and-friends/freeze.nvim",
+    "stargazers_count": 85,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "fumeapp/taskin",
+    "is_desktop_app": false,
+    "description": "Add user-friendly tasks to your terminal",
+    "html_url": "https://github.com/fumeapp/taskin",
+    "stargazers_count": 13,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Gaurav-Gosain/ollamanager",
+    "is_desktop_app": false,
+    "description": "Download manager for Ollama",
+    "html_url": "https://github.com/Gaurav-Gosain/ollamanager",
+    "stargazers_count": 30,
+    "installable_assets": [
+      {
+        "name": "ollamanager_Darwin_arm64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Darwin_arm64.tar.gz"
+      },
+      {
+        "name": "ollamanager_Darwin_x86_64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Darwin_x86_64.tar.gz"
+      },
+      {
+        "name": "ollamanager_Linux_arm64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Linux_arm64.tar.gz"
+      },
+      {
+        "name": "ollamanager_Linux_i386.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Linux_i386.tar.gz"
+      },
+      {
+        "name": "ollamanager_Linux_x86_64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Linux_x86_64.tar.gz"
+      },
+      {
+        "name": "ollamanager_Windows_arm64.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Windows_arm64.zip"
+      },
+      {
+        "name": "ollamanager_Windows_i386.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Windows_i386.zip"
+      },
+      {
+        "name": "ollamanager_Windows_x86_64.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/ollamanager/releases/download/v0.1.19/ollamanager_Windows_x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "Gaurav-Gosain/gollama",
+    "is_desktop_app": false,
+    "description": "Gollama: Your offline conversational AI companion. An interactive tool for generating creative responses from various models, right in your terminal. Ideal for brainstorming, creative writing, or seeking inspiration.",
+    "html_url": "https://github.com/Gaurav-Gosain/gollama",
+    "stargazers_count": 165,
+    "installable_assets": [
+      {
+        "name": "gollama_Darwin_arm64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Darwin_arm64.tar.gz"
+      },
+      {
+        "name": "gollama_Darwin_x86_64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Darwin_x86_64.tar.gz"
+      },
+      {
+        "name": "gollama_Linux_arm64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Linux_arm64.tar.gz"
+      },
+      {
+        "name": "gollama_Linux_i386.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Linux_i386.tar.gz"
+      },
+      {
+        "name": "gollama_Linux_x86_64.tar.gz",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Linux_x86_64.tar.gz"
+      },
+      {
+        "name": "gollama_Windows_arm64.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Windows_arm64.zip"
+      },
+      {
+        "name": "gollama_Windows_i386.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Windows_i386.zip"
+      },
+      {
+        "name": "gollama_Windows_x86_64.zip",
+        "download_url": "https://github.com/Gaurav-Gosain/gollama/releases/download/v1.0.3/gollama_Windows_x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "qualidafial/pomo",
+    "is_desktop_app": false,
+    "description": "A CLI-based pomodoro + todo, inspired by pomotodo.com",
+    "html_url": "https://github.com/qualidafial/pomo",
+    "stargazers_count": 31,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "kranurag7/gh-fetch",
+    "is_desktop_app": true,
+    "description": null,
+    "html_url": "https://github.com/kranurag7/gh-fetch",
+    "stargazers_count": 5,
+    "installable_assets": [
+      {
+        "name": "windows-386.exe",
+        "download_url": "https://github.com/kranurag7/gh-fetch/releases/download/v0.0.1/windows-386.exe"
+      },
+      {
+        "name": "windows-amd64.exe",
+        "download_url": "https://github.com/kranurag7/gh-fetch/releases/download/v0.0.1/windows-amd64.exe"
+      },
+      {
+        "name": "windows-arm64.exe",
+        "download_url": "https://github.com/kranurag7/gh-fetch/releases/download/v0.0.1/windows-arm64.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "charmbracelet/freeze",
+    "is_desktop_app": true,
+    "description": "Generate images of code and terminal output \ud83d\udcf8",
+    "html_url": "https://github.com/charmbracelet/freeze",
+    "stargazers_count": 4234,
+    "installable_assets": [
+      {
+        "name": "freeze-0.2.2-1.aarch64.rpm",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze-0.2.2-1.aarch64.rpm"
+      },
+      {
+        "name": "freeze-0.2.2-1.armv7hl.rpm",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze-0.2.2-1.armv7hl.rpm"
+      },
+      {
+        "name": "freeze-0.2.2-1.i386.rpm",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze-0.2.2-1.i386.rpm"
+      },
+      {
+        "name": "freeze-0.2.2-1.x86_64.rpm",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze-0.2.2-1.x86_64.rpm"
+      },
+      {
+        "name": "freeze-0.2.2.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze-0.2.2.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_amd64.deb",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_amd64.deb"
+      },
+      {
+        "name": "freeze_0.2.2_arm64.deb",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_arm64.deb"
+      },
+      {
+        "name": "freeze_0.2.2_armhf.deb",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_armhf.deb"
+      },
+      {
+        "name": "freeze_0.2.2_Darwin_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Darwin_arm64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Darwin_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Darwin_x86_64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Freebsd_arm.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Freebsd_arm.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Freebsd_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Freebsd_arm64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Freebsd_i386.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Freebsd_i386.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Freebsd_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Freebsd_x86_64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_i386.deb",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_i386.deb"
+      },
+      {
+        "name": "freeze_0.2.2_Linux_arm.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Linux_arm.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Linux_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Linux_arm64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Linux_i386.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Linux_i386.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Linux_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Linux_x86_64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Netbsd_arm.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Netbsd_arm.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Netbsd_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Netbsd_arm64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Netbsd_i386.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Netbsd_i386.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Netbsd_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Netbsd_x86_64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Openbsd_arm.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Openbsd_arm.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Openbsd_arm64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Openbsd_arm64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Openbsd_i386.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Openbsd_i386.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Openbsd_x86_64.tar.gz",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Openbsd_x86_64.tar.gz"
+      },
+      {
+        "name": "freeze_0.2.2_Windows_i386.zip",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Windows_i386.zip"
+      },
+      {
+        "name": "freeze_0.2.2_Windows_x86_64.zip",
+        "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Windows_x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "koalaman/shellcheck",
+    "is_desktop_app": false,
+    "description": "ShellCheck, a static analysis tool for shell scripts",
+    "html_url": "https://github.com/koalaman/shellcheck",
+    "stargazers_count": 38690,
+    "installable_assets": [
+      {
+        "name": "shellcheck-v0.11.0.darwin.aarch64.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.darwin.aarch64.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.darwin.x86_64.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.darwin.x86_64.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.linux.aarch64.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.aarch64.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.linux.armv6hf.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.armv6hf.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.linux.riscv64.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.riscv64.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.linux.x86_64.tar.xz",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz"
+      },
+      {
+        "name": "shellcheck-v0.11.0.zip",
+        "download_url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "iced-rs/iced",
+    "is_desktop_app": true,
+    "description": "A cross-platform GUI library for Rust, inspired by Elm",
+    "html_url": "https://github.com/iced-rs/iced",
+    "stargazers_count": 28777,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "lapce/lapce",
+    "is_desktop_app": true,
+    "description": "Lightning-fast and Powerful Code Editor written in Rust",
+    "html_url": "https://github.com/lapce/lapce",
+    "stargazers_count": 37763,
+    "installable_assets": [
+      {
+        "name": "lapce-0.4.5-1.fedora41.x86_64.rpm",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce-0.4.5-1.fedora41.x86_64.rpm"
+      },
+      {
+        "name": "lapce-0.4.5-1.fedora42.x86_64.rpm",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce-0.4.5-1.fedora42.x86_64.rpm"
+      },
+      {
+        "name": "lapce-linux-amd64.tar.gz",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce-linux-amd64.tar.gz"
+      },
+      {
+        "name": "lapce-linux-arm64.tar.gz",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce-linux-arm64.tar.gz"
+      },
+      {
+        "name": "Lapce-macos.dmg",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/Lapce-macos.dmg"
+      },
+      {
+        "name": "Lapce-windows-portable.zip",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/Lapce-windows-portable.zip"
+      },
+      {
+        "name": "Lapce-windows.msi",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/Lapce-windows.msi"
+      },
+      {
+        "name": "lapce.debian.bookworm.amd64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.debian.bookworm.amd64.deb"
+      },
+      {
+        "name": "lapce.debian.bookworm.arm64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.debian.bookworm.arm64.deb"
+      },
+      {
+        "name": "lapce.debian.bullseye.amd64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.debian.bullseye.amd64.deb"
+      },
+      {
+        "name": "lapce.debian.bullseye.arm64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.debian.bullseye.arm64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.jammy.amd64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.jammy.amd64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.jammy.arm64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.jammy.arm64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.noble.amd64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.noble.amd64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.noble.arm64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.noble.arm64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.oracular.amd64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.oracular.amd64.deb"
+      },
+      {
+        "name": "lapce.ubuntu.oracular.arm64.deb",
+        "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.oracular.arm64.deb"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "scotow/dropit",
+    "is_desktop_app": false,
+    "description": "Temporary file hosting and sharing",
+    "html_url": "https://github.com/scotow/dropit",
+    "stargazers_count": 41,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "matze/wastebin",
+    "is_desktop_app": false,
+    "description": "wastebin is a pastebin \ud83d\udcdd",
+    "html_url": "https://github.com/matze/wastebin",
+    "stargazers_count": 724,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "notify-run/notify-run-rs",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/notify-run/notify-run-rs",
+    "stargazers_count": 68,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "shuttle-hq/shuttle",
+    "is_desktop_app": true,
+    "description": "Build & ship backends without writing any infrastructure files.",
+    "html_url": "https://github.com/shuttle-hq/shuttle",
+    "stargazers_count": 6790,
+    "installable_assets": [
+      {
+        "name": "cargo-shuttle-v0.57.3-aarch64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-aarch64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "cargo-shuttle-v0.57.3-aarch64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-aarch64-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "cargo-shuttle-v0.57.3-x86_64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-x86_64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "cargo-shuttle-v0.57.3-x86_64-pc-windows-msvc.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-x86_64-pc-windows-msvc.tar.gz"
+      },
+      {
+        "name": "cargo-shuttle-v0.57.3-x86_64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-x86_64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "cargo-shuttle-v0.57.3-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-x86_64-unknown-linux-musl.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "HigherOrderCO/Bend",
+    "is_desktop_app": false,
+    "description": "A massively parallel, high-level programming language",
+    "html_url": "https://github.com/HigherOrderCO/Bend",
+    "stargazers_count": 19118,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "wandb/openui",
+    "is_desktop_app": true,
+    "description": "OpenUI let's you describe UI using your imagination, then see it rendered live.",
+    "html_url": "https://github.com/wandb/openui",
+    "stargazers_count": 21887,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "public-apis/public-apis",
+    "is_desktop_app": false,
+    "description": "A collective list of free APIs",
+    "html_url": "https://github.com/public-apis/public-apis",
+    "stargazers_count": 387063,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "barthr/redo",
+    "is_desktop_app": false,
+    "description": "Redo is the ultimate tool to create reusable functions from your history in an interactive way",
+    "html_url": "https://github.com/barthr/redo",
+    "stargazers_count": 882,
+    "installable_assets": [
+      {
+        "name": "redo_0.8.4_Darwin_arm64.tar.gz",
+        "download_url": "https://github.com/barthr/redo/releases/download/v0.8.4/redo_0.8.4_Darwin_arm64.tar.gz"
+      },
+      {
+        "name": "redo_0.8.4_Darwin_x86_64.tar.gz",
+        "download_url": "https://github.com/barthr/redo/releases/download/v0.8.4/redo_0.8.4_Darwin_x86_64.tar.gz"
+      },
+      {
+        "name": "redo_0.8.4_Linux_arm64.tar.gz",
+        "download_url": "https://github.com/barthr/redo/releases/download/v0.8.4/redo_0.8.4_Linux_arm64.tar.gz"
+      },
+      {
+        "name": "redo_0.8.4_Linux_i386.tar.gz",
+        "download_url": "https://github.com/barthr/redo/releases/download/v0.8.4/redo_0.8.4_Linux_i386.tar.gz"
+      },
+      {
+        "name": "redo_0.8.4_Linux_x86_64.tar.gz",
+        "download_url": "https://github.com/barthr/redo/releases/download/v0.8.4/redo_0.8.4_Linux_x86_64.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "metal3d/bashsimplecurses",
+    "is_desktop_app": false,
+    "description": "A simple curses library made in bash to draw terminal interfaces",
+    "html_url": "https://github.com/metal3d/bashsimplecurses",
+    "stargazers_count": 970,
+    "installable_assets": [
+      {
+        "name": "bashsimplecurses-1.3.tar.gz",
+        "download_url": "https://github.com/metal3d/bashsimplecurses/releases/download/v1.3/bashsimplecurses-1.3.tar.gz"
+      }
+    ],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "dhotrey/pman",
+    "is_desktop_app": false,
+    "description": "A CLI project manager",
+    "html_url": "https://github.com/dhotrey/pman",
+    "stargazers_count": 42,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "yorukot/superfile",
+    "is_desktop_app": true,
+    "description": "Pretty fancy and modern terminal file manager",
+    "html_url": "https://github.com/yorukot/superfile",
+    "stargazers_count": 16094,
+    "installable_assets": [
+      {
+        "name": "superfile-darwin-v1.4.0-amd64.tar.gz",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-darwin-v1.4.0-amd64.tar.gz"
+      },
+      {
+        "name": "superfile-darwin-v1.4.0-arm64.tar.gz",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-darwin-v1.4.0-arm64.tar.gz"
+      },
+      {
+        "name": "superfile-linux-v1.4.0-amd64.tar.gz",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-linux-v1.4.0-amd64.tar.gz"
+      },
+      {
+        "name": "superfile-linux-v1.4.0-arm64.tar.gz",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-linux-v1.4.0-arm64.tar.gz"
+      },
+      {
+        "name": "superfile-windows-v1.4.0-amd64.zip",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-windows-v1.4.0-amd64.zip"
+      },
+      {
+        "name": "superfile-windows-v1.4.0-arm64.zip",
+        "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-windows-v1.4.0-arm64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "poorlajka/dotfiles",
+    "is_desktop_app": false,
+    "description": "Hyprland rice including nvim config",
+    "html_url": "https://github.com/poorlajka/dotfiles",
+    "stargazers_count": 56,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "bashly-framework/bashly",
+    "is_desktop_app": false,
+    "description": "Bash command line framework and CLI generator",
+    "html_url": "https://github.com/bashly-framework/bashly",
+    "stargazers_count": 2355,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "sigoden/aichat",
+    "is_desktop_app": false,
+    "description": "All-in-one LLM CLI tool featuring Shell Assistant, Chat-REPL, RAG, AI Tools & Agents, with access to OpenAI, Claude, Gemini, Ollama, Groq, and more.",
+    "html_url": "https://github.com/sigoden/aichat",
+    "stargazers_count": 8891,
+    "installable_assets": [
+      {
+        "name": "aichat-v0.30.0-aarch64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-aarch64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-aarch64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-aarch64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "aichat-v0.30.0-aarch64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-aarch64-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-arm-unknown-linux-musleabihf.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-arm-unknown-linux-musleabihf.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-armv7-unknown-linux-musleabihf.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-armv7-unknown-linux-musleabihf.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-i686-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-i686-pc-windows-msvc.zip"
+      },
+      {
+        "name": "aichat-v0.30.0-i686-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-i686-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-x86_64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-x86_64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "aichat-v0.30.0-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "aichat-v0.30.0-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/sigoden/aichat/releases/download/v0.30.0/aichat-v0.30.0-x86_64-unknown-linux-musl.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "agarrharr/awesome-cli-apps",
+    "is_desktop_app": true,
+    "description": "\ud83d\udda5 \ud83d\udcca \ud83d\udd79 \ud83d\udee0 A curated list of command line apps",
+    "html_url": "https://github.com/agarrharr/awesome-cli-apps",
+    "stargazers_count": 18223,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "qzb/is.sh",
+    "is_desktop_app": false,
+    "description": "Human readable conditions for bash \ud83d\udc4c",
+    "html_url": "https://github.com/qzb/is.sh",
+    "stargazers_count": 175,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "coderofsalvation/kanban.bash",
+    "is_desktop_app": false,
+    "description": "commandline asciii kanban board for minimalist productivity hackers & managers (csv-based) #scriptable #nestable #statistics #singlefile #shellscript #issuetracker #git",
+    "html_url": "https://github.com/coderofsalvation/kanban.bash",
+    "stargazers_count": 934,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "LuRsT/hr",
+    "is_desktop_app": false,
+    "description": " A horizontal :straight_ruler: for your terminal",
+    "html_url": "https://github.com/LuRsT/hr",
+    "stargazers_count": 1297,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "smallhadroncollider/taskell",
+    "is_desktop_app": true,
+    "description": "Command-line Kanban board/task manager with support for Trello boards and GitHub projects",
+    "html_url": "https://github.com/smallhadroncollider/taskell",
+    "stargazers_count": 1772,
+    "installable_assets": [
+      {
+        "name": "taskell-1.11.4_x86-64-linux.deb",
+        "download_url": "https://github.com/smallhadroncollider/taskell/releases/download/1.11.4/taskell-1.11.4_x86-64-linux.deb"
+      },
+      {
+        "name": "taskell-1.11.4_x86-64-linux.tar.gz",
+        "download_url": "https://github.com/smallhadroncollider/taskell/releases/download/1.11.4/taskell-1.11.4_x86-64-linux.tar.gz"
+      },
+      {
+        "name": "taskell-1.11.4_x86-64-mac.tar.gz",
+        "download_url": "https://github.com/smallhadroncollider/taskell/releases/download/1.11.4/taskell-1.11.4_x86-64-mac.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux"
+    ]
+  },
+  {
+    "full_name": "Miserlou/Loop",
+    "is_desktop_app": false,
+    "description": "UNIX's missing `loop` command",
+    "html_url": "https://github.com/Miserlou/Loop",
+    "stargazers_count": 686,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "juan-leon/lowcharts",
+    "is_desktop_app": true,
+    "description": "Tool to draw low-resolution graphs in terminal",
+    "html_url": "https://github.com/juan-leon/lowcharts",
+    "stargazers_count": 241,
+    "installable_assets": [
+      {
+        "name": "lowcharts-0.5.9-arm-unknown-linux-gnueabihf.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-arm-unknown-linux-gnueabihf.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-arm-unknown-linux-musleabihf.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-arm-unknown-linux-musleabihf.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-i686-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-i686-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-i686-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-i686-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-x86_64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-x86_64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-x86_64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-x86_64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "lowcharts-0.5.9-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts-0.5.9-x86_64-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "lowcharts_0.5.9-1_amd64.deb",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts_0.5.9-1_amd64.deb"
+      },
+      {
+        "name": "lowcharts_0.5.9-1_armhf.deb",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts_0.5.9-1_armhf.deb"
+      },
+      {
+        "name": "lowcharts_0.5.9-1_i386.deb",
+        "download_url": "https://github.com/juan-leon/lowcharts/releases/download/v0.5.9/lowcharts_0.5.9-1_i386.deb"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "kdabir/has",
+    "is_desktop_app": false,
+    "description": "\u2705 checks presence of various command line tools and their versions on the path ",
+    "html_url": "https://github.com/kdabir/has",
+    "stargazers_count": 791,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "jarun/ddgr",
+    "is_desktop_app": false,
+    "description": ":duck: DuckDuckGo from the terminal",
+    "html_url": "https://github.com/jarun/ddgr",
+    "stargazers_count": 3171,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "alebcay/awesome-shell",
+    "is_desktop_app": true,
+    "description": "A curated list of awesome command-line frameworks, toolkits, guides and gizmos. Inspired by awesome-php.",
+    "html_url": "https://github.com/alebcay/awesome-shell",
+    "stargazers_count": 36129,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "zdharma-continuum/zinit",
+    "is_desktop_app": false,
+    "description": "\ud83c\udf3b Flexible and fast ZSH plugin manager",
+    "html_url": "https://github.com/zdharma-continuum/zinit",
+    "stargazers_count": 4246,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "o2sh/onefetch",
+    "is_desktop_app": true,
+    "description": "Command-line Git information tool",
+    "html_url": "https://github.com/o2sh/onefetch",
+    "stargazers_count": 11392,
+    "installable_assets": [
+      {
+        "name": "onefetch-linux.tar.gz",
+        "download_url": "https://github.com/o2sh/onefetch/releases/download/2.26.1/onefetch-linux.tar.gz"
+      },
+      {
+        "name": "onefetch-mac.tar.gz",
+        "download_url": "https://github.com/o2sh/onefetch/releases/download/2.26.1/onefetch-mac.tar.gz"
+      },
+      {
+        "name": "onefetch-setup.exe",
+        "download_url": "https://github.com/o2sh/onefetch/releases/download/2.26.1/onefetch-setup.exe"
+      },
+      {
+        "name": "onefetch-win.tar.gz",
+        "download_url": "https://github.com/o2sh/onefetch/releases/download/2.26.1/onefetch-win.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "info-mono/diyfetch",
+    "is_desktop_app": false,
+    "description": "\ud83e\uddf0\ud83d\udce0 The ultimate fetch tool template",
+    "html_url": "https://github.com/info-mono/diyfetch",
+    "stargazers_count": 244,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Ruturajn/fetchit",
+    "is_desktop_app": true,
+    "description": "A system fetch tool for Linux, written in Rust.",
+    "html_url": "https://github.com/Ruturajn/fetchit",
+    "stargazers_count": 40,
+    "installable_assets": [
+      {
+        "name": "fetchit-0.1.1-x86_64.tar.gz",
+        "download_url": "https://github.com/Ruturajn/fetchit/releases/download/v0.1.1/fetchit-0.1.1-x86_64.tar.gz"
+      }
+    ],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "rice7th/swef",
+    "is_desktop_app": false,
+    "description": "The Should Work Everywhere Fetch... or at least it should",
+    "html_url": "https://github.com/rice7th/swef",
+    "stargazers_count": 20,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "ggreer/the_silver_searcher",
+    "is_desktop_app": false,
+    "description": "A code-searching tool similar to ack, but faster.",
+    "html_url": "https://github.com/ggreer/the_silver_searcher",
+    "stargazers_count": 27164,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "dharmx/vile",
+    "is_desktop_app": true,
+    "description": "Waste of time. Smelly widgets feat. Spaghetti code. Built with eww-3.0.",
+    "html_url": "https://github.com/dharmx/vile",
+    "stargazers_count": 400,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "bash-lsp/bash-language-server",
+    "is_desktop_app": false,
+    "description": "A language server for Bash",
+    "html_url": "https://github.com/bash-lsp/bash-language-server",
+    "stargazers_count": 2577,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "charmbracelet/huh",
+    "is_desktop_app": true,
+    "description": "Build terminal forms and prompts \ud83e\udd37\ud83c\udffb\u200d\u2640\ufe0f",
+    "html_url": "https://github.com/charmbracelet/huh",
+    "stargazers_count": 6345,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "maaslalani/glyphs",
+    "is_desktop_app": false,
+    "description": "Unicode symbols on the command line",
+    "html_url": "https://github.com/maaslalani/glyphs",
+    "stargazers_count": 117,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "GiorgosXou/TUIFIManager",
+    "is_desktop_app": false,
+    "description": "A cross-platform terminal-based termux-oriented file manager (and component), meant to be used with a Uni-Curses project or as is. ",
+    "html_url": "https://github.com/GiorgosXou/TUIFIManager",
+    "stargazers_count": 797,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "wick3dr0se/pkm",
+    "is_desktop_app": true,
+    "description": "A super minimal TUI package manager wrapper written in BASH v4.2+",
+    "html_url": "https://github.com/wick3dr0se/pkm",
+    "stargazers_count": 60,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "sxyazi/yazi",
+    "is_desktop_app": false,
+    "description": "\ud83d\udca5 Blazing fast terminal file manager written in Rust, based on async I/O.",
+    "html_url": "https://github.com/sxyazi/yazi",
+    "stargazers_count": 30770,
+    "installable_assets": [
+      {
+        "name": "yazi-aarch64-apple-darwin.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-aarch64-apple-darwin.zip"
+      },
+      {
+        "name": "yazi-aarch64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-aarch64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "yazi-aarch64-unknown-linux-gnu.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-aarch64-unknown-linux-gnu.zip"
+      },
+      {
+        "name": "yazi-aarch64-unknown-linux-musl.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-aarch64-unknown-linux-musl.zip"
+      },
+      {
+        "name": "yazi-i686-unknown-linux-gnu.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-i686-unknown-linux-gnu.zip"
+      },
+      {
+        "name": "yazi-riscv64gc-unknown-linux-gnu.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-riscv64gc-unknown-linux-gnu.zip"
+      },
+      {
+        "name": "yazi-sparc64-unknown-linux-gnu.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-sparc64-unknown-linux-gnu.zip"
+      },
+      {
+        "name": "yazi-x86_64-apple-darwin.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-apple-darwin.zip"
+      },
+      {
+        "name": "yazi-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "yazi-x86_64-unknown-linux-gnu.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-gnu.zip"
+      },
+      {
+        "name": "yazi-x86_64-unknown-linux-musl.zip",
+        "download_url": "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-musl.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "NikolaDucak/caps-log",
+    "is_desktop_app": true,
+    "description": "A small TUI journaling tool. \ud83d\udcd6",
+    "html_url": "https://github.com/NikolaDucak/caps-log",
+    "stargazers_count": 337,
+    "installable_assets": [
+      {
+        "name": "caps-log-linux.tar.gz",
+        "download_url": "https://github.com/NikolaDucak/caps-log/releases/download/1.2.1/caps-log-linux.tar.gz"
+      },
+      {
+        "name": "caps-log-macos.tar.gz",
+        "download_url": "https://github.com/NikolaDucak/caps-log/releases/download/1.2.1/caps-log-macos.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "dylanaraps/fff",
+    "is_desktop_app": false,
+    "description": "\ud83d\udcc1 A simple file manager written in bash.",
+    "html_url": "https://github.com/dylanaraps/fff",
+    "stargazers_count": 4155,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "zplug/zplug",
+    "is_desktop_app": false,
+    "description": ":hibiscus: A next-generation plugin manager for zsh",
+    "html_url": "https://github.com/zplug/zplug",
+    "stargazers_count": 5977,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "jondot/awesome-devenv",
+    "is_desktop_app": false,
+    "description": "A curated list of awesome tools, resources and workflow tips making an awesome development environment.",
+    "html_url": "https://github.com/jondot/awesome-devenv",
+    "stargazers_count": 3124,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "jcassee/supernotes-client",
+    "is_desktop_app": true,
+    "description": "Supernotes client",
+    "html_url": "https://github.com/jcassee/supernotes-client",
+    "stargazers_count": 6,
+    "installable_assets": [
+      {
+        "name": "sn_windows.exe",
+        "download_url": "https://github.com/jcassee/supernotes-client/releases/download/0.1.0/sn_windows.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "Xella37/CC-Minecraft",
+    "is_desktop_app": false,
+    "description": "A Minecraft game for CC to run in Minecraft!",
+    "html_url": "https://github.com/Xella37/CC-Minecraft",
+    "stargazers_count": 11,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Akifyss/obsidian-border",
+    "is_desktop_app": false,
+    "description": "A theme for obsidian.md",
+    "html_url": "https://github.com/Akifyss/obsidian-border",
+    "stargazers_count": 2155,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "ublue-os/bazzite-arch",
+    "is_desktop_app": false,
+    "description": "A ready-to-game Arch Linux based OCI designed for use exclusively in distrobox.",
+    "html_url": "https://github.com/ublue-os/bazzite-arch",
+    "stargazers_count": 168,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Xfennec/progress",
+    "is_desktop_app": false,
+    "description": "Linux tool to show progress for cp, mv, dd, ... (formerly known as cv)",
+    "html_url": "https://github.com/Xfennec/progress",
+    "stargazers_count": 8790,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "sharkdp/hyperfine",
+    "is_desktop_app": true,
+    "description": "A command-line benchmarking tool",
+    "html_url": "https://github.com/sharkdp/hyperfine",
+    "stargazers_count": 27062,
+    "installable_assets": [
+      {
+        "name": "hyperfine-musl_1.20.0_amd64.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-musl_1.20.0_amd64.deb"
+      },
+      {
+        "name": "hyperfine-musl_1.20.0_armhf.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-musl_1.20.0_armhf.deb"
+      },
+      {
+        "name": "hyperfine-musl_1.20.0_i686.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-musl_1.20.0_i686.deb"
+      },
+      {
+        "name": "hyperfine-v1.20.0-aarch64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-aarch64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-aarch64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-aarch64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-arm-unknown-linux-gnueabihf.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-arm-unknown-linux-gnueabihf.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-arm-unknown-linux-musleabihf.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-arm-unknown-linux-musleabihf.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-i686-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-i686-pc-windows-msvc.zip"
+      },
+      {
+        "name": "hyperfine-v1.20.0-i686-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-i686-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-i686-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-i686-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-x86_64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "hyperfine-v1.20.0-x86_64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "hyperfine-v1.20.0-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine-v1.20.0-x86_64-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "hyperfine_1.20.0_amd64.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine_1.20.0_amd64.deb"
+      },
+      {
+        "name": "hyperfine_1.20.0_arm64.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine_1.20.0_arm64.deb"
+      },
+      {
+        "name": "hyperfine_1.20.0_armhf.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine_1.20.0_armhf.deb"
+      },
+      {
+        "name": "hyperfine_1.20.0_i686.deb",
+        "download_url": "https://github.com/sharkdp/hyperfine/releases/download/v1.20.0/hyperfine_1.20.0_i686.deb"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "usememos/memos",
+    "is_desktop_app": false,
+    "description": "An open-source, self-hosted note-taking service. Your thoughts, your data, your control \u2014 no tracking, no ads, no subscription fees.",
+    "html_url": "https://github.com/usememos/memos",
+    "stargazers_count": 47346,
+    "installable_assets": [
+      {
+        "name": "memos_v0.25.3_darwin_amd64.tar.gz",
+        "download_url": "https://github.com/usememos/memos/releases/download/v0.25.3/memos_v0.25.3_darwin_amd64.tar.gz"
+      },
+      {
+        "name": "memos_v0.25.3_darwin_arm64.tar.gz",
+        "download_url": "https://github.com/usememos/memos/releases/download/v0.25.3/memos_v0.25.3_darwin_arm64.tar.gz"
+      },
+      {
+        "name": "memos_v0.25.3_linux_386.tar.gz",
+        "download_url": "https://github.com/usememos/memos/releases/download/v0.25.3/memos_v0.25.3_linux_386.tar.gz"
+      },
+      {
+        "name": "memos_v0.25.3_linux_amd64.tar.gz",
+        "download_url": "https://github.com/usememos/memos/releases/download/v0.25.3/memos_v0.25.3_linux_amd64.tar.gz"
+      },
+      {
+        "name": "memos_v0.25.3_linux_arm64.tar.gz",
+        "download_url": "https://github.com/usememos/memos/releases/download/v0.25.3/memos_v0.25.3_linux_arm64.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "jarun/advcpmv",
+    "is_desktop_app": false,
+    "description": "A patch for GNU Core Utilities cp, mv to add progress bars",
+    "html_url": "https://github.com/jarun/advcpmv",
+    "stargazers_count": 1325,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "wezterm/wezterm",
+    "is_desktop_app": true,
+    "description": "A GPU-accelerated cross-platform terminal emulator and multiplexer written by @wez and implemented in Rust",
+    "html_url": "https://github.com/wezterm/wezterm",
+    "stargazers_count": 22927,
+    "installable_assets": [
+      {
+        "name": "WezTerm-20240203-110809-5046fc22-setup.exe",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-20240203-110809-5046fc22-setup.exe"
+      },
+      {
+        "name": "WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian10.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian10.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian10.tar.xz",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian10.tar.xz"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian11.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian11.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian11.tar.xz",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian11.tar.xz"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian12.arm64.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian12.arm64.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian12.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian12.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Debian12.tar.xz",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian12.tar.xz"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Ubuntu20.04.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu20.04.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Ubuntu20.04.tar.xz",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu20.04.tar.xz"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Ubuntu22.04.arm64.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu22.04.arm64.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Ubuntu22.04.deb",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu22.04.deb"
+      },
+      {
+        "name": "wezterm-20240203-110809-5046fc22.Ubuntu22.04.tar.xz",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu22.04.tar.xz"
+      },
+      {
+        "name": "wezterm-20240203_110809_5046fc22-1.centos8.x86_64.rpm",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203_110809_5046fc22-1.centos8.x86_64.rpm"
+      },
+      {
+        "name": "wezterm-20240203_110809_5046fc22-1.centos9.x86_64.rpm",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203_110809_5046fc22-1.centos9.x86_64.rpm"
+      },
+      {
+        "name": "wezterm-20240203_110809_5046fc22-1.fedora37.x86_64.rpm",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203_110809_5046fc22-1.fedora37.x86_64.rpm"
+      },
+      {
+        "name": "wezterm-20240203_110809_5046fc22-1.fedora38.x86_64.rpm",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203_110809_5046fc22-1.fedora38.x86_64.rpm"
+      },
+      {
+        "name": "wezterm-20240203_110809_5046fc22-1.fedora39.x86_64.rpm",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203_110809_5046fc22-1.fedora39.x86_64.rpm"
+      },
+      {
+        "name": "WezTerm-macos-20240203-110809-5046fc22.zip",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-macos-20240203-110809-5046fc22.zip"
+      },
+      {
+        "name": "WezTerm-windows-20240203-110809-5046fc22.zip",
+        "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-windows-20240203-110809-5046fc22.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "sentriz/cliphist",
+    "is_desktop_app": false,
+    "description": "Wayland clipboard manager with support for multimedia",
+    "html_url": "https://github.com/sentriz/cliphist",
+    "stargazers_count": 1244,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "basherpm/basher",
+    "is_desktop_app": false,
+    "description": "A package manager for shell scripts.",
+    "html_url": "https://github.com/basherpm/basher",
+    "stargazers_count": 1259,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "ValveSoftware/gamescope",
+    "is_desktop_app": true,
+    "description": "SteamOS session compositing window manager",
+    "html_url": "https://github.com/ValveSoftware/gamescope",
+    "stargazers_count": 4316,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "hyprland-community/awesome-hyprland",
+    "is_desktop_app": false,
+    "description": "Awesome list for Hyprland [maintainer=@yavko]",
+    "html_url": "https://github.com/hyprland-community/awesome-hyprland",
+    "stargazers_count": 4618,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "sunsetzfrags/Hyprland-Nvidia",
+    "is_desktop_app": false,
+    "description": "Simplifies Hyprland installation for Arch Linux with Nvidia graphics",
+    "html_url": "https://github.com/sunsetzfrags/Hyprland-Nvidia",
+    "stargazers_count": 3,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Hiroya-W/sequoia-moonlight.nvim",
+    "is_desktop_app": false,
+    "description": "Sequoia Moonlight scheme for Neovim",
+    "html_url": "https://github.com/Hiroya-W/sequoia-moonlight.nvim",
+    "stargazers_count": 17,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Sequoia-Theme/vs-code",
+    "is_desktop_app": false,
+    "description": "Modern, elegant and different theme.",
+    "html_url": "https://github.com/Sequoia-Theme/vs-code",
+    "stargazers_count": 107,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "vishal2376/snaptick",
+    "is_desktop_app": true,
+    "description": "Snaptick is an MVVM Jetpack Compose app, offering ad-free task management with a built-in pomodoro timer to help you organize your daily plans",
+    "html_url": "https://github.com/vishal2376/snaptick",
+    "stargazers_count": 661,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "fadeevab/cliclack",
+    "is_desktop_app": false,
+    "description": "Beautiful, minimal, opinionated CLI prompts inspired by the Clack NPM package",
+    "html_url": "https://github.com/fadeevab/cliclack",
+    "stargazers_count": 303,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "coronalabs/corona",
+    "is_desktop_app": true,
+    "description": "Solar2D Game Engine main repository (ex Corona SDK)",
+    "html_url": "https://github.com/coronalabs/corona",
+    "stargazers_count": 2757,
+    "installable_assets": [
+      {
+        "name": "AndroidDebugSymbols-2025.3726.zip",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/AndroidDebugSymbols-2025.3726.zip"
+      },
+      {
+        "name": "CoronaCards-Android-2025.3726.zip",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/CoronaCards-Android-2025.3726.zip"
+      },
+      {
+        "name": "CoronaCards-iOS-2025.3726.zip",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/CoronaCards-iOS-2025.3726.zip"
+      },
+      {
+        "name": "CoronaCards-iOS-MetalANGLE-2025.3726.zip",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/CoronaCards-iOS-MetalANGLE-2025.3726.zip"
+      },
+      {
+        "name": "Solar2D-macOS-2025.3726.dmg",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/Solar2D-macOS-2025.3726.dmg"
+      },
+      {
+        "name": "Solar2D-Windows-2025.3726.msi",
+        "download_url": "https://github.com/coronalabs/corona/releases/download/3726/Solar2D-Windows-2025.3726.msi"
+      }
+    ],
+    "detected_platforms": [
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "godot-rust/gdext",
+    "is_desktop_app": false,
+    "description": "Rust bindings for Godot 4",
+    "html_url": "https://github.com/godot-rust/gdext",
+    "stargazers_count": 4245,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "rerun-io/rerun",
+    "is_desktop_app": true,
+    "description": "An open source SDK for logging, storing, querying, and visualizing multimodal and multi-rate data",
+    "html_url": "https://github.com/rerun-io/rerun",
+    "stargazers_count": 9800,
+    "installable_assets": [
+      {
+        "name": "rerun-cli-0.28.1-x86_64-pc-windows-msvc.exe",
+        "download_url": "https://github.com/rerun-io/rerun/releases/download/0.28.1/rerun-cli-0.28.1-x86_64-pc-windows-msvc.exe"
+      },
+      {
+        "name": "rerun-js-web-viewer-react.tar.gz",
+        "download_url": "https://github.com/rerun-io/rerun/releases/download/0.28.1/rerun-js-web-viewer-react.tar.gz"
+      },
+      {
+        "name": "rerun-js-web-viewer.tar.gz",
+        "download_url": "https://github.com/rerun-io/rerun/releases/download/0.28.1/rerun-js-web-viewer.tar.gz"
+      },
+      {
+        "name": "rerun_cpp_sdk-0.28.1-multiplatform.zip",
+        "download_url": "https://github.com/rerun-io/rerun/releases/download/0.28.1/rerun_cpp_sdk-0.28.1-multiplatform.zip"
+      },
+      {
+        "name": "rerun_cpp_sdk.zip",
+        "download_url": "https://github.com/rerun-io/rerun/releases/download/0.28.1/rerun_cpp_sdk.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "emilk/egui",
+    "is_desktop_app": true,
+    "description": "egui: an easy-to-use immediate mode GUI in Rust that runs on both web and native",
+    "html_url": "https://github.com/emilk/egui",
+    "stargazers_count": 27506,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "hakolao/bevy_vulkano",
+    "is_desktop_app": false,
+    "description": "Bevy vulkano integrates Vulkano as rendering backend for Bevy game engine",
+    "html_url": "https://github.com/hakolao/bevy_vulkano",
+    "stargazers_count": 35,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "nickcoutsos/keymap-editor",
+    "is_desktop_app": true,
+    "description": "A web based graphical editor of ZMK keymaps.",
+    "html_url": "https://github.com/nickcoutsos/keymap-editor",
+    "stargazers_count": 1885,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "mukulve/Code-Editor",
+    "is_desktop_app": true,
+    "description": "Lightweight Code Editor ",
+    "html_url": "https://github.com/mukulve/Code-Editor",
+    "stargazers_count": 56,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "mrjones2014/legendary.nvim",
+    "is_desktop_app": false,
+    "description": "\ud83d\uddfa\ufe0f A legend for your keymaps, commands, and autocmds, integrates with which-key.nvim, lazy.nvim, and more.",
+    "html_url": "https://github.com/mrjones2014/legendary.nvim",
+    "stargazers_count": 1222,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "nvim-lua/plenary.nvim",
+    "is_desktop_app": false,
+    "description": "plenary: full; complete; entire; absolute; unqualified. All the lua functions I don't want to write twice.",
+    "html_url": "https://github.com/nvim-lua/plenary.nvim",
+    "stargazers_count": 3330,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "monaqa/dial.nvim",
+    "is_desktop_app": false,
+    "description": "enhanced increment/decrement plugin for Neovim.",
+    "html_url": "https://github.com/monaqa/dial.nvim",
+    "stargazers_count": 1026,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "zef/vim-cycle",
+    "is_desktop_app": false,
+    "description": "A vim plugin to toggle words between pairs or lists of related words.",
+    "html_url": "https://github.com/zef/vim-cycle",
+    "stargazers_count": 83,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "nvim-mini/mini.nvim",
+    "is_desktop_app": false,
+    "description": "Library of 40+ independent Lua modules improving Neovim experience with minimal effort",
+    "html_url": "https://github.com/nvim-mini/mini.nvim",
+    "stargazers_count": 8480,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "sioodmy/dotfiles",
+    "is_desktop_app": false,
+    "description": "My NixOS configuration flake that moggs yours in term of eval times",
+    "html_url": "https://github.com/sioodmy/dotfiles",
+    "stargazers_count": 882,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "vrtmrz/obsidian-livesync",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/vrtmrz/obsidian-livesync",
+    "stargazers_count": 8714,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "0komo/warna",
+    "is_desktop_app": false,
+    "description": "\ud83c\udfa8 Terminal text styling library for Lua",
+    "html_url": "https://github.com/0komo/warna",
+    "stargazers_count": 8,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "AnubisNekhet/AnuPpuccin",
+    "is_desktop_app": false,
+    "description": "Personal theme for Obsidian",
+    "html_url": "https://github.com/AnubisNekhet/AnuPpuccin",
+    "stargazers_count": 2933,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Dillonb/nmuidi",
+    "is_desktop_app": true,
+    "description": "Deletes stuff, hopefully quickly",
+    "html_url": "https://github.com/Dillonb/nmuidi",
+    "stargazers_count": 232,
+    "installable_assets": [
+      {
+        "name": "nmuidi.exe",
+        "download_url": "https://github.com/Dillonb/nmuidi/releases/download/v0.1.5/nmuidi.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "estk/log4rs",
+    "is_desktop_app": false,
+    "description": "A highly configurable logging framework for Rust",
+    "html_url": "https://github.com/estk/log4rs",
+    "stargazers_count": 1113,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "dmmulroy/.dotfiles",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/dmmulroy/.dotfiles",
+    "stargazers_count": 240,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Pyroxenium/Basalt",
+    "is_desktop_app": true,
+    "description": "A UI Framework for CC:Tweaked",
+    "html_url": "https://github.com/Pyroxenium/Basalt",
+    "stargazers_count": 229,
+    "installable_assets": [
+      {
+        "name": "basalt.zip",
+        "download_url": "https://github.com/Pyroxenium/Basalt/releases/download/v1.7/basalt.zip"
+      }
+    ],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "TheZipCreator/zed-cc",
+    "is_desktop_app": true,
+    "description": "A simple computercraft text editor",
+    "html_url": "https://github.com/TheZipCreator/zed-cc",
+    "stargazers_count": 1,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "AppFlowy-IO/AppFlowy",
+    "is_desktop_app": true,
+    "description": "Bring projects, wikis, and teams together with AI. AppFlowy is the AI collaborative workspace where you achieve more without losing control of your data. The leading open source Notion alternative.",
+    "html_url": "https://github.com/AppFlowy-IO/AppFlowy",
+    "stargazers_count": 67073,
+    "installable_assets": [
+      {
+        "name": "AppFlowy-0.10.7-linux-x86_64.AppImage",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-linux-x86_64.AppImage"
+      },
+      {
+        "name": "AppFlowy-0.10.7-linux-x86_64.deb",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-linux-x86_64.deb"
+      },
+      {
+        "name": "AppFlowy-0.10.7-linux-x86_64.rpm",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-linux-x86_64.rpm"
+      },
+      {
+        "name": "AppFlowy-0.10.7-linux-x86_64.tar.gz",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-linux-x86_64.tar.gz"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-arm64.dmg",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-arm64.dmg"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-arm64.zip",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-arm64.zip"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-universal.dmg",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-universal.dmg"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-universal.zip",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-universal.zip"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-x86_64.dmg",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-x86_64.dmg"
+      },
+      {
+        "name": "AppFlowy-0.10.7-macos-x86_64.zip",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-x86_64.zip"
+      },
+      {
+        "name": "AppFlowy-0.10.7-windows-x86_64.exe",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-windows-x86_64.exe"
+      },
+      {
+        "name": "AppFlowy-0.10.7-windows-x86_64.zip",
+        "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-windows-x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "lewark/wm.lua",
+    "is_desktop_app": true,
+    "description": "Simple window manager for ComputerCraft",
+    "html_url": "https://github.com/lewark/wm.lua",
+    "stargazers_count": 2,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "oeed/OneOS",
+    "is_desktop_app": false,
+    "description": "OneOS (ComputerCraft Operating System) - The all in one operating system",
+    "html_url": "https://github.com/oeed/OneOS",
+    "stargazers_count": 66,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "kepler155c/opus",
+    "is_desktop_app": false,
+    "description": "ComputerCraft OS",
+    "html_url": "https://github.com/kepler155c/opus",
+    "stargazers_count": 182,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "cdez-cactus-os/Solar-OS-for-ComputerCraft",
+    "is_desktop_app": false,
+    "description": "This is not a real OS! This is for computercraft!!!! Instructions are in the readme.",
+    "html_url": "https://github.com/cdez-cactus-os/Solar-OS-for-ComputerCraft",
+    "stargazers_count": 10,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "jdah/dotfiles",
+    "is_desktop_app": false,
+    "description": "some of my configs",
+    "html_url": "https://github.com/jdah/dotfiles",
+    "stargazers_count": 298,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "MCJack123/cash",
+    "is_desktop_app": false,
+    "description": "ComputerCraft Advanced Shell - A Bourne-compatible shell for CraftOS",
+    "html_url": "https://github.com/MCJack123/cash",
+    "stargazers_count": 13,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "pomdtr/tweety",
+    "is_desktop_app": false,
+    "description": "An integrated terminal for your browser",
+    "html_url": "https://github.com/pomdtr/tweety",
+    "stargazers_count": 246,
+    "installable_assets": [
+      {
+        "name": "tweety-2.2.3-darwin_amd64.tar.gz",
+        "download_url": "https://github.com/pomdtr/tweety/releases/download/v2.2.3/tweety-2.2.3-darwin_amd64.tar.gz"
+      },
+      {
+        "name": "tweety-2.2.3-darwin_arm64.tar.gz",
+        "download_url": "https://github.com/pomdtr/tweety/releases/download/v2.2.3/tweety-2.2.3-darwin_arm64.tar.gz"
+      },
+      {
+        "name": "tweety-2.2.3-linux_386.tar.gz",
+        "download_url": "https://github.com/pomdtr/tweety/releases/download/v2.2.3/tweety-2.2.3-linux_386.tar.gz"
+      },
+      {
+        "name": "tweety-2.2.3-linux_amd64.tar.gz",
+        "download_url": "https://github.com/pomdtr/tweety/releases/download/v2.2.3/tweety-2.2.3-linux_amd64.tar.gz"
+      },
+      {
+        "name": "tweety-2.2.3-linux_arm64.tar.gz",
+        "download_url": "https://github.com/pomdtr/tweety/releases/download/v2.2.3/tweety-2.2.3-linux_arm64.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "exosyphon/nvim",
+    "is_desktop_app": false,
+    "description": "Neovim Configuration",
+    "html_url": "https://github.com/exosyphon/nvim",
+    "stargazers_count": 242,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "karb94/neoscroll.nvim",
+    "is_desktop_app": false,
+    "description": "Smooth scrolling neovim plugin written in lua",
+    "html_url": "https://github.com/karb94/neoscroll.nvim",
+    "stargazers_count": 1935,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "mg979/vim-visual-multi",
+    "is_desktop_app": false,
+    "description": "Multiple cursors plugin for vim/neovim",
+    "html_url": "https://github.com/mg979/vim-visual-multi",
+    "stargazers_count": 4716,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "rxi/tick",
+    "is_desktop_app": false,
+    "description": "Lua module for delaying function calls",
+    "html_url": "https://github.com/rxi/tick",
+    "stargazers_count": 190,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "jackMort/ChatGPT.nvim",
+    "is_desktop_app": false,
+    "description": "ChatGPT Neovim Plugin: Effortless Natural Language Generation with OpenAI's ChatGPT API",
+    "html_url": "https://github.com/jackMort/ChatGPT.nvim",
+    "stargazers_count": 4008,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "MCJack123/craftos2-rom",
+    "is_desktop_app": false,
+    "description": "ROM package for CraftOS-PC 2",
+    "html_url": "https://github.com/MCJack123/craftos2-rom",
+    "stargazers_count": 14,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "MCJack123/craftos2",
+    "is_desktop_app": true,
+    "description": "A fast, modern, and feature-filled ComputerCraft emulator written in C++.",
+    "html_url": "https://github.com/MCJack123/craftos2",
+    "stargazers_count": 283,
+    "installable_assets": [
+      {
+        "name": "CraftOS-PC-Portable-Win64.zip",
+        "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC-Portable-Win64.zip"
+      },
+      {
+        "name": "CraftOS-PC-Setup.exe",
+        "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC-Setup.exe"
+      },
+      {
+        "name": "CraftOS-PC-Setup_Delta-v2.8.exe",
+        "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC-Setup_Delta-v2.8.exe"
+      },
+      {
+        "name": "CraftOS-PC.dmg",
+        "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC.dmg"
+      },
+      {
+        "name": "CraftOS-PC.x86_64.AppImage",
+        "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC.x86_64.AppImage"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "ecumene/rust-sloth",
+    "is_desktop_app": false,
+    "description": "A 3D software rasterizer... for the terminal!",
+    "html_url": "https://github.com/ecumene/rust-sloth",
+    "stargazers_count": 812,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "alainm23/planify",
+    "is_desktop_app": false,
+    "description": "Task manager with Todoist, Nextcloud & CalDAV support designed for GNOME",
+    "html_url": "https://github.com/alainm23/planify",
+    "stargazers_count": 4761,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "todotxt/todo.txt-cli",
+    "is_desktop_app": false,
+    "description": "\u2611\ufe0f A simple and extensible shell script for managing your todo.txt file.",
+    "html_url": "https://github.com/todotxt/todo.txt-cli",
+    "stargazers_count": 5984,
+    "installable_assets": [
+      {
+        "name": "todo.txt_cli-2.13.0.tar.gz",
+        "download_url": "https://github.com/todotxt/todo.txt-cli/releases/download/v2.13.0/todo.txt_cli-2.13.0.tar.gz"
+      },
+      {
+        "name": "todo.txt_cli-2.13.0.zip",
+        "download_url": "https://github.com/todotxt/todo.txt-cli/releases/download/v2.13.0/todo.txt_cli-2.13.0.zip"
+      }
+    ],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "Amitabha37377/Awful-DOTS",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/Amitabha37377/Awful-DOTS",
+    "stargazers_count": 557,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "klaudiosinani/taskbook",
+    "is_desktop_app": false,
+    "description": "Tasks, boards & notes for the command-line habitat",
+    "html_url": "https://github.com/klaudiosinani/taskbook",
+    "stargazers_count": 9233,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "fmotalleb/nu_plugin_clipboard",
+    "is_desktop_app": false,
+    "description": "A nushell plugin to copy text into clipboard or get text from it. supports json<->object/table conversion out of box",
+    "html_url": "https://github.com/fmotalleb/nu_plugin_clipboard",
+    "stargazers_count": 85,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "zed-industries/zed",
+    "is_desktop_app": true,
+    "description": "Code at the speed of thought \u2013 Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
+    "html_url": "https://github.com/zed-industries/zed",
+    "stargazers_count": 71834,
+    "installable_assets": [
+      {
+        "name": "Zed-aarch64.dmg",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/Zed-aarch64.dmg"
+      },
+      {
+        "name": "Zed-aarch64.exe",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/Zed-aarch64.exe"
+      },
+      {
+        "name": "zed-linux-aarch64.tar.gz",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/zed-linux-aarch64.tar.gz"
+      },
+      {
+        "name": "zed-linux-x86_64.tar.gz",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/zed-linux-x86_64.tar.gz"
+      },
+      {
+        "name": "Zed-x86_64.dmg",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/Zed-x86_64.dmg"
+      },
+      {
+        "name": "Zed-x86_64.exe",
+        "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/Zed-x86_64.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "rxi/lurker",
+    "is_desktop_app": false,
+    "description": "Auto-swaps changed Lua files in a running L\u00d6VE project",
+    "html_url": "https://github.com/rxi/lurker",
+    "stargazers_count": 353,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "rothgar/awesome-tmux",
+    "is_desktop_app": false,
+    "description": "A list of awesome resources for tmux",
+    "html_url": "https://github.com/rothgar/awesome-tmux",
+    "stargazers_count": 9202,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "catppuccin/tmux",
+    "is_desktop_app": false,
+    "description": "\ud83d\udcbd Soothing pastel theme for Tmux",
+    "html_url": "https://github.com/catppuccin/tmux",
+    "stargazers_count": 2717,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "pop-os/cosmic-term",
+    "is_desktop_app": false,
+    "description": "WIP COSMIC terminal emulator",
+    "html_url": "https://github.com/pop-os/cosmic-term",
+    "stargazers_count": 512,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "omerxx/dotfiles",
+    "is_desktop_app": false,
+    "description": "My dotfiles synced from localhost and remote machines",
+    "html_url": "https://github.com/omerxx/dotfiles",
+    "stargazers_count": 2580,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "focus-editor/focus",
+    "is_desktop_app": true,
+    "description": "A simple and fast text editor",
+    "html_url": "https://github.com/focus-editor/focus",
+    "stargazers_count": 2243,
+    "installable_assets": [
+      {
+        "name": "focus-macOS.dmg",
+        "download_url": "https://github.com/focus-editor/focus/releases/download/0.3.8/focus-macOS.dmg"
+      },
+      {
+        "name": "focus.exe",
+        "download_url": "https://github.com/focus-editor/focus/releases/download/0.3.8/focus.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "slint-ui/slint",
+    "is_desktop_app": true,
+    "description": "Slint is an open-source declarative GUI toolkit to build native user interfaces for Rust, C++, JavaScript, or Python apps.",
+    "html_url": "https://github.com/slint-ui/slint",
+    "stargazers_count": 21274,
+    "installable_assets": [
+      {
+        "name": "figma-plugin.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/figma-plugin.zip"
+      },
+      {
+        "name": "slint-compiler-Darwin-arm64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-compiler-Darwin-arm64.tar.gz"
+      },
+      {
+        "name": "slint-compiler-Linux-aarch64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-compiler-Linux-aarch64.tar.gz"
+      },
+      {
+        "name": "slint-compiler-Linux-x86_64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-compiler-Linux-x86_64.tar.gz"
+      },
+      {
+        "name": "slint-compiler-Windows-AMD64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-compiler-Windows-AMD64.tar.gz"
+      },
+      {
+        "name": "slint-compiler-Windows-ARM64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-compiler-Windows-ARM64.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-Darwin-arm64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-Darwin-arm64.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-Linux-arm64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-Linux-arm64.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-Linux-armhf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-Linux-armhf.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-Linux-x86_64.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-Linux-x86_64.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-riscv32imafc-esp-espidf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-riscv32imafc-esp-espidf.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-thumbv7em-none-eabihf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-thumbv7em-none-eabihf.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-win64-MSVC-AMD64.exe",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-win64-MSVC-AMD64.exe"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-win64-MSVC-ARM64.exe",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-win64-MSVC-ARM64.exe"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-xtensa-esp32-none-elf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-xtensa-esp32-none-elf.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-xtensa-esp32s2-none-elf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-xtensa-esp32s2-none-elf.tar.gz"
+      },
+      {
+        "name": "Slint-cpp-1.14.1-xtensa-esp32s3-none-elf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/Slint-cpp-1.14.1-xtensa-esp32s3-none-elf.tar.gz"
+      },
+      {
+        "name": "slint-cpp-template-stm32h735g-dk.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-cpp-template-stm32h735g-dk.zip"
+      },
+      {
+        "name": "slint-cpp-template-stm32h747i-disco.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-cpp-template-stm32h747i-disco.zip"
+      },
+      {
+        "name": "slint-lsp-aarch64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-aarch64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "slint-lsp-armv7-unknown-linux-gnueabihf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-armv7-unknown-linux-gnueabihf.tar.gz"
+      },
+      {
+        "name": "slint-lsp-linux.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-linux.tar.gz"
+      },
+      {
+        "name": "slint-lsp-macos.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-macos.tar.gz"
+      },
+      {
+        "name": "slint-lsp-windows-arm64.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-windows-arm64.zip"
+      },
+      {
+        "name": "slint-lsp-windows-x86_64.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-lsp-windows-x86_64.zip"
+      },
+      {
+        "name": "slint-viewer-aarch64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-aarch64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "slint-viewer-armv7-unknown-linux-gnueabihf.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-armv7-unknown-linux-gnueabihf.tar.gz"
+      },
+      {
+        "name": "slint-viewer-linux.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-linux.tar.gz"
+      },
+      {
+        "name": "slint-viewer-macos.tar.gz",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-macos.tar.gz"
+      },
+      {
+        "name": "slint-viewer-windows-arm64.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-windows-arm64.zip"
+      },
+      {
+        "name": "slint-viewer-windows-x86_64.zip",
+        "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-windows-x86_64.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "nvim-neorg/neorg",
+    "is_desktop_app": false,
+    "description": "Modernity meets insane extensibility. The future of organizing your life in Neovim.",
+    "html_url": "https://github.com/nvim-neorg/neorg",
+    "stargazers_count": 7143,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "SanForgeStudio/LuaNodeEditor",
+    "is_desktop_app": true,
+    "description": "A powerful and simple visual flow-node IDE for game engines, mods and software. ",
+    "html_url": "https://github.com/SanForgeStudio/LuaNodeEditor",
+    "stargazers_count": 101,
+    "installable_assets": [
+      {
+        "name": "LuaNodeEditor-Installer.exe",
+        "download_url": "https://github.com/SanForgeStudio/LuaNodeEditor/releases/download/V1.1/LuaNodeEditor-Installer.exe"
+      }
+    ],
+    "detected_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "josean-dev/dev-environment-files",
+    "is_desktop_app": false,
+    "description": null,
+    "html_url": "https://github.com/josean-dev/dev-environment-files",
+    "stargazers_count": 3821,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "cpow/neovim-for-newbs",
+    "is_desktop_app": false,
+    "description": "a simple lua neovim configuration for newbs",
+    "html_url": "https://github.com/cpow/neovim-for-newbs",
+    "stargazers_count": 688,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "nesbox/TIC-80",
+    "is_desktop_app": true,
+    "description": "TIC-80 is a fantasy computer for making, playing and sharing tiny games.",
+    "html_url": "https://github.com/nesbox/TIC-80",
+    "stargazers_count": 5717,
+    "installable_assets": [
+      {
+        "name": "tic80-v1.1-3ds.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-3ds.zip"
+      },
+      {
+        "name": "tic80-v1.1-html.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-html.zip"
+      },
+      {
+        "name": "tic80-v1.1-linux.deb",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-linux.deb"
+      },
+      {
+        "name": "tic80-v1.1-mac.dmg",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-mac.dmg"
+      },
+      {
+        "name": "tic80-v1.1-rpi-baremetal.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-rpi-baremetal.zip"
+      },
+      {
+        "name": "tic80-v1.1-rpi.deb",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-rpi.deb"
+      },
+      {
+        "name": "tic80-v1.1-rpi4-baremetal.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-rpi4-baremetal.zip"
+      },
+      {
+        "name": "tic80-v1.1-win.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-win.zip"
+      },
+      {
+        "name": "tic80-v1.1-winxp.zip",
+        "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-winxp.zip"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "ChimeraOS/chimeraos",
+    "is_desktop_app": false,
+    "description": "A Steam Big Picture based couch gaming OS",
+    "html_url": "https://github.com/ChimeraOS/chimeraos",
+    "stargazers_count": 1929,
+    "installable_assets": [
+      {
+        "name": "chimeraos-49-1_cabd8c9.img.tar.xz",
+        "download_url": "https://github.com/ChimeraOS/chimeraos/releases/download/49-1_cabd8c9/chimeraos-49-1_cabd8c9.img.tar.xz"
+      }
+    ],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "winesapOS/winesapOS",
+    "is_desktop_app": true,
+    "description": "winesapOS - Game with Linux anywhere, no installation required!",
+    "html_url": "https://github.com/winesapOS/winesapOS",
+    "stargazers_count": 1003,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "holoiso-eol/holoiso",
+    "is_desktop_app": false,
+    "description": "SteamOS 3 (Holo) archiso configuration",
+    "html_url": "https://github.com/holoiso-eol/holoiso",
+    "stargazers_count": 5248,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "anuraghazra/github-readme-stats",
+    "is_desktop_app": false,
+    "description": ":zap: Dynamically generated stats for your github readmes",
+    "html_url": "https://github.com/anuraghazra/github-readme-stats",
+    "stargazers_count": 77534,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "TheAlgorithms/Rust",
+    "is_desktop_app": false,
+    "description": " All Algorithms implemented in Rust ",
+    "html_url": "https://github.com/TheAlgorithms/Rust",
+    "stargazers_count": 25210,
+    "installable_assets": [],
+    "detected_platforms": []
+  },
+  {
+    "full_name": "denisidoro/navi",
+    "is_desktop_app": false,
+    "description": "An interactive cheatsheet tool for the command-line",
+    "html_url": "https://github.com/denisidoro/navi",
+    "stargazers_count": 16527,
+    "installable_assets": [
+      {
+        "name": "navi-v2.24.0-aarch64-linux-android.tar.gz",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-aarch64-linux-android.tar.gz"
+      },
+      {
+        "name": "navi-v2.24.0-aarch64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-aarch64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "navi-v2.24.0-armv7-linux-androideabi.tar.gz",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-armv7-linux-androideabi.tar.gz"
+      },
+      {
+        "name": "navi-v2.24.0-armv7-unknown-linux-musleabihf.tar.gz",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-armv7-unknown-linux-musleabihf.tar.gz"
+      },
+      {
+        "name": "navi-v2.24.0-x86_64-pc-windows-gnu.zip",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-x86_64-pc-windows-gnu.zip"
+      },
+      {
+        "name": "navi-v2.24.0-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/denisidoro/navi/releases/download/v2.24.0/navi-v2.24.0-x86_64-unknown-linux-musl.tar.gz"
+      }
+    ],
+    "detected_platforms": [
+      "Linux",
+      "Windows"
+    ]
+  }
+]

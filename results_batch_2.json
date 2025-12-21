@@ -1,0 +1,165 @@
+[
+  {
+    "full_name": "asmvik/yabai",
+    "description": "A tiling window manager for macOS based on binary space partitioning",
+    "html_url": "https://github.com/asmvik/yabai",
+    "stargazers_count": 27740,
+    "installable_assets": [
+      {
+        "name": "yabai-v7.1.16.tar.gz",
+        "download_url": "https://github.com/asmvik/yabai/releases/download/v7.1.16/yabai-v7.1.16.tar.gz"
+      }
+    ],
+    "detected_platforms": ["macOS"]
+  },
+  {
+    "full_name": "Qalculate/qalculate-gtk",
+    "description": "Qalculate! GTK UI",
+    "html_url": "https://github.com/Qalculate/qalculate-gtk",
+    "stargazers_count": 1149,
+    "installable_assets": [
+      {
+        "name": "qalculate-5.8.2-x64.msi",
+        "download_url": "https://github.com/Qalculate/qalculate-gtk/releases/download/v5.8.2/qalculate-5.8.2-x64.msi"
+      },
+      {
+        "name": "qalculate-5.8.2-x64.zip",
+        "download_url": "https://github.com/Qalculate/qalculate-gtk/releases/download/v5.8.2/qalculate-5.8.2-x64.zip"
+      },
+      {
+        "name": "qalculate-5.8.2-x86_64.tar.xz",
+        "download_url": "https://github.com/Qalculate/qalculate-gtk/releases/download/v5.8.2/qalculate-5.8.2-x86_64.tar.xz"
+      },
+      {
+        "name": "qalculate-gtk-5.8.2.tar.gz",
+        "download_url": "https://github.com/Qalculate/qalculate-gtk/releases/download/v5.8.2/qalculate-gtk-5.8.2.tar.gz"
+      }
+    ],
+    "detected_platforms": ["Windows"]
+  },
+  {
+    "full_name": "kunkunsh/kunkun",
+    "description": "An open source, cross-platform, extensible app launcher.",
+    "html_url": "https://github.com/kunkunsh/kunkun",
+    "stargazers_count": 1190,
+    "installable_assets": [
+      {
+        "name": "kunkun-0.1.37-1.x86_64.rpm",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun-0.1.37-1.x86_64.rpm"
+      },
+      {
+        "name": "kunkun_0.1.37_aarch64.dmg",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_aarch64.dmg"
+      },
+      {
+        "name": "kunkun_0.1.37_amd64.AppImage",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_amd64.AppImage"
+      },
+      {
+        "name": "kunkun_0.1.37_amd64.deb",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_amd64.deb"
+      },
+      {
+        "name": "kunkun_0.1.37_universal.dmg",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_universal.dmg"
+      },
+      {
+        "name": "kunkun_0.1.37_x64-setup.exe",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_x64-setup.exe"
+      },
+      {
+        "name": "kunkun_0.1.37_x64.dmg",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_x64.dmg"
+      },
+      {
+        "name": "kunkun_0.1.37_x64_en-US.msi",
+        "download_url": "https://github.com/kunkunsh/kunkun/releases/download/Kunkun-v0.1.37/kunkun_0.1.37_x64_en-US.msi"
+      }
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "Abdenasser/neohtop",
+    "description": "💪🏻 Blazing-fast system monitoring for your desktop (built with Rust, Tauri & Svelte)",
+    "html_url": "https://github.com/Abdenasser/neohtop",
+    "stargazers_count": 8704,
+    "installable_assets": [
+      {
+        "name": "intel-NeoHtop_1.2.0_x64.dmg",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/intel-NeoHtop_1.2.0_x64.dmg"
+      },
+      {
+        "name": "NeoHtop_1.2.0_x64.exe",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/NeoHtop_1.2.0_x64.exe"
+      },
+      {
+        "name": "NeoHtop_1.2.0_x86_64.AppImage",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/NeoHtop_1.2.0_x86_64.AppImage"
+      },
+      {
+        "name": "NeoHtop_1.2.0_x86_64.deb",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/NeoHtop_1.2.0_x86_64.deb"
+      },
+      {
+        "name": "NeoHtop_1.2.0_x86_64.rpm",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/NeoHtop_1.2.0_x86_64.rpm"
+      },
+      {
+        "name": "silicon-NeoHtop_1.2.0_aarch64.dmg",
+        "download_url": "https://github.com/Abdenasser/neohtop/releases/download/v1.2.0/silicon-NeoHtop_1.2.0_aarch64.dmg"
+      }
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "upscayl/upscayl",
+    "description": "🆙 Upscayl - #1 Free and Open Source AI Image Upscaler for Linux, MacOS and Windows.",
+    "html_url": "https://github.com/upscayl/upscayl",
+    "stargazers_count": 41851,
+    "installable_assets": [
+      {
+        "name": "upscayl-2.15.0-linux.deb",
+        "download_url": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-linux.deb"
+      },
+      {
+        "name": "upscayl-2.15.0-linux.rpm",
+        "download_url": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-linux.rpm"
+      },
+      {
+        "name": "upscayl-2.15.0-mac.dmg",
+        "download_url": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-mac.dmg"
+      },
+      {
+        "name": "upscayl-2.15.0-win.exe",
+        "download_url": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-win.exe"
+      }
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "ghostty-org/ghostty",
+    "description": "👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
+    "html_url": "https://github.com/ghostty-org/ghostty",
+    "stargazers_count": 39832,
+    "installable_assets": [
+      {
+        "name": "Ghostty.dmg",
+        "download_url": "https://github.com/ghostty-org/ghostty/releases/download/tip/Ghostty.dmg"
+      }
+    ],
+    "detected_platforms": ["macOS"]
+  },
+  {
+    "full_name": "matryer/xbar",
+    "description": "Put the output from any script or program into your macOS Menu Bar (the BitBar reboot)",
+    "html_url": "https://github.com/matryer/xbar",
+    "stargazers_count": 17973,
+    "installable_assets": [
+      {
+        "name": "xbar.v2.1.7-beta.dmg",
+        "download_url": "https://github.com/matryer/xbar/releases/download/v2.1.7-beta/xbar.v2.1.7-beta.dmg"
+      }
+    ],
+    "detected_platforms": ["macOS"]
+  }
+]

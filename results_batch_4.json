@@ -1,0 +1,194 @@
+[
+  {
+    "full_name": "charmbracelet/mods",
+    "description": "AI on the command line",
+    "html_url": "https://github.com/charmbracelet/mods",
+    "stargazers_count": 4347,
+    "release_assets": [
+      {"name": "mods-1.8.1-1.aarch64.rpm", "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods-1.8.1-1.aarch64.rpm"},
+      {"name": "mods_1.8.1_amd64.deb", "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_amd64.deb"},
+      {"name": "mods_1.8.1_Windows_x86_64.zip", "download_url": "https://github.com/charmbracelet/mods/releases/download/v1.8.1/mods_1.8.1_Windows_x86_64.zip"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "kittybupu/openVCB",
+    "description": "An open source implementation of the Virtual Circuit Board loader, assembler, and simulation engine. ",
+    "html_url": "https://github.com/kittybupu/openVCB",
+    "stargazers_count": 92,
+    "release_assets": [
+      {"name": "OpenVCB.Editor.MACOS.BETA.0.8.6.zip", "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/OpenVCB.Editor.MACOS.BETA.0.8.6.zip"},
+      {"name": "OpenVCB.Editor.WIN.BETA.0.8.b.zip", "download_url": "https://github.com/kittybupu/openVCB/releases/download/GUIBeta0.8/OpenVCB.Editor.WIN.BETA.0.8.b.zip"}
+    ],
+    "detected_platforms": ["Windows", "macOS"]
+  },
+  {
+    "full_name": "watchexec/watchexec",
+    "description": "Executes commands in response to file modifications",
+    "html_url": "https://github.com/watchexec/watchexec",
+    "stargazers_count": 6588,
+    "release_assets": [
+      {"name": "watchexec-2.3.2-x86_64-apple-darwin.tar.xz", "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-apple-darwin.tar.xz"},
+      {"name": "watchexec-2.3.2-x86_64-pc-windows-msvc.zip", "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-pc-windows-msvc.zip"},
+      {"name": "watchexec-2.3.2-x86_64-unknown-linux-gnu.deb", "download_url": "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-gnu.deb"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "face-hh/webx",
+    "description": "An alternative for the World Wide Web",
+    "html_url": "https://github.com/face-hh/webx",
+    "stargazers_count": 1924,
+    "release_assets": [
+      {"name": "Bussin_Napture-portable.paf.exe", "download_url": "https://github.com/face-hh/webx/releases/download/v1.3.1/Bussin_Napture-portable.paf.exe"},
+      {"name": "Bussin_Napture-x86_64.AppImage", "download_url": "https://github.com/face-hh/webx/releases/download/v1.3.1/Bussin_Napture-x86_64.AppImage"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "charmbracelet/freeze",
+    "description": "Generate images of code and terminal output 📸",
+    "html_url": "https://github.com/charmbracelet/freeze",
+    "stargazers_count": 4234,
+    "release_assets": [
+      {"name": "freeze_0.2.2_amd64.deb", "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_amd64.deb"},
+      {"name": "freeze_0.2.2_Windows_x86_64.zip", "download_url": "https://github.com/charmbracelet/freeze/releases/download/v0.2.2/freeze_0.2.2_Windows_x86_64.zip"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "lapce/lapce",
+    "description": "Lightning-fast and Powerful Code Editor written in Rust",
+    "html_url": "https://github.com/lapce/lapce",
+    "stargazers_count": 37763,
+    "release_assets": [
+      {"name": "Lapce-macos.dmg", "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/Lapce-macos.dmg"},
+      {"name": "Lapce-windows.msi", "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/Lapce-windows.msi"},
+      {"name": "lapce.ubuntu.noble.amd64.deb", "download_url": "https://github.com/lapce/lapce/releases/download/v0.4.5/lapce.ubuntu.noble.amd64.deb"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "shuttle-hq/shuttle",
+    "description": "Build & ship backends without writing any infrastructure files.",
+    "html_url": "https://github.com/shuttle-hq/shuttle",
+    "stargazers_count": 6790,
+    "release_assets": [
+      {"name": "cargo-shuttle-v0.57.3-x86_64-pc-windows-msvc.tar.gz", "download_url": "https://github.com/shuttle-hq/shuttle/releases/download/v0.57.3/cargo-shuttle-v0.57.3-x86_64-pc-windows-msvc.tar.gz"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "yorukot/superfile",
+    "description": "Pretty fancy and modern terminal file manager",
+    "html_url": "https://github.com/yorukot/superfile",
+    "stargazers_count": 16094,
+    "release_assets": [
+      {"name": "superfile-windows-v1.4.0-amd64.zip", "download_url": "https://github.com/yorukot/superfile/releases/download/v1.4.0/superfile-windows-v1.4.0-amd64.zip"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "smallhadroncollider/taskell",
+    "description": "Command-line Kanban board/task manager",
+    "html_url": "https://github.com/smallhadroncollider/taskell",
+    "stargazers_count": 1772,
+    "release_assets": [
+      {"name": "taskell-1.11.4_x86-64-linux.deb", "download_url": "https://github.com/smallhadroncollider/taskell/releases/download/1.11.4/taskell-1.11.4_x86-64-linux.deb"}
+    ],
+    "detected_platforms": ["Linux"]
+  },
+  {
+    "full_name": "o2sh/onefetch",
+    "description": "Command-line Git information tool",
+    "html_url": "https://github.com/o2sh/onefetch",
+    "stargazers_count": 11392,
+    "release_assets": [
+      {"name": "onefetch-setup.exe", "download_url": "https://github.com/o2sh/onefetch/releases/download/2.26.1/onefetch-setup.exe"}
+    ],
+    "detected_platforms": ["Linux", "Windows"]
+  },
+  {
+    "full_name": "wezterm/wezterm",
+    "description": "A GPU-accelerated cross-platform terminal emulator",
+    "html_url": "https://github.com/wezterm/wezterm",
+    "stargazers_count": 22927,
+    "release_assets": [
+      {"name": "WezTerm-macos-20240203-110809-5046fc22.zip", "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-macos-20240203-110809-5046fc22.zip"},
+      {"name": "WezTerm-20240203-110809-5046fc22-setup.exe", "download_url": "https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-20240203-110809-5046fc22-setup.exe"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "coronalabs/corona",
+    "description": "Solar2D Game Engine",
+    "html_url": "https://github.com/coronalabs/corona",
+    "stargazers_count": 2757,
+    "release_assets": [
+      {"name": "Solar2D-macOS-2025.3726.dmg", "download_url": "https://github.com/coronalabs/corona/releases/download/3726/Solar2D-macOS-2025.3726.dmg"},
+      {"name": "Solar2D-Windows-2025.3726.msi", "download_url": "https://github.com/coronalabs/corona/releases/download/3726/Solar2D-Windows-2025.3726.msi"}
+    ],
+    "detected_platforms": ["Windows", "macOS"]
+  },
+  {
+    "full_name": "AppFlowy-IO/AppFlowy",
+    "description": "AI collaborative workspace",
+    "html_url": "https://github.com/AppFlowy-IO/AppFlowy",
+    "stargazers_count": 67073,
+    "release_assets": [
+      {"name": "AppFlowy-0.10.7-macos-universal.dmg", "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-macos-universal.dmg"},
+      {"name": "AppFlowy-0.10.7-windows-x86_64.exe", "download_url": "https://github.com/AppFlowy-IO/AppFlowy/releases/download/0.10.7/AppFlowy-0.10.7-windows-x86_64.exe"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "MCJack123/craftos2",
+    "description": "ComputerCraft emulator",
+    "html_url": "https://github.com/MCJack123/craftos2",
+    "stargazers_count": 283,
+    "release_assets": [
+      {"name": "CraftOS-PC.dmg", "download_url": "https://github.com/MCJack123/craftos2/releases/download/v2.8.3/CraftOS-PC.dmg"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "zed-industries/zed",
+    "description": "High-performance multiplayer code editor",
+    "html_url": "https://github.com/zed-industries/zed",
+    "stargazers_count": 71834,
+    "release_assets": [
+      {"name": "Zed-x86_64.dmg", "download_url": "https://github.com/zed-industries/zed/releases/download/v0.217.3/Zed-x86_64.dmg"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "focus-editor/focus",
+    "description": "A simple and fast text editor",
+    "html_url": "https://github.com/focus-editor/focus",
+    "stargazers_count": 2243,
+    "release_assets": [
+      {"name": "focus-macOS.dmg", "download_url": "https://github.com/focus-editor/focus/releases/download/0.3.8/focus-macOS.dmg"}
+    ],
+    "detected_platforms": ["Windows", "macOS"]
+  },
+  {
+    "full_name": "slint-ui/slint",
+    "description": "GUI toolkit",
+    "html_url": "https://github.com/slint-ui/slint",
+    "stargazers_count": 21274,
+    "release_assets": [
+      {"name": "slint-viewer-macos.tar.gz", "download_url": "https://github.com/slint-ui/slint/releases/download/v1.14.1/slint-viewer-macos.tar.gz"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "nesbox/TIC-80",
+    "description": "Fantasy computer",
+    "html_url": "https://github.com/nesbox/TIC-80",
+    "stargazers_count": 5717,
+    "release_assets": [
+      {"name": "tic80-v1.1-mac.dmg", "download_url": "https://github.com/nesbox/TIC-80/releases/download/v1.1.2837/tic80-v1.1-mac.dmg"}
+    ],
+    "detected_platforms": ["Linux", "Windows", "macOS"]
+  }
+]

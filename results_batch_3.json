@@ -1,0 +1,150 @@
+[
+  {
+    "full_name": "TheAssassin/AppImageLauncher",
+    "description": "Helper application for Linux distributions serving as a kind of \"entry point\" for running and integrating AppImages",
+    "language": "C++",
+    "html_url": "https://github.com/TheAssassin/AppImageLauncher",
+    "stargazers_count": 7347,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "appimagelauncher_3.0.0-beta-2-gha287.96cb937_amd64.deb",
+        "download_url": "https://github.com/TheAssassin/AppImageLauncher/releases/download/v3.0.0-beta-3/appimagelauncher_3.0.0-beta-2-gha287.96cb937_amd64.deb"
+      },
+      {
+        "name": "appimagelauncher_3.0.0-beta-2-gha287.96cb937_x86_64.rpm",
+        "download_url": "https://github.com/TheAssassin/AppImageLauncher/releases/download/v3.0.0-beta-3/appimagelauncher_3.0.0-beta-2-gha287.96cb937_x86_64.rpm"
+      }
+    ],
+    "supported_platforms": ["Linux"]
+  },
+  {
+    "full_name": "transmission/transmission",
+    "description": "Official Transmission BitTorrent client repository",
+    "language": "C++",
+    "html_url": "https://github.com/transmission/transmission",
+    "stargazers_count": 13816,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "transmission-4.0.6-x64.msi",
+        "download_url": "https://github.com/transmission/transmission/releases/download/4.0.6/transmission-4.0.6-x64.msi"
+      },
+      {
+        "name": "Transmission-4.0.6.dmg",
+        "download_url": "https://github.com/transmission/transmission/releases/download/4.0.6/Transmission-4.0.6.dmg"
+      }
+    ],
+    "supported_platforms": ["Windows", "macOS"]
+  },
+  {
+    "full_name": "squidowl/halloy",
+    "description": "IRC application written in Rust",
+    "language": "Rust",
+    "html_url": "https://github.com/squidowl/halloy",
+    "stargazers_count": 3516,
+    "topics": ["iced", "irc", "rust"],
+    "release_assets": [
+      {
+        "name": "halloy-installer.msi",
+        "download_url": "https://github.com/squidowl/halloy/releases/download/2025.12/halloy-installer.msi"
+      },
+      {
+        "name": "halloy.dmg",
+        "download_url": "https://github.com/squidowl/halloy/releases/download/2025.12/halloy.dmg"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "feschber/lan-mouse",
+    "description": "mouse & keyboard sharing via LAN",
+    "language": "Rust",
+    "html_url": "https://github.com/feschber/lan-mouse",
+    "stargazers_count": 4190,
+    "topics": ["gtk4-rs", "libadwaita", "linux", "macos", "windows"],
+    "release_assets": [
+      {
+        "name": "lan-mouse-macos-aarch64",
+        "download_url": "https://github.com/feschber/lan-mouse/releases/download/v0.10.0/lan-mouse-macos-aarch64"
+      },
+      {
+        "name": "lan-mouse-windows.zip",
+        "download_url": "https://github.com/feschber/lan-mouse/releases/download/v0.10.0/lan-mouse-windows.zip"
+      }
+    ],
+    "supported_platforms": ["Windows", "macOS"]
+  },
+  {
+    "full_name": "zen-browser/desktop",
+    "description": "Welcome to a calmer internet",
+    "language": "JavaScript",
+    "html_url": "https://github.com/zen-browser/desktop",
+    "stargazers_count": 38569,
+    "topics": ["firefox", "zen-browser"],
+    "release_assets": [
+      {
+        "name": "zen.installer.exe",
+        "download_url": "https://github.com/zen-browser/desktop/releases/download/1.17.14b/zen.installer.exe"
+      },
+      {
+        "name": "zen.macos-universal.dmg",
+        "download_url": "https://github.com/zen-browser/desktop/releases/download/1.17.14b/zen.macos-universal.dmg"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "lobehub/lobe-chat",
+    "description": "LobeHub - an open-source, modern design AI Agent Workspace",
+    "language": "TypeScript",
+    "html_url": "https://github.com/lobehub/lobe-chat",
+    "stargazers_count": 69291,
+    "topics": ["chat", "ai", "agent"],
+    "release_assets": [
+      {
+        "name": "LobeHub-Beta-1.143.2-setup.exe",
+        "download_url": "https://github.com/lobehub/lobe-chat/releases/download/v1.143.2/LobeHub-Beta-1.143.2-setup.exe"
+      },
+      {
+        "name": "LobeHub-Beta-1.143.2-arm64.dmg",
+        "download_url": "https://github.com/lobehub/lobe-chat/releases/download/v1.143.2/LobeHub-Beta-1.143.2-arm64.dmg"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "binwiederhier/ntfy",
+    "description": "Send push notifications to your phone or desktop",
+    "language": "Go",
+    "html_url": "https://github.com/binwiederhier/ntfy",
+    "stargazers_count": 27814,
+    "topics": ["notifications"],
+    "release_assets": [
+      {
+        "name": "ntfy_2.15.0_linux_amd64.deb",
+        "download_url": "https://github.com/binwiederhier/ntfy/releases/download/v2.15.0/ntfy_2.15.0_linux_amd64.deb"
+      },
+      {
+        "name": "ntfy_2.15.0_windows_amd64.zip",
+        "download_url": "https://github.com/binwiederhier/ntfy/releases/download/v2.15.0/ntfy_2.15.0_windows_amd64.zip"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows"]
+  },
+  {
+    "full_name": "ranfdev/Notify",
+    "description": "Linux client for ntfy.sh",
+    "language": "Rust",
+    "html_url": "https://github.com/ranfdev/Notify",
+    "stargazers_count": 95,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "com.ranfdev.Notify.tar.xz",
+        "download_url": "https://github.com/ranfdev/Notify/releases/download/v0.1.6/com.ranfdev.Notify.tar.xz"
+      }
+    ],
+    "supported_platforms": ["Linux"]
+  }
+]

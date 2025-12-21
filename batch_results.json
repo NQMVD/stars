@@ -1,0 +1,346 @@
+[
+  {
+    "full_name": "LGUG2Z/whkd",
+    "description": "A simple hotkey daemon for Windows",
+    "language": "Rust",
+    "html_url": "https://github.com/LGUG2Z/whkd",
+    "stargazers_count": 831,
+    "topics": [
+      "hotkey-daemons",
+      "hotkeys",
+      "keyboard-shortcuts",
+      "rust",
+      "windows"
+    ],
+    "release_assets": [
+      {
+        "name": "whkd-0.2.10-aarch64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/LGUG2Z/whkd/releases/download/v0.2.10/whkd-0.2.10-aarch64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "whkd-0.2.10-aarch64.msi",
+        "download_url": "https://github.com/LGUG2Z/whkd/releases/download/v0.2.10/whkd-0.2.10-aarch64.msi"
+      },
+      {
+        "name": "whkd-0.2.10-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/LGUG2Z/whkd/releases/download/v0.2.10/whkd-0.2.10-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "whkd-0.2.10-x86_64.msi",
+        "download_url": "https://github.com/LGUG2Z/whkd/releases/download/v0.2.10/whkd-0.2.10-x86_64.msi"
+      }
+    ],
+    "supported_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "LGUG2Z/komorebi",
+    "description": "A tiling window manager for Windows \ud83c\udf49",
+    "language": "Rust",
+    "html_url": "https://github.com/LGUG2Z/komorebi",
+    "stargazers_count": 13580,
+    "topics": [
+      "autohotkey",
+      "palestine",
+      "rust",
+      "status-bar",
+      "tiling-window-manager",
+      "whkd",
+      "windows"
+    ],
+    "release_assets": [
+      {
+        "name": "komorebi-0.1.39-aarch64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/LGUG2Z/komorebi/releases/download/v0.1.39/komorebi-0.1.39-aarch64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "komorebi-0.1.39-aarch64.msi",
+        "download_url": "https://github.com/LGUG2Z/komorebi/releases/download/v0.1.39/komorebi-0.1.39-aarch64.msi"
+      },
+      {
+        "name": "komorebi-0.1.39-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/LGUG2Z/komorebi/releases/download/v0.1.39/komorebi-0.1.39-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "komorebi-0.1.39-x86_64.msi",
+        "download_url": "https://github.com/LGUG2Z/komorebi/releases/download/v0.1.39/komorebi-0.1.39-x86_64.msi"
+      }
+    ],
+    "supported_platforms": [
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "Nukesor/pueue",
+    "description": ":stars: Manage your shell commands.",
+    "language": "Rust",
+    "html_url": "https://github.com/Nukesor/pueue",
+    "stargazers_count": 5950,
+    "topics": [
+      "command-line",
+      "command-line-tool",
+      "daemon",
+      "hacktoberfest",
+      "queue-manager",
+      "queue-tasks",
+      "rust",
+      "shell-queue"
+    ],
+    "release_assets": [
+      {
+        "name": "pueue-aarch64-apple-darwin",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueue-aarch64-apple-darwin"
+      },
+      {
+        "name": "pueue-x86_64-apple-darwin",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueue-x86_64-apple-darwin"
+      },
+      {
+        "name": "pueue-x86_64-pc-windows-msvc.exe",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueue-x86_64-pc-windows-msvc.exe"
+      },
+      {
+        "name": "pueued-aarch64-apple-darwin",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueued-aarch64-apple-darwin"
+      },
+      {
+        "name": "pueued-x86_64-apple-darwin",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueued-x86_64-apple-darwin"
+      },
+      {
+        "name": "pueued-x86_64-pc-windows-msvc.exe",
+        "download_url": "https://github.com/Nukesor/pueue/releases/download/v4.0.2/pueued-x86_64-pc-windows-msvc.exe"
+      }
+    ],
+    "supported_platforms": [
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "coder/code-server",
+    "description": "VS Code in the browser",
+    "language": "TypeScript",
+    "html_url": "https://github.com/coder/code-server",
+    "stargazers_count": 75456,
+    "topics": [
+      "browser-ide",
+      "dev-tools",
+      "development-environment",
+      "ide",
+      "remote-work",
+      "vscode",
+      "vscode-remote"
+    ],
+    "release_assets": [
+      {
+        "name": "code-server-4.107.0-amd64.rpm",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-amd64.rpm"
+      },
+      {
+        "name": "code-server-4.107.0-arm64.rpm",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-arm64.rpm"
+      },
+      {
+        "name": "code-server-4.107.0-armhfp.rpm",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-armhfp.rpm"
+      },
+      {
+        "name": "code-server-4.107.0-linux-arm64.tar.gz",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-linux-arm64.tar.gz"
+      },
+      {
+        "name": "code-server-4.107.0-macos-amd64.tar.gz",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-macos-amd64.tar.gz"
+      },
+      {
+        "name": "code-server-4.107.0-macos-arm64.tar.gz",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server-4.107.0-macos-arm64.tar.gz"
+      },
+      {
+        "name": "code-server_4.107.0_amd64.deb",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server_4.107.0_amd64.deb"
+      },
+      {
+        "name": "code-server_4.107.0_arm64.deb",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server_4.107.0_arm64.deb"
+      },
+      {
+        "name": "code-server_4.107.0_armhf.deb",
+        "download_url": "https://github.com/coder/code-server/releases/download/v4.107.0/code-server_4.107.0_armhf.deb"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "Anuken/Mindustry",
+    "description": "The automation tower defense RTS",
+    "language": "Java",
+    "html_url": "https://github.com/Anuken/Mindustry",
+    "stargazers_count": 26004,
+    "topics": [
+      "android",
+      "desktop",
+      "game",
+      "java",
+      "mindustry",
+      "mobile-game",
+      "multiplatform",
+      "rts",
+      "sandbox-game",
+      "tower-defense"
+    ],
+    "release_assets": [
+      {
+        "name": "Mindustry.jar",
+        "download_url": "https://github.com/Anuken/Mindustry/releases/download/v146/Mindustry.jar"
+      },
+      {
+        "name": "server-release.jar",
+        "download_url": "https://github.com/Anuken/Mindustry/releases/download/v146/server-release.jar"
+      }
+    ],
+    "supported_platforms": [
+      "Cross-platform"
+    ]
+  },
+  {
+    "full_name": "GitSquared/edex-ui",
+    "description": "A cross-platform, customizable science fiction terminal emulator with advanced monitoring & touchscreen support.",
+    "language": "JavaScript",
+    "html_url": "https://github.com/GitSquared/edex-ui",
+    "stargazers_count": 43797,
+    "topics": [
+      "desktop",
+      "edex-ui",
+      "electron",
+      "linux",
+      "macos",
+      "nodejs",
+      "science-fiction",
+      "shell",
+      "terminal",
+      "touchscreen",
+      "tron",
+      "unixporn",
+      "windows"
+    ],
+    "release_assets": [
+      {
+        "name": "eDEX-UI-Linux-arm64.AppImage",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Linux-arm64.AppImage"
+      },
+      {
+        "name": "eDEX-UI-Linux-armv7l.AppImage",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Linux-armv7l.AppImage"
+      },
+      {
+        "name": "eDEX-UI-Linux-i386.AppImage",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Linux-i386.AppImage"
+      },
+      {
+        "name": "eDEX-UI-Linux-x86_64.AppImage",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Linux-x86_64.AppImage"
+      },
+      {
+        "name": "eDEX-UI-macOS-x64.dmg",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-macOS-x64.dmg"
+      },
+      {
+        "name": "eDEX-UI-Windows-ia32.exe",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Windows-ia32.exe"
+      },
+      {
+        "name": "eDEX-UI-Windows-x64.exe",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Windows-x64.exe"
+      },
+      {
+        "name": "eDEX-UI-Windows.exe",
+        "download_url": "https://github.com/GitSquared/edex-ui/releases/download/v2.2.8/eDEX-UI-Windows.exe"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "charmbracelet/charm",
+    "description": "The Charm Tool and Library \ud83c\udf1f",
+    "language": "Go",
+    "html_url": "https://github.com/charmbracelet/charm",
+    "stargazers_count": 2473,
+    "topics": [
+      "go",
+      "golang"
+    ],
+    "release_assets": [
+      {
+        "name": "charm-0.12.6.aarch64.rpm",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm-0.12.6.aarch64.rpm"
+      },
+      {
+        "name": "charm-0.12.6.armv7hl.rpm",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm-0.12.6.armv7hl.rpm"
+      },
+      {
+        "name": "charm-0.12.6.i386.rpm",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm-0.12.6.i386.rpm"
+      },
+      {
+        "name": "charm-0.12.6.x86_64.rpm",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm-0.12.6.x86_64.rpm"
+      },
+      {
+        "name": "charm_0.12.6_amd64.deb",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_amd64.deb"
+      },
+      {
+        "name": "charm_0.12.6_arm64.deb",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_arm64.deb"
+      },
+      {
+        "name": "charm_0.12.6_armhf.deb",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_armhf.deb"
+      },
+      {
+        "name": "charm_0.12.6_i386.deb",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_i386.deb"
+      },
+      {
+        "name": "charm_0.12.6_Windows_i386.zip",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_Windows_i386.zip"
+      },
+      {
+        "name": "charm_0.12.6_Windows_x86_64.zip",
+        "download_url": "https://github.com/charmbracelet/charm/releases/download/v0.12.6/charm_0.12.6_Windows_x86_64.zip"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows"
+    ]
+  },
+  {
+    "full_name": "rjpcomputing/luaforwindows",
+    "description": "Lua for Windows is a 'batteries included environment' for the Lua scripting language on Windows. NOTICE: Looking for maintainer.",
+    "language": "HTML",
+    "html_url": "https://github.com/rjpcomputing/luaforwindows",
+    "stargazers_count": 3167,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "LuaForWindows_v5.1.5-52.exe",
+        "download_url": "https://github.com/rjpcomputing/luaforwindows/releases/download/v5.1.5-52/LuaForWindows_v5.1.5-52.exe"
+      }
+    ],
+    "supported_platforms": [
+      "Windows"
+    ]
+  }
+]

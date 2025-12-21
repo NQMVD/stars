@@ -1,0 +1,633 @@
+[
+  {
+    "full_name": "jordanbaird/Ice",
+    "description": "Powerful menu bar manager for macOS",
+    "language": "Swift",
+    "html_url": "https://github.com/jordanbaird/Ice",
+    "stargazers_count": 24876,
+    "topics": [
+      "macos",
+      "macos-app",
+      "menu-bar",
+      "menubar",
+      "menubar-app",
+      "status-bar",
+      "statusbar",
+      "swift",
+      "swiftui",
+      "utility"
+    ],
+    "release_assets": [
+      {
+        "name": "Ice.zip",
+        "download_url": "https://github.com/jordanbaird/Ice/releases/download/0.11.12/Ice.zip"
+      }
+    ],
+    "supported_platforms": []
+  },
+  {
+    "full_name": "imputnet/helium-macos",
+    "description": "Helium Browser for macOS",
+    "language": "C++",
+    "html_url": "https://github.com/imputnet/helium-macos",
+    "stargazers_count": 890,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "helium_0.7.6.1_arm64-macos.dmg",
+        "download_url": "https://github.com/imputnet/helium-macos/releases/download/0.7.6.1/helium_0.7.6.1_arm64-macos.dmg"
+      },
+      {
+        "name": "helium_0.7.6.1_x86_64-macos.dmg",
+        "download_url": "https://github.com/imputnet/helium-macos/releases/download/0.7.6.1/helium_0.7.6.1_x86_64-macos.dmg"
+      }
+    ],
+    "supported_platforms": [
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "pwnwriter/kanha",
+    "description": "\ud83e\udd9a  A web-app pentesting suite written in rust .",
+    "language": "Rust",
+    "html_url": "https://github.com/pwnwriter/kanha",
+    "stargazers_count": 317,
+    "topics": [
+      "hackers-tools",
+      "hacsectools",
+      "hactoberfest",
+      "offsec-tools",
+      "osint",
+      "pentesting-suite",
+      "pwntools",
+      "pwnwriter",
+      "recon",
+      "unixporn"
+    ],
+    "release_assets": [
+      {
+        "name": "kanha--v0.1.2-aarch64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-aarch64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-aarch64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-aarch64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-aarch64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-aarch64-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-armv5te-unknown-linux-gnueabi.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-armv5te-unknown-linux-gnueabi.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-armv7-unknown-linux-gnueabihf.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-armv7-unknown-linux-gnueabihf.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-i686-pc-windows-msvc.zip",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-i686-pc-windows-msvc.zip"
+      },
+      {
+        "name": "kanha--v0.1.2-i686-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-i686-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-i686-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-i686-unknown-linux-musl.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-x86_64-apple-darwin.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-x86_64-apple-darwin.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "kanha--v0.1.2-x86_64-unknown-linux-gnu.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-x86_64-unknown-linux-gnu.tar.gz"
+      },
+      {
+        "name": "kanha--v0.1.2-x86_64-unknown-linux-musl.tar.gz",
+        "download_url": "https://github.com/pwnwriter/kanha/releases/download/v-v0.1.2/kanha--v0.1.2-x86_64-unknown-linux-musl.tar.gz"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "athasdev/athas",
+    "description": "A lightweight, cross-platform code editor, built with Tauri (Rust and React) with Git support, AI agents, vim keybindings.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/athasdev/athas",
+    "stargazers_count": 1801,
+    "topics": [
+      "athas",
+      "code-editor",
+      "cross-platform",
+      "editor",
+      "ide",
+      "lightweight",
+      "react",
+      "rust",
+      "tauri",
+      "text-editor",
+      "vim",
+      "wasm"
+    ],
+    "release_assets": [
+      {
+        "name": "Athas-0.2.7-1.x86_64.rpm",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas-0.2.7-1.x86_64.rpm"
+      },
+      {
+        "name": "Athas_0.2.7_aarch64.dmg",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_0.2.7_aarch64.dmg"
+      },
+      {
+        "name": "Athas_0.2.7_amd64.deb",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_0.2.7_amd64.deb"
+      },
+      {
+        "name": "Athas_0.2.7_x64-setup.exe",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_0.2.7_x64-setup.exe"
+      },
+      {
+        "name": "Athas_0.2.7_x64.dmg",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_0.2.7_x64.dmg"
+      },
+      {
+        "name": "Athas_0.2.7_x64_en-US.msi",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_0.2.7_x64_en-US.msi"
+      },
+      {
+        "name": "Athas_aarch64.app.tar.gz",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_aarch64.app.tar.gz"
+      },
+      {
+        "name": "Athas_x64.app.tar.gz",
+        "download_url": "https://github.com/athasdev/athas/releases/download/v0.2.7/Athas_x64.app.tar.gz"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "tw93/Pake",
+    "description": "\ud83e\udd31\ud83c\udffb Turn any webpage into a desktop app with one command.",
+    "language": "Rust",
+    "html_url": "https://github.com/tw93/Pake",
+    "stargazers_count": 44166,
+    "topics": [
+      "chatgpt",
+      "claude",
+      "desktop",
+      "gemini",
+      "hight-performance",
+      "linux",
+      "macos",
+      "no-electron",
+      "package",
+      "rust",
+      "tauri",
+      "windows",
+      "youtube"
+    ],
+    "release_assets": [
+      {
+        "name": "ChatGPT.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ChatGPT.dmg"
+      },
+      {
+        "name": "ChatGPT_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ChatGPT_x64.msi"
+      },
+      {
+        "name": "ChatGPT_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ChatGPT_x86_64.deb"
+      },
+      {
+        "name": "DeepSeek.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/DeepSeek.dmg"
+      },
+      {
+        "name": "DeepSeek_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/DeepSeek_x64.msi"
+      },
+      {
+        "name": "DeepSeek_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/DeepSeek_x86_64.deb"
+      },
+      {
+        "name": "Excalidraw.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Excalidraw.dmg"
+      },
+      {
+        "name": "Excalidraw_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Excalidraw_x64.msi"
+      },
+      {
+        "name": "Excalidraw_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Excalidraw_x86_64.deb"
+      },
+      {
+        "name": "Flomo.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Flomo.dmg"
+      },
+      {
+        "name": "Flomo_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Flomo_x64.msi"
+      },
+      {
+        "name": "Flomo_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Flomo_x86_64.deb"
+      },
+      {
+        "name": "Gemini.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Gemini.dmg"
+      },
+      {
+        "name": "Gemini_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Gemini_x64.msi"
+      },
+      {
+        "name": "Gemini_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Gemini_x86_64.deb"
+      },
+      {
+        "name": "Grok.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Grok.dmg"
+      },
+      {
+        "name": "Grok_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Grok_x64.msi"
+      },
+      {
+        "name": "Grok_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Grok_x86_64.deb"
+      },
+      {
+        "name": "LiZhi.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/LiZhi.dmg"
+      },
+      {
+        "name": "LiZhi_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/LiZhi_x64.msi"
+      },
+      {
+        "name": "LiZhi_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/LiZhi_x86_64.deb"
+      },
+      {
+        "name": "ProgramMusic.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ProgramMusic.dmg"
+      },
+      {
+        "name": "ProgramMusic_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ProgramMusic_x64.msi"
+      },
+      {
+        "name": "ProgramMusic_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/ProgramMusic_x86_64.deb"
+      },
+      {
+        "name": "Qwerty.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Qwerty.dmg"
+      },
+      {
+        "name": "Qwerty_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Qwerty_x64.msi"
+      },
+      {
+        "name": "Qwerty_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Qwerty_x86_64.deb"
+      },
+      {
+        "name": "Twitter.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Twitter.dmg"
+      },
+      {
+        "name": "Twitter_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Twitter_x64.msi"
+      },
+      {
+        "name": "Twitter_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/Twitter_x86_64.deb"
+      },
+      {
+        "name": "WeRead.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/WeRead.dmg"
+      },
+      {
+        "name": "WeRead_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/WeRead_x64.msi"
+      },
+      {
+        "name": "WeRead_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/WeRead_x86_64.deb"
+      },
+      {
+        "name": "XiaoHongShu.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/XiaoHongShu.dmg"
+      },
+      {
+        "name": "XiaoHongShu_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/XiaoHongShu_x64.msi"
+      },
+      {
+        "name": "XiaoHongShu_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/XiaoHongShu_x86_64.deb"
+      },
+      {
+        "name": "YouTube.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTube.dmg"
+      },
+      {
+        "name": "YouTubeMusic.dmg",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTubeMusic.dmg"
+      },
+      {
+        "name": "YouTubeMusic_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTubeMusic_x64.msi"
+      },
+      {
+        "name": "YouTubeMusic_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTubeMusic_x86_64.deb"
+      },
+      {
+        "name": "YouTube_x64.msi",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTube_x64.msi"
+      },
+      {
+        "name": "YouTube_x86_64.deb",
+        "download_url": "https://github.com/tw93/Pake/releases/download/V3.6.0/YouTube_x86_64.deb"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "sharph/s-rack",
+    "description": "A modular synthesizer written in Rust",
+    "language": "Rust",
+    "html_url": "https://github.com/sharph/s-rack",
+    "stargazers_count": 51,
+    "topics": [
+      "audio",
+      "egui",
+      "rust",
+      "synth",
+      "synthesizer"
+    ],
+    "release_assets": [
+      {
+        "name": "s-rack-aarch64-apple-darwin.tar.xz",
+        "download_url": "https://github.com/sharph/s-rack/releases/download/0.3.0/s-rack-aarch64-apple-darwin.tar.xz"
+      },
+      {
+        "name": "s-rack-x86_64-apple-darwin.tar.xz",
+        "download_url": "https://github.com/sharph/s-rack/releases/download/0.3.0/s-rack-x86_64-apple-darwin.tar.xz"
+      },
+      {
+        "name": "s-rack-x86_64-pc-windows-msvc.zip",
+        "download_url": "https://github.com/sharph/s-rack/releases/download/0.3.0/s-rack-x86_64-pc-windows-msvc.zip"
+      },
+      {
+        "name": "s-rack-x86_64-unknown-linux-gnu.tar.xz",
+        "download_url": "https://github.com/sharph/s-rack/releases/download/0.3.0/s-rack-x86_64-unknown-linux-gnu.tar.xz"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "blinkospace/blinko",
+    "description": "An open-source, self-hosted personal AI note tool prioritizing privacy, built using TypeScript .",
+    "language": "TypeScript",
+    "html_url": "https://github.com/blinkospace/blinko",
+    "stargazers_count": 7678,
+    "topics": [
+      "markdown",
+      "memos",
+      "nextjs",
+      "notebook",
+      "openai",
+      "postgres",
+      "react",
+      "self-hosted"
+    ],
+    "release_assets": [
+      {
+        "name": "Blinko-1.8.0-1.x86_64.rpm",
+        "download_url": "https://github.com/blinkospace/blinko/releases/download/1.8.0/Blinko-1.8.0-1.x86_64.rpm"
+      },
+      {
+        "name": "Blinko_1.8.0_aarch64.dmg",
+        "download_url": "https://github.com/blinkospace/blinko/releases/download/1.8.0/Blinko_1.8.0_aarch64.dmg"
+      },
+      {
+        "name": "Blinko_1.8.0_amd64.deb",
+        "download_url": "https://github.com/blinkospace/blinko/releases/download/1.8.0/Blinko_1.8.0_amd64.deb"
+      },
+      {
+        "name": "Blinko_1.8.0_x64-setup.exe",
+        "download_url": "https://github.com/blinkospace/blinko/releases/download/1.8.0/Blinko_1.8.0_x64-setup.exe"
+      },
+      {
+        "name": "Blinko_1.8.0_x64_en-US.msi",
+        "download_url": "https://github.com/blinkospace/blinko/releases/download/1.8.0/Blinko_1.8.0_x64_en-US.msi"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "winfunc/opcode",
+    "description": "A powerful GUI app and Toolkit for Claude Code - Create custom agents, manage interactive Claude Code sessions, run secure background agents, and more.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/winfunc/opcode",
+    "stargazers_count": 19299,
+    "topics": [
+      "anthropic",
+      "anthropic-claude",
+      "claude",
+      "claude-4",
+      "claude-4-opus",
+      "claude-4-sonnet",
+      "claude-ai",
+      "claude-code",
+      "claude-code-sdk",
+      "cursor",
+      "ide",
+      "llm",
+      "llm-code",
+      "rust",
+      "tauri"
+    ],
+    "release_assets": [
+      {
+        "name": "opcode-0.2.0.tar.gz",
+        "download_url": "https://github.com/winfunc/opcode/releases/download/v0.2.0/opcode-0.2.0.tar.gz"
+      },
+      {
+        "name": "opcode-0.2.0.zip",
+        "download_url": "https://github.com/winfunc/opcode/releases/download/v0.2.0/opcode-0.2.0.zip"
+      },
+      {
+        "name": "opcode_v0.2.0_linux_x86_64.deb",
+        "download_url": "https://github.com/winfunc/opcode/releases/download/v0.2.0/opcode_v0.2.0_linux_x86_64.deb"
+      },
+      {
+        "name": "opcode_v0.2.0_macos_universal.app.tar.gz",
+        "download_url": "https://github.com/winfunc/opcode/releases/download/v0.2.0/opcode_v0.2.0_macos_universal.app.tar.gz"
+      },
+      {
+        "name": "opcode_v0.2.0_macos_universal.dmg",
+        "download_url": "https://github.com/winfunc/opcode/releases/download/v0.2.0/opcode_v0.2.0_macos_universal.dmg"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "Martian-Technologies/Connection-Machine",
+    "description": "Connection Machine is an open-source desktop application for designing and simulating digital circuits at scale.",
+    "language": "C++",
+    "html_url": "https://github.com/Martian-Technologies/Connection-Machine",
+    "stargazers_count": 25,
+    "topics": [
+      "circuit-design",
+      "circuit-simulation",
+      "circuit-simulator",
+      "digital-circuit-design",
+      "digital-logic",
+      "logic-circuit",
+      "logic-circuit-simulator"
+    ],
+    "release_assets": [
+      {
+        "name": "CircuitLib.zip",
+        "download_url": "https://github.com/Martian-Technologies/Connection-Machine/releases/download/v0.13.2-beta/CircuitLib.zip"
+      },
+      {
+        "name": "Connection-Machine-0.13.2-Mac.dmg",
+        "download_url": "https://github.com/Martian-Technologies/Connection-Machine/releases/download/v0.13.2-beta/Connection-Machine-0.13.2-Mac.dmg"
+      },
+      {
+        "name": "Connection-Machine-0.13.2-Windows.zip",
+        "download_url": "https://github.com/Martian-Technologies/Connection-Machine/releases/download/v0.13.2-beta/Connection-Machine-0.13.2-Windows.zip"
+      }
+    ],
+    "supported_platforms": [
+      "Windows",
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "Iamshankhadeep/ccseva",
+    "description": "A beautiful macOS menu bar app for tracking your Claude Code usage in real-time.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/Iamshankhadeep/ccseva",
+    "stargazers_count": 734,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "CCSeva-1.3.0-arm64.dmg",
+        "download_url": "https://github.com/Iamshankhadeep/ccseva/releases/download/v1.3.0/CCSeva-1.3.0-arm64.dmg"
+      },
+      {
+        "name": "CCSeva-1.3.0.dmg",
+        "download_url": "https://github.com/Iamshankhadeep/ccseva/releases/download/v1.3.0/CCSeva-1.3.0.dmg"
+      }
+    ],
+    "supported_platforms": [
+      "macOS"
+    ]
+  },
+  {
+    "full_name": "sst/opencode",
+    "description": "The open source coding agent.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/sst/opencode",
+    "stargazers_count": 40854,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "opencode-desktop-darwin-aarch64.dmg",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-desktop-darwin-aarch64.dmg"
+      },
+      {
+        "name": "opencode-desktop-darwin-x64.dmg",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-desktop-darwin-x64.dmg"
+      },
+      {
+        "name": "opencode-desktop-linux-amd64.deb",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-desktop-linux-amd64.deb"
+      },
+      {
+        "name": "opencode-desktop-linux-x86_64.rpm",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-desktop-linux-x86_64.rpm"
+      },
+      {
+        "name": "opencode-desktop-windows-x64.exe",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-desktop-windows-x64.exe"
+      },
+      {
+        "name": "opencode-linux-arm64-musl.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-arm64-musl.tar.gz"
+      },
+      {
+        "name": "opencode-linux-arm64.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-arm64.tar.gz"
+      },
+      {
+        "name": "opencode-linux-x64-baseline-musl.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-x64-baseline-musl.tar.gz"
+      },
+      {
+        "name": "opencode-linux-x64-baseline.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-x64-baseline.tar.gz"
+      },
+      {
+        "name": "opencode-linux-x64-musl.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-x64-musl.tar.gz"
+      },
+      {
+        "name": "opencode-linux-x64.tar.gz",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-linux-x64.tar.gz"
+      },
+      {
+        "name": "opencode-windows-x64-baseline.zip",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-windows-x64-baseline.zip"
+      },
+      {
+        "name": "opencode-windows-x64.zip",
+        "download_url": "https://github.com/sst/opencode/releases/download/v1.0.184/opencode-windows-x64.zip"
+      }
+    ],
+    "supported_platforms": [
+      "Linux",
+      "Windows",
+      "macOS"
+    ]
+  }
+]

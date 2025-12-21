@@ -1,0 +1,302 @@
+[
+  {
+    "full_name": "dinoki-ai/osaurus",
+    "description": "The missing macOS LLM server. Run local or cloud models with OpenAI & Anthropic compatible APIs. MCP server for Cursor & Claude Desktop, menu bar chat, plugins, and dev tools. Native Apple Silicon.",
+    "language": "Swift",
+    "html_url": "https://github.com/dinoki-ai/osaurus",
+    "stargazers_count": 2481,
+    "topics": ["anthropic", "apple-foundation-models", "apple-intelligence", "apple-neural-engine", "llm", "mcp", "mcp-server", "mlx", "openai", "swift"],
+    "release_assets": [
+      {
+        "name": "Osaurus-0.5.54.dmg",
+        "download_url": "https://github.com/dinoki-ai/osaurus/releases/download/0.5.54/Osaurus-0.5.54.dmg"
+      },
+      {
+        "name": "Osaurus.dmg",
+        "download_url": "https://github.com/dinoki-ai/osaurus/releases/download/0.5.54/Osaurus.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "Far-Beyond-Pulsar/Pulsar-Native",
+    "description": "The next-generation game engine that you deserve implemented in rust on top of GPUI",
+    "language": "Rust",
+    "html_url": "https://github.com/Far-Beyond-Pulsar/Pulsar-Native",
+    "stargazers_count": 221,
+    "topics": ["engine", "game", "game-engine", "gpui", "rust"],
+    "release_assets": [
+      {
+        "name": "pulsar_engine-windows-arm64.exe",
+        "download_url": "https://github.com/Far-Beyond-Pulsar/Pulsar-Native/releases/download/v0.1.51/pulsar_engine-windows-arm64.exe"
+      },
+      {
+        "name": "pulsar_engine-windows-x86_64.exe",
+        "download_url": "https://github.com/Far-Beyond-Pulsar/Pulsar-Native/releases/download/v0.1.51/pulsar_engine-windows-x86_64.exe"
+      }
+    ],
+    "supported_platforms": ["Windows"]
+  },
+  {
+    "full_name": "ejbills/DockDoor",
+    "description": "Window peeking, alt-tab and other enhancements for macOS",
+    "language": "Swift",
+    "html_url": "https://github.com/ejbills/DockDoor",
+    "stargazers_count": 3346,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "DockDoor.dmg",
+        "download_url": "https://github.com/ejbills/DockDoor/releases/download/1.29/DockDoor.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "rlxone/Equinox",
+    "description": "Create dynamic wallpapers for macOS.",
+    "language": "Swift",
+    "html_url": "https://github.com/rlxone/Equinox",
+    "stargazers_count": 1766,
+    "topics": ["app", "appkit", "application", "dynamic", "macos", "native", "swift", "wallpaper"],
+    "release_assets": [
+      {
+        "name": "Equinox.dmg",
+        "download_url": "https://github.com/rlxone/Equinox/releases/download/v4.0/Equinox.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "LinwoodDev/Butterfly",
+    "description": "Powerful, minimalistic, cross-platform, opensource note-taking app",
+    "language": "Dart",
+    "html_url": "https://github.com/LinwoodDev/Butterfly",
+    "stargazers_count": 1610,
+    "topics": ["android", "app", "cross-platform", "customizable", "dart", "dartlang", "drawing", "flutter", "linux", "note", "note-taking", "notes", "notes-app", "onenote", "opensource", "productivity", "web", "windows", "writing"],
+    "release_assets": [
+      {
+        "name": "linwood-butterfly-linux-alternative-x86_64.AppImage",
+        "download_url": "https://github.com/LinwoodDev/Butterfly/releases/download/v2.4.1/linwood-butterfly-linux-alternative-x86_64.AppImage"
+      },
+      {
+        "name": "linwood-butterfly-macos.dmg",
+        "download_url": "https://github.com/LinwoodDev/Butterfly/releases/download/v2.4.1/linwood-butterfly-macos.dmg"
+      },
+      {
+        "name": "linwood-butterfly-windows-setup-x86_64.exe",
+        "download_url": "https://github.com/LinwoodDev/Butterfly/releases/download/v2.4.1/linwood-butterfly-windows-setup-x86_64.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "ransome1/sleek",
+    "description": "todo.txt manager for Linux, Windows and MacOS, free and open-source (FOSS)",
+    "language": "TypeScript",
+    "html_url": "https://github.com/ransome1/sleek",
+    "stargazers_count": 1884,
+    "topics": ["alarms", "archiving", "contexts", "dark-mode", "due-date", "file-watcher", "filters", "foss", "fulltext-search", "gui", "linux-app", "macos-app", "modern", "multiple-languages", "open-source", "priorities", "repeating-todos", "threshold", "todo-txt", "windows-app"],
+    "release_assets": [
+      {
+        "name": "sleek-2.0.22-linux-x86_64.AppImage",
+        "download_url": "https://github.com/ransome1/sleek/releases/download/v2.0.22/sleek-2.0.22-linux-x86_64.AppImage"
+      },
+      {
+        "name": "sleek-2.0.22-mac-arm64.dmg",
+        "download_url": "https://github.com/ransome1/sleek/releases/download/v2.0.22/sleek-2.0.22-mac-arm64.dmg"
+      },
+      {
+        "name": "sleek-2.0.22-win-Setup.exe",
+        "download_url": "https://github.com/ransome1/sleek/releases/download/v2.0.22/sleek-2.0.22-win-Setup.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "ggml-org/LlamaBarn",
+    "description": "A cosy home for your LLMs.",
+    "language": "Swift",
+    "html_url": "https://github.com/ggml-org/LlamaBarn",
+    "stargazers_count": 667,
+    "topics": ["ai", "llama-cpp", "llms", "macos", "swift"],
+    "release_assets": [
+      {
+        "name": "LlamaBarn.dmg",
+        "download_url": "https://github.com/ggml-org/LlamaBarn/releases/download/0.16.0/LlamaBarn.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "gaauwe/fast-forward",
+    "description": "A window switcher for macOS built in Rust using the gpui framework",
+    "language": "Rust",
+    "html_url": "https://github.com/gaauwe/fast-forward",
+    "stargazers_count": 346,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "FastForward.dmg",
+        "download_url": "https://github.com/gaauwe/fast-forward/releases/download/v0.6.1/FastForward.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "HeroTools/open-whispr",
+    "description": "Voice-to-text dictation app with local Whisper models and OpenAI API. Privacy-first, cross-platform, global hotkey activated.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/HeroTools/open-whispr",
+    "stargazers_count": 535,
+    "topics": ["ai", "open-source", "whisper"],
+    "release_assets": [
+      {
+        "name": "OpenWhispr-1.0.12.AppImage",
+        "download_url": "https://github.com/HeroTools/open-whispr/releases/download/v1.0.12/OpenWhispr-1.0.12.AppImage"
+      },
+      {
+        "name": "OpenWhispr-1.0.12.dmg",
+        "download_url": "https://github.com/HeroTools/open-whispr/releases/download/v1.0.12/OpenWhispr-1.0.12.dmg"
+      },
+      {
+        "name": "OpenWhispr-1.0.12.exe",
+        "download_url": "https://github.com/HeroTools/open-whispr/releases/download/v1.0.12/OpenWhispr-1.0.12.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "TNTwise/REAL-Video-Enhancer",
+    "description": "Interpolate, Upscale, Decompress, and Denoise videos easily on Linux/Windows/MacOS.",
+    "language": "Python",
+    "html_url": "https://github.com/TNTwise/REAL-Video-Enhancer",
+    "stargazers_count": 1405,
+    "topics": ["gui", "interpolation", "linux", "macos", "real-esrgan", "rife", "upscaling", "windows"],
+    "release_assets": [
+      {
+        "name": "REAL-Video-Enhancer-2.3.8-Windows-Setup_x86_64.exe",
+        "download_url": "https://github.com/TNTwise/REAL-Video-Enhancer/releases/download/RVE-2.3.8/REAL-Video-Enhancer-2.3.8-Windows-Setup_x86_64.exe"
+      }
+    ],
+    "supported_platforms": ["Windows"]
+  },
+  {
+    "full_name": "nook-browser/Nook",
+    "description": "A new browser, not owned by Atlassian.",
+    "language": "Swift",
+    "html_url": "https://github.com/nook-browser/Nook",
+    "stargazers_count": 1718,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "Nook-v1.0.5.dmg",
+        "download_url": "https://github.com/nook-browser/Nook/releases/download/v1.0.5/Nook-v1.0.5.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "quests-org/quests",
+    "description": "The open-source app builder",
+    "language": "TypeScript",
+    "html_url": "https://github.com/quests-org/quests",
+    "stargazers_count": 384,
+    "topics": ["ai", "app-builder", "desktop-app", "electron", "linux", "llm", "macos", "orpc", "tanstack-router", "windows", "xstate"],
+    "release_assets": [
+      {
+        "name": "Quests-linux-1.7.3-x86_64.AppImage",
+        "download_url": "https://github.com/quests-org/quests/releases/download/v1.7.3/Quests-linux-1.7.3-x86_64.AppImage"
+      },
+      {
+        "name": "Quests-mac-1.7.3-arm64.dmg",
+        "download_url": "https://github.com/quests-org/quests/releases/download/v1.7.3/Quests-mac-1.7.3-arm64.dmg"
+      },
+      {
+        "name": "Quests-win-1.7.3-x64.exe",
+        "download_url": "https://github.com/quests-org/quests/releases/download/v1.7.3/Quests-win-1.7.3-x64.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "2mawi2/schaltwerk",
+    "description": "The IDE without editor",
+    "language": "TypeScript",
+    "html_url": "https://github.com/2mawi2/schaltwerk",
+    "stargazers_count": 141,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "Schaltwerk-0.9.6-universal.dmg",
+        "download_url": "https://github.com/2mawi2/schaltwerk/releases/download/v0.9.6/Schaltwerk-0.9.6-universal.dmg"
+      }
+    ],
+    "supported_platforms": ["macOS"]
+  },
+  {
+    "full_name": "ArthurSonzogni/Diagon",
+    "description": "Interactive ASCII art diagram generators. :star2:",
+    "language": "C++",
+    "html_url": "https://github.com/ArthurSonzogni/Diagon",
+    "stargazers_count": 2123,
+    "topics": ["antlr", "arthursonzogni", "ascii", "ascii-art", "ascii-diagram", "cmake", "cpp", "generators", "lexer", "markdown", "parser", "uml", "uml-diagram", "unicode", "webapp", "webapplication", "webassembly"],
+    "release_assets": [
+      {
+        "name": "diagon-1.1.156-Darwin.dmg",
+        "download_url": "https://github.com/ArthurSonzogni/Diagon/releases/download/v1.1.158/diagon-1.1.156-Darwin.dmg"
+      },
+      {
+        "name": "diagon-1.1.156-Linux.deb",
+        "download_url": "https://github.com/ArthurSonzogni/Diagon/releases/download/v1.1.158/diagon-1.1.156-Linux.deb"
+      }
+    ],
+    "supported_platforms": ["Linux", "macOS"]
+  },
+  {
+    "full_name": "fontforge/fontforge",
+    "description": "Free (libre) font editor for Windows, Mac OS X and GNU+Linux",
+    "language": "C",
+    "html_url": "https://github.com/fontforge/fontforge",
+    "stargazers_count": 7442,
+    "topics": [],
+    "release_assets": [
+      {
+        "name": "FontForge-2025-10-09-Linux-x86_64.AppImage",
+        "download_url": "https://github.com/fontforge/fontforge/releases/download/20251009/FontForge-2025-10-09-Linux-x86_64.AppImage"
+      },
+      {
+        "name": "FontForge-2025-10-09-MacOS.app.dmg",
+        "download_url": "https://github.com/fontforge/fontforge/releases/download/20251009/FontForge-2025-10-09-MacOS.app.dmg"
+      },
+      {
+        "name": "FontForge-2025-10-09-Windows-x64.exe",
+        "download_url": "https://github.com/fontforge/fontforge/releases/download/20251009/FontForge-2025-10-09-Windows-x64.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  },
+  {
+    "full_name": "toeverything/AFFiNE",
+    "description": "There can be more than Notion and Miro. AFFiNE is a next-gen knowledge base that brings planning, sorting and creating all together.",
+    "language": "TypeScript",
+    "html_url": "https://github.com/toeverything/AFFiNE",
+    "stargazers_count": 60919,
+    "topics": ["app", "editor", "electron", "knowledge-base", "markdown", "notes", "notion-alternative", "rust"],
+    "release_assets": [
+      {
+        "name": "affine-0.25.7-stable-linux-x64.appimage",
+        "download_url": "https://github.com/toeverything/AFFiNE/releases/download/v0.25.7/affine-0.25.7-stable-linux-x64.appimage"
+      },
+      {
+        "name": "affine-0.25.7-stable-macos-arm64.dmg",
+        "download_url": "https://github.com/toeverything/AFFiNE/releases/download/v0.25.7/affine-0.25.7-stable-macos-arm64.dmg"
+      },
+      {
+        "name": "affine-0.25.7-stable-windows-x64.exe",
+        "download_url": "https://github.com/toeverything/AFFiNE/releases/download/v0.25.7/affine-0.25.7-stable-windows-x64.exe"
+      }
+    ],
+    "supported_platforms": ["Linux", "Windows", "macOS"]
+  }
+]
