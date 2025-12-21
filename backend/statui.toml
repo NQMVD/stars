@@ -12,24 +12,32 @@ default_timeout = 5
 # -----------------------------------------------
 # statui :: Endpoints
 # -----------------------------------------------
-# Each [[endpoints]] block is a new site to monitor.
+
+# local
 
 [[endpoints]]
-name = "version"
-url = "http://localhost:4200/api/version"
+name = "local version"
+url = "http://0.0.0.0:4444/api/version"
 
 [[endpoints]]
-name = "catalog_info"
-url = "http://localhost:4200/api/catalog_info"
+name = "local apps"
+url = "http://0.0.0.0:4444/api/apps"
+
+# remote
 
 [[endpoints]]
-name = "apps"
-url = "http://localhost:4200/api/apps"
+name = "stardive api/version"
+url = "http://stars.stardive.space/api/api/version"
 
 [[endpoints]]
-name = "apps/wezterm/latest"
-url = "http://localhost:4200/api/apps/wezterm/latest"
+name = "stardive api/apps"
+url = "http://stars.stardive.space/api/api/apps"
 
 [[endpoints]]
-name = "apps/wezterm/screenshots"
-url = "http://localhost:4200/api/apps/wezterm/screenshots"
+name = "stardive version"
+url = "http://stars.stardive.space/api/version"
+
+[[endpoints]]
+name = "stardive apps"
+url = "http://stars.stardive.space/api/apps"
+
