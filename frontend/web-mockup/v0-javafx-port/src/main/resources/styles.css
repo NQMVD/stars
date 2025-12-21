@@ -65,7 +65,7 @@
     -fx-spacing: 12px;
 }
 
-.nav-button>.ikonli-font-icon {
+.nav-button > .ikonli-font-icon {
     -fx-icon-color: #898989;
     /* Match text */
 }
@@ -76,7 +76,7 @@
     /* Extracted active bg */
 }
 
-.nav-button:hover>.ikonli-font-icon {
+.nav-button:hover > .ikonli-font-icon {
     -fx-icon-color: #fafafa;
 }
 
@@ -87,7 +87,7 @@
     /* Extracted active text */
 }
 
-.nav-button:selected>.ikonli-font-icon {
+.nav-button:selected > .ikonli-font-icon {
     -fx-icon-color: #fafafa;
 }
 
@@ -160,7 +160,7 @@
     -fx-background: transparent;
 }
 
-.scroll-pane>.viewport {
+.scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
 

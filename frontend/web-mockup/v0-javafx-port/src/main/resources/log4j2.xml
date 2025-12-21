@@ -1,80 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Configuration status="WARN">
     <Properties>
         <Property name="LOG_DIR">${sys:user.home}/.stars/logs</Property>
         <Property name="LOG_FILE">app.log</Property>
         <!-- File pattern: full details for debugging (no thread name) -->
-        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Property>
+        <Property
+            name="LOG_PATTERN"
+        >%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Property>
     </Properties>
-    
+
     <Appenders>
         <!-- Console Appender with colored output -->
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout>
-                <Pattern>%style{%d{HH:mm:ss}}{dim} %highlight{%-5level}{ERROR=red bold, WARN=yellow bold, INFO=green, DEBUG=blue, TRACE=blue} %style{%logger{1}}{cyan} - %msg%n</Pattern>
+                <Pattern
+                >%style{%d{HH:mm:ss}}{dim} %highlight{%-5level}{ERROR=red bold, WARN=yellow bold, INFO=green, DEBUG=blue, TRACE=blue} %style{%logger{1}}{cyan} - %msg%n</Pattern>
             </PatternLayout>
         </Console>
-        
+
         <!-- File Appender - Main log file -->
-        <RollingFile name="FileAppender" 
-                     fileName="${LOG_DIR}/${LOG_FILE}"
-                     filePattern="${LOG_DIR}/${LOG_FILE}.%i.gz"
-                     append="true">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <RollingFile
+            name="FileAppender"
+            fileName="${LOG_DIR}/${LOG_FILE}"
+            filePattern="${LOG_DIR}/${LOG_FILE}.%i.gz"
+            append="true"
+        >
+            <PatternLayout pattern="${LOG_PATTERN}" />
             <Policies>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
-            <DefaultRolloverStrategy max="10"/>
+            <DefaultRolloverStrategy max="10" />
         </RollingFile>
-        
+
         <!-- Separate file for errors -->
-        <RollingFile name="ErrorFileAppender"
-                     fileName="${LOG_DIR}/error.log"
-                     filePattern="${LOG_DIR}/error.log.%i.gz"
-                     append="true">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        <RollingFile
+            name="ErrorFileAppender"
+            fileName="${LOG_DIR}/error.log"
+            filePattern="${LOG_DIR}/error.log.%i.gz"
+            append="true"
+        >
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
             <Policies>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
-            <DefaultRolloverStrategy max="10"/>
+            <DefaultRolloverStrategy max="10" />
         </RollingFile>
     </Appenders>
-    
+
     <Loggers>
         <!-- Application-specific loggers -->
         <Logger name="com.example.appstore" level="DEBUG" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ErrorFileAppender"/>
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ErrorFileAppender" />
         </Logger>
-        
+
         <!-- Service layer - more verbose -->
-        <Logger name="com.example.appstore.service" level="DEBUG" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ErrorFileAppender"/>
+        <Logger
+            name="com.example.appstore.service"
+            level="DEBUG"
+            additivity="false"
+        >
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ErrorFileAppender" />
         </Logger>
-        
+
         <!-- Installation service - very verbose for debugging -->
-        <Logger name="com.example.appstore.service.InstallationService" level="TRACE" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ErrorFileAppender"/>
+        <Logger
+            name="com.example.appstore.service.InstallationService"
+            level="TRACE"
+            additivity="false"
+        >
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ErrorFileAppender" />
         </Logger>
-        
+
         <!-- API service - verbose for network debugging -->
-        <Logger name="com.example.appstore.service.ApiService" level="DEBUG" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ErrorFileAppender"/>
+        <Logger
+            name="com.example.appstore.service.ApiService"
+            level="DEBUG"
+            additivity="false"
+        >
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ErrorFileAppender" />
         </Logger>
-        
+
         <!-- Root logger -->
         <Root level="INFO">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="FileAppender"/>
-            <AppenderRef ref="ErrorFileAppender"/>
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ErrorFileAppender" />
         </Root>
     </Loggers>
 </Configuration>

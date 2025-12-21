@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -41,6 +39,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -156,14 +156,14 @@ public class AppDetailView extends ScrollPane {
         progressBox.setAlignment(Pos.CENTER_RIGHT);
         progressBox.setVisible(false);
         progressBox.setManaged(false);
-        
+
         ProgressBar progressBar = new ProgressBar(0);
         progressBar.setPrefWidth(150);
         progressBar.setStyle("-fx-accent: #3b82f6;");
-        
+
         Label progressLabel = new Label("Preparing...");
         progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
-        
+
         progressBox.getChildren().addAll(progressBar, progressLabel);
 
         Label statusLabel = new Label("");
@@ -177,35 +177,64 @@ public class AppDetailView extends ScrollPane {
             installBtn.setManaged(false);
             progressBox.setVisible(true);
             progressBox.setManaged(true);
-            
+
             // Listen for progress updates
             installManager.addProgressListener(app.getId(), progress -> {
-                Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
+                Platform.runLater(() ->
+                    updateProgressDisplay(progressBar, progressLabel, progress)
+                );
             });
         }
 
         installBtn.setOnAction(e -> {
-            LOG.info("Install button clicked for app: {} (id: {})", app.getName(), app.getId());
-            
+            LOG.info(
+                "Install button clicked for app: {} (id: {})",
+                app.getName(),
+                app.getId()
+            );
+
             if (libraryService.isInstalled(app.getId())) {
                 // Already installed - launch the app
-                LOG.info("App already installed, attempting to launch: {} (id: {})", app.getName(), app.getId());
-                Optional<InstalledApp> installedApp = libraryService.getInstalledApp(app.getId());
-                if (installedApp.isPresent() && installedApp.get().getExecutablePath() != null) {
+                LOG.info(
+                    "App already installed, attempting to launch: {} (id: {})",
+                    app.getName(),
+                    app.getId()
+                );
+                Optional<InstalledApp> installedApp =
+                    libraryService.getInstalledApp(app.getId());
+                if (
+                    installedApp.isPresent() &&
+                    installedApp.get().getExecutablePath() != null
+                ) {
                     String execPath = installedApp.get().getExecutablePath();
-                    LOG.info("Launching app from: {} (app: {})", execPath, app.getName());
+                    LOG.info(
+                        "Launching app from: {} (app: {})",
+                        execPath,
+                        app.getName()
+                    );
                     installBtn.setText("Launching...");
                     installBtn.setDisable(true);
-                    
+
                     try {
                         InstallationService.getInstance().launchApp(execPath);
-                        LOG.info("App launched successfully: {} (executable: {})", app.getName(), execPath);
+                        LOG.info(
+                            "App launched successfully: {} (executable: {})",
+                            app.getName(),
+                            execPath
+                        );
                         statusLabel.setText("Launched!");
                     } catch (Exception ex) {
-                        LOG.warn("Failed to launch app: {} (executable: {})", app.getName(), execPath, ex);
-                        statusLabel.setText("Failed to launch: " + ex.getMessage());
+                        LOG.warn(
+                            "Failed to launch app: {} (executable: {})",
+                            app.getName(),
+                            execPath,
+                            ex
+                        );
+                        statusLabel.setText(
+                            "Failed to launch: " + ex.getMessage()
+                        );
                     }
-                    
+
                     Timeline reset = new Timeline(
                         new KeyFrame(Duration.seconds(1), ev -> {
                             installBtn.setText("Open");
@@ -215,19 +244,32 @@ public class AppDetailView extends ScrollPane {
                     );
                     reset.play();
                 } else {
-                    LOG.warn("No executable path found for installed app: {} (id: {})", app.getName(), app.getId());
-                    statusLabel.setText("Path not found - reinstall recommended");
+                    LOG.warn(
+                        "No executable path found for installed app: {} (id: {})",
+                        app.getName(),
+                        app.getId()
+                    );
+                    statusLabel.setText(
+                        "Path not found - reinstall recommended"
+                    );
                 }
             } else {
                 // Check if another installation is in progress
                 if (installManager.isInstalling()) {
-                    LOG.warn("Another installation is in progress, cannot start installation for: {}", app.getName());
+                    LOG.warn(
+                        "Another installation is in progress, cannot start installation for: {}",
+                        app.getName()
+                    );
                     statusLabel.setText("Another installation in progress");
                     return;
                 }
-                
+
                 // Start installation via InstallationManager
-                LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
+                LOG.info(
+                    "Starting installation for app: {} (id: {})",
+                    app.getName(),
+                    app.getId()
+                );
                 installBtn.setVisible(false);
                 installBtn.setManaged(false);
                 progressBox.setVisible(true);
@@ -238,61 +280,84 @@ public class AppDetailView extends ScrollPane {
 
                 // Listen for detailed progress updates
                 installManager.addProgressListener(app.getId(), progress -> {
-                    Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
+                    Platform.runLater(() ->
+                        updateProgressDisplay(
+                            progressBar,
+                            progressLabel,
+                            progress
+                        )
+                    );
                 });
 
-                installManager.installApp(app).thenAccept(result -> {
-                    Platform.runLater(() -> {
-                        LOG.info("Installation completed for app: {} (id: {}, version: {})", 
-                                app.getName(), app.getId(), result.getVersion());
-                        
-                        // Save to library with real paths
-                        libraryService.installApp(
-                            app.getId(),
-                            app.getName(),
-                            app.getOwnerLogin(),
-                            app.getCategory() != null ? app.getCategory() : "Unknown",
-                            result.getVersion(),
-                            result.getFormattedSize(),
-                            result.getInstallPath(),
-                            result.getExecutablePath()
-                        );
+                installManager
+                    .installApp(app)
+                    .thenAccept(result -> {
+                        Platform.runLater(() -> {
+                            LOG.info(
+                                "Installation completed for app: {} (id: {}, version: {})",
+                                app.getName(),
+                                app.getId(),
+                                result.getVersion()
+                            );
 
-                        // Update UI to show "Open" button
-                        progressBox.setVisible(false);
-                        progressBox.setManaged(false);
-                        installBtn.setVisible(true);
-                        installBtn.setManaged(true);
-                        installBtn.setText("Open");
-                        installBtn.setStyle(
-                            "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px; -fx-cursor: hand;"
-                        );
-                        FontIcon checkIcon = new FontIcon(Feather.CHECK);
-                        checkIcon.setIconColor(Color.WHITE);
-                        installBtn.setGraphic(checkIcon);
-                        installBtn.setDisable(false);
-                        statusLabel.setText("Installed " + result.getVersion());
-                        
-                        installManager.clearProgressListeners();
+                            // Save to library with real paths
+                            libraryService.installApp(
+                                app.getId(),
+                                app.getName(),
+                                app.getOwnerLogin(),
+                                app.getCategory() != null
+                                    ? app.getCategory()
+                                    : "Unknown",
+                                result.getVersion(),
+                                result.getFormattedSize(),
+                                result.getInstallPath(),
+                                result.getExecutablePath()
+                            );
+
+                            // Update UI to show "Open" button
+                            progressBox.setVisible(false);
+                            progressBox.setManaged(false);
+                            installBtn.setVisible(true);
+                            installBtn.setManaged(true);
+                            installBtn.setText("Open");
+                            installBtn.setStyle(
+                                "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px; -fx-cursor: hand;"
+                            );
+                            FontIcon checkIcon = new FontIcon(Feather.CHECK);
+                            checkIcon.setIconColor(Color.WHITE);
+                            installBtn.setGraphic(checkIcon);
+                            installBtn.setDisable(false);
+                            statusLabel.setText(
+                                "Installed " + result.getVersion()
+                            );
+
+                            installManager.clearProgressListeners();
+                        });
+                    })
+                    .exceptionally(ex -> {
+                        Platform.runLater(() -> {
+                            LOG.error(
+                                "Installation error for app: {} (id: {})",
+                                app.getName(),
+                                app.getId(),
+                                ex
+                            );
+                            String errorMsg = ex.getCause() != null
+                                ? ex.getCause().getMessage()
+                                : ex.getMessage();
+
+                            // Show error and restore install button
+                            progressBox.setVisible(false);
+                            progressBox.setManaged(false);
+                            installBtn.setVisible(true);
+                            installBtn.setManaged(true);
+                            installBtn.setDisable(false);
+                            statusLabel.setText("Failed: " + errorMsg);
+
+                            installManager.clearProgressListeners();
+                        });
+                        return null;
                     });
-                }).exceptionally(ex -> {
-                    Platform.runLater(() -> {
-                        LOG.error("Installation error for app: {} (id: {})", app.getName(), app.getId(), ex);
-                        String errorMsg = ex.getCause() != null ? 
-                            ex.getCause().getMessage() : ex.getMessage();
-                        
-                        // Show error and restore install button
-                        progressBox.setVisible(false);
-                        progressBox.setManaged(false);
-                        installBtn.setVisible(true);
-                        installBtn.setManaged(true);
-                        installBtn.setDisable(false);
-                        statusLabel.setText("Failed: " + errorMsg);
-                        
-                        installManager.clearProgressListeners();
-                    });
-                    return null;
-                });
             }
         });
 
@@ -307,10 +372,19 @@ public class AppDetailView extends ScrollPane {
         );
         githubBtn.setOnAction(e -> {
             try {
-                String githubUrl = "https://github.com/" + app.getOwnerLogin() + "/" + app.getId();
+                String githubUrl =
+                    "https://github.com/" +
+                    app.getOwnerLogin() +
+                    "/" +
+                    app.getId();
                 Desktop.getDesktop().browse(new URI(githubUrl));
             } catch (Exception ex) {
-                LOG.warn("Failed to open GitHub repo for app: {} (id: {})", app.getName(), app.getId(), ex);
+                LOG.warn(
+                    "Failed to open GitHub repo for app: {} (id: {})",
+                    app.getName(),
+                    app.getId(),
+                    ex
+                );
             }
         });
 
@@ -340,7 +414,7 @@ public class AppDetailView extends ScrollPane {
         javafx.scene.shape.Rectangle clip = new javafx.scene.shape.Rectangle();
         clip.widthProperty().bind(gallery.widthProperty());
         clip.heightProperty().bind(gallery.heightProperty());
-        clip.setArcWidth(24);  // Match border-radius
+        clip.setArcWidth(24); // Match border-radius
         clip.setArcHeight(24);
         gallery.setClip(clip);
 
@@ -561,7 +635,9 @@ public class AppDetailView extends ScrollPane {
 
                     // Counter label - declared early so it can be updated from progress listeners
                     final Label counterLabel = new Label("Loading...");
-                    counterLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+                    counterLabel.setStyle(
+                        "-fx-text-fill: #a1a1aa; -fx-font-size: 12px;"
+                    );
                     StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
                     counterLabel.setTranslateY(-10);
 
@@ -574,16 +650,23 @@ public class AppDetailView extends ScrollPane {
                     for (int urlIndex = 0; urlIndex < urls.size(); urlIndex++) {
                         String url = urls.get(urlIndex);
                         final int imageIndex = urlIndex;
-                        
-                        LOG.debug("Loading screenshot {} for app {}: {}", imageIndex + 1, app.getName(), url);
-                        
+
+                        LOG.debug(
+                            "Loading screenshot {} for app {}: {}",
+                            imageIndex + 1,
+                            app.getName(),
+                            url
+                        );
+
                         if (url.toLowerCase().contains(".svg")) {
                             WebView webView = new WebView();
                             webView.setPageFill(Color.TRANSPARENT);
                             webView.getEngine().load(url);
-                            
+
                             webView.setPrefHeight(320);
-                            webView.maxWidthProperty().bind(gallery.widthProperty().subtract(40));
+                            webView
+                                .maxWidthProperty()
+                                .bind(gallery.widthProperty().subtract(40));
                             webView.setVisible(false);
 
                             galleryItems.add(webView);
@@ -593,96 +676,191 @@ public class AppDetailView extends ScrollPane {
                             loadedCount[0]++;
 
                             // Show first successfully loaded item
-                            if (galleryItems.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
+                            if (
+                                galleryItems
+                                    .stream()
+                                    .filter(v -> v != null && v.isVisible())
+                                    .count() ==
+                                0
+                            ) {
                                 webView.setVisible(true);
                                 currentIndex[0] = imageIndex;
                             }
 
                             if (loadedCount[0] >= totalUrls) {
-                                updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                                updateImageCounter(
+                                    galleryItems,
+                                    counterLabel,
+                                    currentIndex[0]
+                                );
                             }
                         } else {
                             // Create placeholder ImageView
-                            javafx.scene.image.ImageView view = new javafx.scene.image.ImageView();
+                            javafx.scene.image.ImageView view =
+                                new javafx.scene.image.ImageView();
                             view.setPreserveRatio(true);
                             view.setFitHeight(320);
-                            view.fitWidthProperty().bind(gallery.widthProperty().subtract(40));
+                            view
+                                .fitWidthProperty()
+                                .bind(gallery.widthProperty().subtract(40));
                             view.setVisible(false);
-                            
+
                             galleryItems.add(view);
                             gallery.getChildren().add(view);
-                            
+
                             // Load image asynchronously using HttpClient with proper headers
-                            loadImageWithHttpClient(httpClient, url).thenAccept(imageBytes -> {
-                                Platform.runLater(() -> {
-                                    if (imageBytes != null && imageBytes.length > 0) {
-                                        try {
-                                            javafx.scene.image.Image img = 
-                                                new javafx.scene.image.Image(new ByteArrayInputStream(imageBytes));
-                                            
-                                            if (!img.isError()) {
-                                                view.setImage(img);
-                                                LOG.debug("Successfully loaded screenshot {} for app {}: {}", 
-                                                        imageIndex + 1, app.getName(), url);
-                                                
-                                                // Show first successfully loaded image
-                                                if (galleryItems.stream().filter(v -> v != null && v.isVisible()).count() == 0) {
-                                                    view.setVisible(true);
-                                                    currentIndex[0] = imageIndex;
+                            loadImageWithHttpClient(httpClient, url)
+                                .thenAccept(imageBytes -> {
+                                    Platform.runLater(() -> {
+                                        if (
+                                            imageBytes != null &&
+                                            imageBytes.length > 0
+                                        ) {
+                                            try {
+                                                javafx.scene.image.Image img =
+                                                    new javafx.scene.image.Image(
+                                                        new ByteArrayInputStream(
+                                                            imageBytes
+                                                        )
+                                                    );
+
+                                                if (!img.isError()) {
+                                                    view.setImage(img);
+                                                    LOG.debug(
+                                                        "Successfully loaded screenshot {} for app {}: {}",
+                                                        imageIndex + 1,
+                                                        app.getName(),
+                                                        url
+                                                    );
+
+                                                    // Show first successfully loaded image
+                                                    if (
+                                                        galleryItems
+                                                            .stream()
+                                                            .filter(
+                                                                v ->
+                                                                    v != null &&
+                                                                    v.isVisible()
+                                                            )
+                                                            .count() ==
+                                                        0
+                                                    ) {
+                                                        view.setVisible(true);
+                                                        currentIndex[0] =
+                                                            imageIndex;
+                                                    }
+                                                } else {
+                                                    LOG.warn(
+                                                        "Image decode error for screenshot {} of app {}: {}",
+                                                        imageIndex + 1,
+                                                        app.getName(),
+                                                        url
+                                                    );
+                                                    gallery
+                                                        .getChildren()
+                                                        .remove(view);
+                                                    galleryItems.set(
+                                                        imageIndex,
+                                                        null
+                                                    );
                                                 }
-                                            } else {
-                                                LOG.warn("Image decode error for screenshot {} of app {}: {}", 
-                                                        imageIndex + 1, app.getName(), url);
-                                                gallery.getChildren().remove(view);
-                                                galleryItems.set(imageIndex, null);
+                                            } catch (Exception e) {
+                                                LOG.warn(
+                                                    "Failed to create image for screenshot {} of app {}: {} - {}",
+                                                    imageIndex + 1,
+                                                    app.getName(),
+                                                    url,
+                                                    e.getMessage(),
+                                                    e
+                                                );
+                                                gallery
+                                                    .getChildren()
+                                                    .remove(view);
+                                                galleryItems.set(
+                                                    imageIndex,
+                                                    null
+                                                );
                                             }
-                                        } catch (Exception e) {
-                                            LOG.warn("Failed to create image for screenshot {} of app {}: {} - {}", 
-                                                    imageIndex + 1, app.getName(), url, e.getMessage(), e);
+                                        } else {
+                                            LOG.warn(
+                                                "Empty or null image data for screenshot {} of app {}: {}",
+                                                imageIndex + 1,
+                                                app.getName(),
+                                                url
+                                            );
                                             gallery.getChildren().remove(view);
                                             galleryItems.set(imageIndex, null);
                                         }
-                                    } else {
-                                        LOG.warn("Empty or null image data for screenshot {} of app {}: {}", 
-                                                imageIndex + 1, app.getName(), url);
+
+                                        loadedCount[0]++;
+                                        // Update counter and check for all failures when all images attempted
+                                        if (loadedCount[0] >= totalUrls) {
+                                            if (
+                                                galleryItems
+                                                    .stream()
+                                                    .allMatch(v -> v == null)
+                                            ) {
+                                                gallery.getChildren().clear();
+                                                Label errorLabel = new Label(
+                                                    "Failed to load screenshots"
+                                                );
+                                                errorLabel.setStyle(
+                                                    "-fx-text-fill: #71717a;"
+                                                );
+                                                gallery
+                                                    .getChildren()
+                                                    .add(errorLabel);
+                                            } else {
+                                                updateImageCounter(
+                                                    galleryItems,
+                                                    counterLabel,
+                                                    currentIndex[0]
+                                                );
+                                            }
+                                        }
+                                    });
+                                })
+                                .exceptionally(ex -> {
+                                    Platform.runLater(() -> {
+                                        LOG.warn(
+                                            "HTTP error loading screenshot {} for app {}: {} - {}",
+                                            imageIndex + 1,
+                                            app.getName(),
+                                            url,
+                                            ex.getMessage(),
+                                            ex
+                                        );
                                         gallery.getChildren().remove(view);
                                         galleryItems.set(imageIndex, null);
-                                    }
-                                    
-                                    loadedCount[0]++;
-                                    // Update counter and check for all failures when all images attempted
-                                    if (loadedCount[0] >= totalUrls) {
-                                        if (galleryItems.stream().allMatch(v -> v == null)) {
-                                            gallery.getChildren().clear();
-                                            Label errorLabel = new Label("Failed to load screenshots");
-                                            errorLabel.setStyle("-fx-text-fill: #71717a;");
-                                            gallery.getChildren().add(errorLabel);
-                                        } else {
-                                            updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+
+                                        loadedCount[0]++;
+                                        if (loadedCount[0] >= totalUrls) {
+                                            if (
+                                                galleryItems
+                                                    .stream()
+                                                    .allMatch(v -> v == null)
+                                            ) {
+                                                gallery.getChildren().clear();
+                                                Label errorLabel = new Label(
+                                                    "Failed to load screenshots"
+                                                );
+                                                errorLabel.setStyle(
+                                                    "-fx-text-fill: #71717a;"
+                                                );
+                                                gallery
+                                                    .getChildren()
+                                                    .add(errorLabel);
+                                            } else {
+                                                updateImageCounter(
+                                                    galleryItems,
+                                                    counterLabel,
+                                                    currentIndex[0]
+                                                );
+                                            }
                                         }
-                                    }
+                                    });
+                                    return null;
                                 });
-                            }).exceptionally(ex -> {
-                                Platform.runLater(() -> {
-                                    LOG.warn("HTTP error loading screenshot {} for app {}: {} - {}", 
-                                            imageIndex + 1, app.getName(), url, ex.getMessage(), ex);
-                                    gallery.getChildren().remove(view);
-                                    galleryItems.set(imageIndex, null);
-                                    
-                                    loadedCount[0]++;
-                                    if (loadedCount[0] >= totalUrls) {
-                                        if (galleryItems.stream().allMatch(v -> v == null)) {
-                                            gallery.getChildren().clear();
-                                            Label errorLabel = new Label("Failed to load screenshots");
-                                            errorLabel.setStyle("-fx-text-fill: #71717a;");
-                                            gallery.getChildren().add(errorLabel);
-                                        } else {
-                                            updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
-                                        }
-                                    }
-                                });
-                                return null;
-                            });
                         }
                     }
 
@@ -701,12 +879,20 @@ public class AppDetailView extends ScrollPane {
 
                     leftBtn.setOnAction(e -> {
                         navigateImages(galleryItems, currentIndex, -1);
-                        updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                        updateImageCounter(
+                            galleryItems,
+                            counterLabel,
+                            currentIndex[0]
+                        );
                     });
 
                     rightBtn.setOnAction(e -> {
                         navigateImages(galleryItems, currentIndex, 1);
-                        updateImageCounter(galleryItems, counterLabel, currentIndex[0]);
+                        updateImageCounter(
+                            galleryItems,
+                            counterLabel,
+                            currentIndex[0]
+                        );
                     });
 
                     HBox navBox = new HBox();
@@ -727,7 +913,10 @@ public class AppDetailView extends ScrollPane {
      * This is necessary because JavaFX's Image class doesn't send User-Agent headers,
      * which causes GitHub's raw.githubusercontent.com to reject requests.
      */
-    private CompletableFuture<byte[]> loadImageWithHttpClient(HttpClient client, String url) {
+    private CompletableFuture<byte[]> loadImageWithHttpClient(
+        HttpClient client,
+        String url
+    ) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -736,18 +925,33 @@ public class AppDetailView extends ScrollPane {
                 .timeout(java.time.Duration.ofSeconds(30))
                 .GET()
                 .build();
-            
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
+
+            return client
+                .sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
                 .thenApply(response -> {
-                    if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                    if (
+                        response.statusCode() >= 200 &&
+                        response.statusCode() < 300
+                    ) {
                         return response.body();
                     } else {
-                        LOG.warn("HTTP {} for screenshot URL: {} (app: {})", response.statusCode(), url, app.getName());
+                        LOG.warn(
+                            "HTTP {} for screenshot URL: {} (app: {})",
+                            response.statusCode(),
+                            url,
+                            app.getName()
+                        );
                         return null;
                     }
                 });
         } catch (Exception e) {
-            LOG.warn("Failed to create HTTP request for screenshot URL: {} (app: {}) - {}", url, app.getName(), e.getMessage(), e);
+            LOG.warn(
+                "Failed to create HTTP request for screenshot URL: {} (app: {}) - {}",
+                url,
+                app.getName(),
+                e.getMessage(),
+                e
+            );
             return CompletableFuture.completedFuture(null);
         }
     }
@@ -817,11 +1021,16 @@ public class AppDetailView extends ScrollPane {
     /**
      * Update the inline progress display based on installation progress.
      */
-    private void updateProgressDisplay(ProgressBar progressBar, Label progressLabel, 
-                                        InstallationService.InstallProgress progress) {
+    private void updateProgressDisplay(
+        ProgressBar progressBar,
+        Label progressLabel,
+        InstallationService.InstallProgress progress
+    ) {
         if (progress.isFailed()) {
             progressLabel.setText("Failed: " + progress.getMessage());
-            progressLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-size: 11px;");
+            progressLabel.setStyle(
+                "-fx-text-fill: #ef4444; -fx-font-size: 11px;"
+            );
             return;
         }
 
@@ -836,7 +1045,10 @@ public class AppDetailView extends ScrollPane {
                 break;
             case DOWNLOADING:
                 overallProgress = 0.05 + (progress.getProgress() * 0.6);
-                message = String.format("Downloading... %.0f%%", progress.getProgress() * 100);
+                message = String.format(
+                    "Downloading... %.0f%%",
+                    progress.getProgress() * 100
+                );
                 break;
             case EXTRACTING:
                 overallProgress = 0.70;
@@ -866,10 +1078,16 @@ public class AppDetailView extends ScrollPane {
     /**
      * Navigate through images, skipping null (failed) entries.
      */
-    private void navigateImages(java.util.List<Node> galleryItems, 
-                                 int[] currentIndex, int direction) {
+    private void navigateImages(
+        java.util.List<Node> galleryItems,
+        int[] currentIndex,
+        int direction
+    ) {
         // Count valid images
-        long validCount = galleryItems.stream().filter(v -> v != null).count();
+        long validCount = galleryItems
+            .stream()
+            .filter(v -> v != null)
+            .count();
         if (validCount <= 1) return;
 
         // Hide current
@@ -898,11 +1116,17 @@ public class AppDetailView extends ScrollPane {
     /**
      * Update the image counter label, accounting for null (failed) images.
      */
-    private void updateImageCounter(java.util.List<Node> galleryItems, 
-                                     Label counterLabel, int currentIndex) {
+    private void updateImageCounter(
+        java.util.List<Node> galleryItems,
+        Label counterLabel,
+        int currentIndex
+    ) {
         // Count valid images
-        long validCount = galleryItems.stream().filter(v -> v != null).count();
-        
+        long validCount = galleryItems
+            .stream()
+            .filter(v -> v != null)
+            .count();
+
         if (validCount == 0) {
             counterLabel.setText("No images");
             return;

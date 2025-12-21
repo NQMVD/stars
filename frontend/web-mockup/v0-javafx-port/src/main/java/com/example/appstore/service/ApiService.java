@@ -4,8 +4,6 @@ import com.example.appstore.model.App;
 import com.example.appstore.model.GithubRelease;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -17,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Service for communicating with the backend API.
@@ -81,11 +81,20 @@ public class ApiService {
                     LOG.info("Successfully fetched {} apps from API", count);
                     return apps != null ? apps : new ArrayList<>();
                 }
-                LOG.error("API request failed with status code: {} for URL: {}", response.statusCode(), url);
+                LOG.error(
+                    "API request failed with status code: {} for URL: {}",
+                    response.statusCode(),
+                    url
+                );
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                LOG.error("Failed to fetch apps from {}: {}", url, e.getMessage(), e);
+                LOG.error(
+                    "Failed to fetch apps from {}: {}",
+                    url,
+                    e.getMessage(),
+                    e
+                );
                 return new ArrayList<>();
             });
     }
@@ -108,14 +117,26 @@ public class ApiService {
                     Type listType = new TypeToken<List<App>>() {}.getType();
                     List<App> apps = gson.fromJson(response.body(), listType);
                     int count = apps != null ? apps.size() : 0;
-                    LOG.info("Successfully fetched {} featured apps from API", count);
+                    LOG.info(
+                        "Successfully fetched {} featured apps from API",
+                        count
+                    );
                     return apps != null ? apps : new ArrayList<>();
                 }
-                LOG.error("API request failed with status code: {} for URL: {}", response.statusCode(), url);
+                LOG.error(
+                    "API request failed with status code: {} for URL: {}",
+                    response.statusCode(),
+                    url
+                );
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                LOG.error("Failed to fetch featured apps from {}: {}", url, e.getMessage(), e);
+                LOG.error(
+                    "Failed to fetch featured apps from {}: {}",
+                    url,
+                    e.getMessage(),
+                    e
+                );
                 return new ArrayList<>();
             });
     }
@@ -137,7 +158,12 @@ public class ApiService {
                     filtered.add(app);
                 }
             }
-            LOG.info("Filtered {} apps by category '{}' from {} total apps", filtered.size(), category, apps.size());
+            LOG.info(
+                "Filtered {} apps by category '{}' from {} total apps",
+                filtered.size(),
+                category,
+                apps.size()
+            );
             return filtered;
         });
     }
@@ -157,22 +183,41 @@ public class ApiService {
             .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(response -> {
                 if (response.statusCode() == 200) {
-                    GithubRelease release = gson.fromJson(response.body(), GithubRelease.class);
+                    GithubRelease release = gson.fromJson(
+                        response.body(),
+                        GithubRelease.class
+                    );
                     if (release != null) {
-                        LOG.info("Successfully fetched release for app {}: {} ({})", 
-                                appId, release.getTagName(), release.getName());
+                        LOG.info(
+                            "Successfully fetched release for app {}: {} ({})",
+                            appId,
+                            release.getTagName(),
+                            release.getName()
+                        );
                     } else {
-                        LOG.warn("Received null release data for app: {}", appId);
+                        LOG.warn(
+                            "Received null release data for app: {}",
+                            appId
+                        );
                     }
                     return release;
                 }
-                LOG.error("API request failed with status code: {} for URL: {} (app: {})", 
-                        response.statusCode(), url, appId);
+                LOG.error(
+                    "API request failed with status code: {} for URL: {} (app: {})",
+                    response.statusCode(),
+                    url,
+                    appId
+                );
                 return null;
             })
             .exceptionally(e -> {
-                LOG.error("Failed to fetch release for app {} from {}: {}", 
-                        appId, url, e.getMessage(), e);
+                LOG.error(
+                    "Failed to fetch release for app {} from {}: {}",
+                    appId,
+                    url,
+                    e.getMessage(),
+                    e
+                );
                 return null;
             });
     }
@@ -198,16 +243,29 @@ public class ApiService {
                         listType
                     );
                     int count = urls != null ? urls.size() : 0;
-                    LOG.info("Successfully fetched {} screenshots for app: {}", count, appId);
+                    LOG.info(
+                        "Successfully fetched {} screenshots for app: {}",
+                        count,
+                        appId
+                    );
                     return urls != null ? urls : new ArrayList<>();
                 }
-                LOG.error("API request failed with status code: {} for URL: {} (app: {})", 
-                        response.statusCode(), url, appId);
+                LOG.error(
+                    "API request failed with status code: {} for URL: {} (app: {})",
+                    response.statusCode(),
+                    url,
+                    appId
+                );
                 return new ArrayList<>();
             })
             .exceptionally(e -> {
-                LOG.error("Failed to fetch screenshots for app {} from {}: {}", 
-                        appId, url, e.getMessage(), e);
+                LOG.error(
+                    "Failed to fetch screenshots for app {} from {}: {}",
+                    appId,
+                    url,
+                    e.getMessage(),
+                    e
+                );
                 return new ArrayList<>();
             });
     }

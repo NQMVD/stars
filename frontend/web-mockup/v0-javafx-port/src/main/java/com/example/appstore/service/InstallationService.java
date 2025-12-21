@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Service for downloading and installing applications.
@@ -25,7 +25,9 @@ import java.util.zip.ZipInputStream;
  */
 public class InstallationService {
 
-    private static final Logger LOG = LogManager.getLogger(InstallationService.class);
+    private static final Logger LOG = LogManager.getLogger(
+        InstallationService.class
+    );
     private static InstallationService instance;
 
     /**
@@ -168,12 +170,21 @@ public class InstallationService {
         App app,
         Consumer<InstallProgress> progressCallback
     ) {
-        LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
+        LOG.info(
+            "Starting installation for app: {} (id: {})",
+            app.getName(),
+            app.getId()
+        );
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return doInstall(app, progressCallback);
             } catch (Exception e) {
-                LOG.error("Installation failed for app: {} (id: {})", app.getName(), app.getId(), e);
+                LOG.error(
+                    "Installation failed for app: {} (id: {})",
+                    app.getName(),
+                    app.getId(),
+                    e
+                );
                 reportProgress(
                     progressCallback,
                     new InstallProgress(
@@ -192,9 +203,11 @@ public class InstallationService {
         Consumer<InstallProgress> progressCallback
     ) throws Exception {
         Platform platform = PlatformDetector.detectPlatform();
-        LOG.info("Detected platform: {}, arch: {}", 
-                PlatformDetector.getPlatformDisplayName(platform), 
-                PlatformDetector.getArchitecture());
+        LOG.info(
+            "Detected platform: {}, arch: {}",
+            PlatformDetector.getPlatformDisplayName(platform),
+            PlatformDetector.getArchitecture()
+        );
 
         // Stage 1: Fetch release info
         LOG.info("Stage 1: Fetching release info for app: {}", app.getId());
@@ -212,15 +225,27 @@ public class InstallationService {
             .get(); // Blocking get since we're in async context
 
         if (release == null) {
-            LOG.warn("No release found for app: {} (id: {})", app.getName(), app.getId());
+            LOG.warn(
+                "No release found for app: {} (id: {})",
+                app.getName(),
+                app.getId()
+            );
             throw new RuntimeException("No release found for " + app.getName());
         }
 
-        LOG.info("Found release: {} ({})", release.getTagName(), release.getName());
+        LOG.info(
+            "Found release: {} ({})",
+            release.getTagName(),
+            release.getName()
+        );
 
         List<GithubAsset> assets = release.getAssets();
         if (assets == null || assets.isEmpty()) {
-            LOG.warn("No assets in release for app: {} (id: {})", app.getName(), app.getId());
+            LOG.warn(
+                "No assets in release for app: {} (id: {})",
+                app.getName(),
+                app.getId()
+            );
             throw new RuntimeException(
                 "No downloadable assets found for " + app.getName()
             );
@@ -228,21 +253,32 @@ public class InstallationService {
 
         LOG.info("Release has {} assets:", assets.size());
         for (GithubAsset asset : assets) {
-            LOG.debug("  - {} ({})", asset.getName(), formatBytes(asset.getSize()));
+            LOG.debug(
+                "  - {} ({})",
+                asset.getName(),
+                formatBytes(asset.getSize())
+            );
         }
 
         // Find the best asset for this platform
         GithubAsset bestAsset = findBestAsset(assets, platform);
         if (bestAsset == null) {
-            LOG.warn("No compatible asset found for platform: {} (app: {})", 
-                    platform, app.getName());
+            LOG.warn(
+                "No compatible asset found for platform: {} (app: {})",
+                platform,
+                app.getName()
+            );
             throw new RuntimeException(
                 "No compatible download found for " +
                     PlatformDetector.getPlatformDisplayName(platform)
             );
         }
 
-        LOG.info("Selected asset: {} ({})", bestAsset.getName(), formatBytes(bestAsset.getSize()));
+        LOG.info(
+            "Selected asset: {} ({})",
+            bestAsset.getName(),
+            formatBytes(bestAsset.getSize())
+        );
 
         // Stage 2: Download
         LOG.info("Stage 2: Downloading asset: {}", bestAsset.getName());
@@ -267,7 +303,11 @@ public class InstallationService {
             );
         });
         long downloadTime = System.currentTimeMillis() - downloadStart;
-        LOG.info("Download completed in {}ms, saved to: {}", downloadTime, downloadPath);
+        LOG.info(
+            "Download completed in {}ms, saved to: {}",
+            downloadTime,
+            downloadPath
+        );
 
         // Stage 3: Extract/Install
         LOG.info("Stage 3: Installing from asset: {}", bestAsset.getName());
@@ -289,7 +329,11 @@ public class InstallationService {
             progressCallback
         );
         long installTime = System.currentTimeMillis() - installStart;
-        LOG.info("Installation completed in {}ms, installed to: {}", installTime, installPath);
+        LOG.info(
+            "Installation completed in {}ms, installed to: {}",
+            installTime,
+            installPath
+        );
 
         // Stage 4: Verify
         LOG.info("Stage 4: Verifying installation");
@@ -314,11 +358,20 @@ public class InstallationService {
             Files.deleteIfExists(downloadPath);
             LOG.debug("Cleaned up download file: {}", downloadPath);
         } catch (IOException e) {
-            LOG.warn("Failed to cleanup download file {}: {}", downloadPath, e.getMessage(), e);
+            LOG.warn(
+                "Failed to cleanup download file {}: {}",
+                downloadPath,
+                e.getMessage(),
+                e
+            );
         }
 
         // Stage 5: Complete
-        LOG.info("Stage 5: Installation complete for app: {} (id: {})", app.getName(), app.getId());
+        LOG.info(
+            "Stage 5: Installation complete for app: {} (id: {})",
+            app.getName(),
+            app.getId()
+        );
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -580,7 +633,12 @@ public class InstallationService {
             try {
                 deleteDirectory(tempDir);
             } catch (IOException e) {
-                LOG.warn("Failed to cleanup temp dir {}: {}", tempDir, e.getMessage(), e);
+                LOG.warn(
+                    "Failed to cleanup temp dir {}: {}",
+                    tempDir,
+                    e.getMessage(),
+                    e
+                );
             }
         }
     }
@@ -682,7 +740,12 @@ public class InstallationService {
             try {
                 deleteDirectory(tempDir);
             } catch (IOException e) {
-                LOG.warn("Failed to cleanup temp dir {}: {}", tempDir, e.getMessage(), e);
+                LOG.warn(
+                    "Failed to cleanup temp dir {}: {}",
+                    tempDir,
+                    e.getMessage(),
+                    e
+                );
             }
         }
     }
@@ -1041,7 +1104,11 @@ public class InstallationService {
 
         // check if the package was installed successfully
         if (exitCode != 0) {
-            LOG.error("Failed to install DEB package: {} (exit code: {})", debPath, exitCode);
+            LOG.error(
+                "Failed to install DEB package: {} (exit code: {})",
+                debPath,
+                exitCode
+            );
             throw new Exception("Failed to install package");
         }
 
