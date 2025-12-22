@@ -39,6 +39,35 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        // Parse command line arguments
+        // LOG.info("received {} command line arguments", args.length);
+        // for (int i = 0; i < args.length; i++) {
+        //     LOG.info("arg[{}]: {}", i, args[i]);
+        // }
+        // String apiUrl = "http://stars.stardive.space"; // default
+        // for (int i = 0; i < args.length; i++) {
+        //     if ("--localhost".equals(args[i]) || "-l".equals(args[i])) {
+        //         apiUrl = "http://localhost:4444";
+        //     } else if ("--api-url".equals(args[i]) && i + 1 < args.length) {
+        //         apiUrl = args[++i];
+        //     }
+        // }
+        // Set system property before launching
+        System.setProperty(
+            "api.baseUrl",
+            System.getenv().getOrDefault(
+                "STARS_API_URL",
+                "http://stars.stardive.space"
+            )
+        );
+        LOG.info(
+            "api.baseUrl set to {}",
+            System.getenv().getOrDefault(
+                "STARS_API_URL",
+                "http://stars.stardive.space"
+            )
+        );
+
         LOG.info("Application starting...");
         launch(args);
     }

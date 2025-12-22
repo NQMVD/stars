@@ -1,6 +1,9 @@
 backend:
     cd backend && cargo run -r
 
+backend-debug:
+    cd backend && RUST_LOG=debug RUST_LOG_DETAIL=source cargo run -r
+
 serve-backend:
     cd backend && cargo build --release
     pueue add \
@@ -10,13 +13,13 @@ serve-backend:
     sleep 1
     pueue status
 
+frontend-local:
+    cd frontend/web-mockup/v0-javafx-port && \
+        STARS_API_URL="http://localhost:4444" mvn javafx:run -Dapi.baseUrl=http://localhost:4444 -Dexec.args="--localhost"
+
 frontend:
     cd frontend/web-mockup/v0-javafx-port && \
         mvn javafx:run
-
-frontend-alone:
-    cd frontend/web-mockup/v0-javafx-port && \
-        mvn javafx:run -Dapi.baseUrl=http://stars.stardive.space/api
 
 web-mockup:
     cd frontend/web-mockup/v0-desktop-appstore-mockup && pnpm run dev

@@ -1,6 +1,10 @@
- better api error handeling in client
+better api error handeling in client
 - when rate limit is hit, backend should tell the frontend
 - add messages or status bar of some sort to frontend
+
+CRITICAL: pre checks in the backend for validating the csv file schema before processing it
+
+the backend should listen to something that triggers a re-fetch of the catalogue from the source
 
 add description to app cards
 
@@ -27,5 +31,3 @@ heres an image of a design i found an liked, please recreate it but in the style
 
 
 please go into the client in v0 and make the library actually work, by that i mean be able to pretent to download and install the apps when their install button is clicked, and then they show in the library. the library should be just a json file right now to save the state across sessions. also the apps should be removable from the list and updateable, all just to test the ui and stuff.
-
-

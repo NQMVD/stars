@@ -36,12 +36,8 @@ public class ApiService {
             .followRedirects(HttpClient.Redirect.NORMAL)
             .build();
         this.gson = new Gson();
-        // Default to localhost, can be configured
-        // this.baseUrl = System.getProperty(
-        //     "api.baseUrl",
-        //     "http://localhost:4200"
-        // );
-        this.baseUrl = "http://stars.stardive.space";
+        this.baseUrl = System.getProperty("api.baseUrl");
+        // this.baseUrl = "http://stars.stardive.space";
         LOG.info("ApiService initialized with base URL: {}", baseUrl);
     }
 
