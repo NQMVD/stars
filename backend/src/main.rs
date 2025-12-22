@@ -105,6 +105,7 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/api/apps", get(get_apps))
+        .route("/api/apps/featured", get(get_featured_apps))
         // get catalog info, file name and git commit hash
         .route("/api/catalog_info", get(get_catalog_info))
         .route("/api/apps/:id/latest", get(get_latest_version))
@@ -125,6 +126,15 @@ async fn main() -> anyhow::Result<()> {
 async fn get_apps(State(state): State<Arc<AppState>>) -> Result<Json<Vec<models::App>>, AppError> {
     tracing::info!("Handling get_apps");
     let apps = db::get_all_apps(&state.df)?;
+    Ok(Json(apps))
+}
+
+async fn get_featured_apps(
+    State(state): State<Arc<AppState>>,
+) -> Result<Json<Vec<models::App>>, AppError> {
+    tracing::info!("Handling get_featured_apps");
+    let apps = db::get_all_apps(&state.df)?;
+    let apps: Vec<models::App> = apps.into_iter().take(3).collect();
     Ok(Json(apps))
 }
 
