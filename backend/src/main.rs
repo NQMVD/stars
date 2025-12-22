@@ -52,17 +52,32 @@ impl FormatTime for JustTime {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     dotenv().ok();
-    tracing_subscriber::registry()
-        .with(tracing_subscriber::EnvFilter::new(
-            env::var("RUST_LOG").unwrap_or_else(|_| "info".into()),
-        ))
-        .with(
-            tracing_subscriber::fmt::layer()
-                .with_level(true)
-                .compact()
-                .with_timer(JustTime),
-        )
-        .init();
+
+    if env::var("RUST_LOG_DETAIL")
+        .unwrap_or_else(|_| "compact".into())
+        .contains("source")
+    {
+        tracing_subscriber::registry()
+            .with(tracing_subscriber::EnvFilter::new(
+                env::var("RUST_LOG").unwrap_or_else(|_| "info".into()),
+            ))
+            .with(tracing_subscriber::fmt::layer().pretty())
+            .init();
+        tracing::debug!("Running in debug mode");
+    } else {
+        tracing_subscriber::registry()
+            .with(tracing_subscriber::EnvFilter::new(
+                env::var("RUST_LOG").unwrap_or_else(|_| "info".into()),
+            ))
+            .with(
+                tracing_subscriber::fmt::layer()
+                    .with_level(true)
+                    .compact()
+                    .with_timer(JustTime),
+            )
+            .init();
+    }
+    // println!("{:?}", env::var("RUST_LOG_DETAIL"));
 
     tracing::info!("Loading environment variables");
 
