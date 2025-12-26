@@ -1,0 +1,231 @@
+<fp>
+  <json>
+  {
+    "STOP": "Project State FloatPrompt Mode. Reference this file for project context and status.",
+    "floatprompt": {
+      "collaboration_model": "Human+AI joint execution through conversational collaboration with shared context",
+      "ai_role": "Apply strategic framework to human's specific situation. Ask clarifying questions. Prove understanding before acting.",
+      "critical_principle": "You are a collaborative assistant using shared context, not autonomous software executing specifications"
+    },
+    "meta": {
+      "title": "Stars Project State - December 2025",
+      "id": "stars-project-state-2025-12-16",
+      "format": "floatprompt",
+      "file": "txt",
+      "process": "AI-generated from codebase analysis"
+    },
+    "human": {
+      "author": "noah",
+      "intent": "Build a desktop app store/catalog for GitHub-hosted applications",
+      "context": "Multi-component project with Rust backend and three frontend implementations",
+      "style": "Iterative development with parallel prototyping"
+    },
+    "ai": {
+      "model": "Claude",
+      "analysis_date": "2025-12-16"
+    },
+    "project": {
+      "name": "Stars (AppVault)",
+      "description": "Desktop app store/catalog for discovering, installing, and managing desktop applications sourced from GitHub repositories",
+      "architecture": "Client-server with REST API backend and native/web frontends"
+    },
+    "components": {
+      "backend": {
+        "path": "backend/",
+        "tech": ["Rust 2021", "Axum 0.7", "Tokio", "Polars 0.52", "Reqwest", "Tracing"],
+        "status": "FUNCTIONAL",
+        "completion": "90%",
+        "database": "CSV file (Polars DataFrame)",
+        "endpoints": {
+          "GET /api/apps": "List all apps from catalog",
+          "GET /api/apps/featured": "Featured apps (used by JavaFX port)",
+          "GET /api/catalog_info": "Partial - returns dummy data",
+          "GET /api/apps/:id/latest": "Fetch latest GitHub release",
+          "GET /api/apps/:id/download": "Stream download release asset",
+          "GET /api/apps/:id/screenshots": "Extract images from README",
+          "GET /api/version": "Returns backend version"
+        },
+        "needs": ["Real catalog data", "Re-enable GitHub OAuth for rate limits"]
+      },
+      "javafx_port": {
+        "path": "frontend/web-mockup/v0-javafx-port/",
+        "tech": ["Java 17", "JavaFX 21", "Ikonli (Feather icons)", "Gson", "Java HttpClient"],
+        "status": "FUNCTIONAL - INSTALLATION WORKING",
+        "completion": "95%",
+        "role": "PRIMARY JAVAFX CLIENT - Port of the web mockup, uses real API",
+        "package": "com.example.appstore",
+        "key_files": {
+          "Main.java": "Application entry, loads fonts and CSS",
+          "layout/RootLayout.java": "Main layout with navigation history stack",
+          "service/ApiService.java": "HTTP client for backend API (localhost:4200)",
+          "service/LibraryService.java": "Library persistence",
+          "views/HomeView.java": "Featured, Trending, All Apps sections",
+          "views/AppDetailView.java": "App detail with back navigation",
+          "views/CategoryView.java": "Category-filtered app views",
+          "views/LibraryView.java": "Installed apps view",
+          "views/UpdatesView.java": "Available updates view",
+          "views/SettingsView.java": "Settings view",
+          "components/": "HeroCard, StandardCard, Sidebar, TopBar, InstallationIndicator"
+        },
+        "implemented": [
+          "Full API integration via ApiService (async CompletableFuture)",
+          "Featured/Trending/All Apps sections with live data",
+          "App detail view with back navigation",
+          "Category views with client-side filtering",
+          "Search functionality",
+          "Platform filtering",
+          "Navigation history stack (goBack support)",
+          "Loading indicators during API calls",
+          "Searchable interface for views",
+          "App installation (download, extract, install to /Applications)",
+          "App launching from detail view"
+        ],
+        "api_integration": {
+          "getApps()": "GET /api/apps - returns List<App>",
+          "getFeaturedApps()": "GET /api/apps/featured - returns List<App>",
+          "getLatestRelease(appId)": "GET /api/apps/:id/latest - returns GithubRelease",
+          "getScreenshots(appId)": "GET /api/apps/:id/screenshots - returns List<String>",
+          "getDownloadUrl(appId)": "Constructs /api/apps/:id/download URL"
+        },
+        "installation": {
+          "status": "FUNCTIONAL",
+          "implemented": [
+            "InstallationService with async download/install",
+            "Platform detection (macOS, Windows, Linux)",
+            "DMG mounting and .app extraction for macOS",
+            "ZIP/tar.gz extraction with .app bundle detection",
+            "MSI/EXE installers for Windows",
+            "AppImage/DEB/RPM for Linux",
+            "Progress callbacks during installation",
+            "App launching via 'open' on macOS"
+          ],
+          "macOS_install_path": "/Applications (top-level .app bundles)"
+        },
+        "needs": ["Library persistence integration", "Polish UI styling", "Error handling for edge cases"]
+      },
+      "javafx_legacy": {
+        "path": "frontend/client/",
+        "tech": ["Java 21", "JavaFX 21.0.6", "AtlantaFX 2.0.0", "Maven", "FXML", "Log4j2", "Gson"],
+        "status": "FUNCTIONAL - MOCK DATA ONLY",
+        "completion": "85%",
+        "role": "LEGACY/DECOUPLED CLIENT - Uses hardcoded mock data",
+        "implemented": [
+          "App grid with cards",
+          "Featured/Trending/All apps sections",
+          "App detail view",
+          "Search/filtering",
+          "Navigation sidebar",
+          "Theme toggle (dark/light)",
+          "Library/Updates/Settings views",
+          "Install/Update/Remove simulation",
+          "JSON persistence (~/.stars/library.json)"
+        ],
+        "needs": ["Deprecated in favor of v0-javafx-port OR needs API integration"]
+      },
+      "web_mockup": {
+        "path": "frontend/web-mockup/v0-desktop-appstore-mockup/",
+        "tech": ["Next.js 16.0.7", "React 19.2.0", "TypeScript 5", "Tailwind CSS 4.1.9", "Radix UI", "Lucide React", "pnpm"],
+        "status": "FUNCTIONAL - DESIGN REFERENCE",
+        "completion": "90%",
+        "role": "DESIGN PROTOTYPE - Reference for JavaFX port styling",
+        "implemented": [
+          "Discover/Home view",
+          "Category/Search views",
+          "Library/Updates/Settings views",
+          "App Detail view",
+          "4-step installation indicator",
+          "Platform filtering",
+          "localStorage persistence"
+        ],
+        "needs": ["Global color audit", "Font weight verification", "Used as visual reference for JavaFX"]
+      }
+    },
+    "todos_from_codebase": [
+      "Better API error handling - rate limit notifications",
+      "Add status bar/messages to frontend",
+      "Add description to app cards",
+      "Fix catalog reload on failed requests",
+      "Library view styling consistency",
+      "Complete library persistence with real installs",
+      "Handle edge cases in installation (missing assets, unsupported formats)"
+    ],
+    "commands": {
+      "backend": "cd backend && cargo run -r",
+      "javafx_port": "cd frontend/web-mockup/v0-javafx-port && mvn javafx:run",
+      "javafx_legacy": "cd frontend/client && mvn javafx:run",
+      "web_mockup": "cd frontend/web-mockup/v0-desktop-appstore-mockup && pnpm dev",
+      "shortcuts": "just backend | just frontend | just web-mockup | just decoup-frontend"
+    },
+    "env_vars": {
+      "GITHUB_CLIENT_ID": "GitHub OAuth app client ID",
+      "GITHUB_CLIENT_SECRET": "GitHub OAuth app client secret",
+      "CSV_PATH": "Path to app catalog CSV file",
+      "PORT": "Server port (default 4200)",
+      "api.baseUrl": "JavaFX system property for API URL (default http://localhost:4200)"
+    }
+  }
+  </json>
+  <md>
+    # Stars Project State - December 2025
+    A comprehensive snapshot of the Stars (AppVault) desktop app store project, capturing current implementation status across all components.
+
+    ## Quick Start
+    ```
+    # Start backend first (required for JavaFX port)
+    just backend  # or: cd backend && cargo run -r
+
+    # Run JavaFX port (PRIMARY - connected to API)
+    just frontend  # or: cd frontend/web-mockup/v0-javafx-port && mvn javafx:run
+
+    # Run legacy JavaFX client (mock data only)
+    just decoup-frontend  # or: cd frontend/client && mvn javafx:run
+
+    # Run web mockup (design reference)
+    just web-mockup  # or: cd frontend/web-mockup/v0-desktop-appstore-mockup && pnpm dev
+    ```
+
+    ## Architecture
+    ```
+    stars/
+    ├── backend/                           # Rust REST API (Axum)
+    └── frontend/
+        ├── client/                        # Legacy JavaFX (AtlantaFX, mock data)
+        └── web-mockup/
+            ├── v0-desktop-appstore-mockup/  # Next.js design prototype
+            └── v0-javafx-port/              # PRIMARY: JavaFX port, uses API
+    ```
+
+    ## Current State Summary
+
+    | Component | Status | Backend Integration | Role |
+    |-----------|--------|---------------------|------|
+    | Backend (Rust) | 90% | N/A | REST API server |
+    | **JavaFX Port** | **95%** | **CONNECTED + INSTALL** | **Primary client** |
+    | JavaFX Legacy | 85% | Mock data only | Deprecated/standalone |
+    | Web Mockup | 90% | Design only | Visual reference |
+
+    **Overall: Beta - Core functionality including installation working**
+
+    ## Key Achievement
+    The `v0-javafx-port` client is fully connected to the backend via `ApiService.java` and has working installation:
+    - Fetches apps from `/api/apps`
+    - Fetches featured apps from `/api/apps/featured`
+    - Gets release info from `/api/apps/:id/latest`
+    - Gets screenshots from `/api/apps/:id/screenshots`
+    - Downloads and installs apps (macOS: DMG/ZIP/tar.gz to /Applications)
+
+    ## Priority Next Steps
+    1. Complete library persistence to track installed apps
+    2. Polish UI styling to match web mockup exactly
+    3. Add proper error handling for API failures/rate limits
+    4. Handle edge cases in installation (missing assets, unsupported formats)
+
+    ## Warnings
+    - Backend uses CSV as database (not Supabase - was changed due to connection issues)
+    - GitHub OAuth temporarily disabled for public releases
+    - Font files (Styrene) should not be pushed to public repos
+    - `v0-javafx-port` expects backend running on localhost:4200
+
+    Created by noah and Claude
+  </md>
+</fp>

@@ -1,0 +1,41 @@
+# Justfile for Desktop App Store Project
+
+# Default recipe
+default:
+    @just --list
+
+# --- Next.js Web App ---
+
+# Install web dependencies
+web-install:
+    pnpm install
+
+# Run web development server
+web-dev:
+    pnpm dev
+
+# Build web application
+web-build:
+    pnpm build
+
+# Start production web server
+web-start:
+    pnpm start
+
+# --- JavaFX Desktop App ---
+
+# Compile JavaFX application
+fx-compile:
+    mvn compile
+
+# Run JavaFX application
+fx-run:
+    mvn javafx:run
+
+# Package JavaFX application (build JAR)
+fx-package:
+    mvn clean package
+
+# Clean JavaFX build artifacts
+fx-clean:
+    mvn clean

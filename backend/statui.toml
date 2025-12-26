@@ -1,0 +1,43 @@
+# -----------------------------------------------
+# statui :: Global Settings
+# -----------------------------------------------
+# All endpoints will use these values by default
+
+# Default interval (in seconds) to ping all endpoints
+default_interval = 10
+
+# Default timeout (in seconds) for any single request
+default_timeout = 5
+
+# -----------------------------------------------
+# statui :: Endpoints
+# -----------------------------------------------
+
+# local
+
+[[endpoints]]
+name = "local version"
+url = "http://0.0.0.0:4444/api/version"
+
+[[endpoints]]
+name = "local apps"
+url = "http://0.0.0.0:4444/api/apps"
+
+# remote
+
+[[endpoints]]
+name = "stardive api/version"
+url = "http://stars.stardive.space/api/api/version"
+
+[[endpoints]]
+name = "stardive api/apps"
+url = "http://stars.stardive.space/api/api/apps"
+
+[[endpoints]]
+name = "stardive version"
+url = "http://stars.stardive.space/api/version"
+
+[[endpoints]]
+name = "stardive apps"
+url = "http://stars.stardive.space/api/apps"
+

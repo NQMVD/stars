@@ -76,3 +76,12 @@ $RECYCLE.BIN/
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
+frontend/web-mockup/v0-javafx-port/target
+frontend/client/target
+
+# Fonts
+*.ttf
+*.otf
+*.woff
+*.woff2
+
