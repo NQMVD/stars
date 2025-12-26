@@ -1,3 +1,4 @@
+# Backend commands
 backend:
     cd backend && cargo run -r
 
@@ -8,25 +9,30 @@ serve-backend:
     cd backend && cargo build --release
     pueue add \
         --group SERVICES \
-        -w /root/repos/stars/backend/ \
-        /root/repos/stars/backend/target/release/backend-service
+        -w {{ justfile_directory() }}/backend \
+        {{ justfile_directory() }}/backend/target/release/backend-service
     sleep 1
     pueue status
 
-frontend-local:
-    cd frontend/web-mockup/v0-javafx-port && \
-        STARS_API_URL="http://localhost:4444" mvn javafx:run -Dapi.baseUrl=http://localhost:4444 -Dexec.args="--localhost"
+# Desktop client commands (PRIMARY CLIENT)
+desktop-local:
+    cd desktop && STARS_API_URL="http://localhost:4444" mvn javafx:run
 
+desktop:
+    cd desktop && mvn javafx:run
+
+# Simple client (mockup, for reference)
+desktop-mockup:
+    cd desktop-mockup && mvn javafx:run
+
+# Web prototype commands
+web-dev:
+    cd web-mockup && pnpm run dev
+
+# Legacy compatibility (deprecated)
 frontend:
-    cd frontend/web-mockup/v0-javafx-port && \
-        mvn javafx:run
-
-web-mockup:
-    cd frontend/web-mockup/v0-desktop-appstore-mockup && pnpm run dev
-
-decoup-frontend:
-    cd frontend/client && mvn javafx:run
+    @echo "Warning: 'frontend' is deprecated. Use 'desktop' (primary) or 'desktop-mockup' instead."
 
 gitstatus:
     git-statuses
-    git-statuses frontend/web-mockup/v0-desktop-appstore-mockup
+    git-statuses web-mockup

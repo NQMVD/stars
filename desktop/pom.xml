@@ -5,13 +5,12 @@
 >
     <modelVersion>4.0.0</modelVersion>
     <groupId>space.stardive</groupId>
-    <artifactId>stars</artifactId>
+    <artifactId>desktop-client</artifactId>
     <version>4.2</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <javafx.version>21</javafx.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <javafx.version>21.0.6</javafx.version>
     </properties>
     <dependencies>
         <dependency>
@@ -60,9 +59,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>
