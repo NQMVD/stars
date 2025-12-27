@@ -70,29 +70,29 @@ jobs:
           
           # Determine package type based on OS
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            # Build MSI first
+            # Build MSI installer
             jpackage \
               --type msi \
               --input jpackage-input \
               --dest dist \
-              --name "StarsApp" \
+              --name "StarsApp-Installer" \
               --main-jar "$MAIN_JAR" \
               --main-class com.example.appstore.Launcher \
               --description "Stars Desktop App Store" \
               --vendor "Stardive" \
               --win-console --win-dir-chooser --win-shortcut
 
-            # Build EXE
+            # Build Standalone (app-image)
             jpackage \
-              --type exe \
+              --type app-image \
               --input jpackage-input \
-              --dest dist \
+              --dest dist/standalone \
               --name "StarsApp" \
               --main-jar "$MAIN_JAR" \
               --main-class com.example.appstore.Launcher \
               --description "Stars Desktop App Store" \
               --vendor "Stardive" \
-              --win-console --win-dir-chooser --win-shortcut
+              --win-console
           else
             # Build DMG for macOS
             jpackage \
@@ -114,4 +114,4 @@ jobs:
           path: |
             frontend/web-mockup/v0-javafx-port/dist/*.msi
             frontend/web-mockup/v0-javafx-port/dist/*.dmg
-            frontend/web-mockup/v0-javafx-port/dist/*.exe
+            frontend/web-mockup/v0-javafx-port/dist/standalone/
