@@ -67,19 +67,34 @@ jobs:
         run: |
           MAIN_JAR=$(basename $(ls target/stars-*.jar | head -n 1))
           echo "Using main jar: $MAIN_JAR"
+          
+          # Determine package type based on OS
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            PACKAGE_TYPE="msi"
+            # Add console and install options for windows
+            EXTRA_OPTS="--win-console --win-dir-chooser --win-shortcut"
+          else
+            PACKAGE_TYPE="dmg"
+            EXTRA_OPTS=""
+          fi
+
           jpackage \
-            --type app-image \
+            --type "$PACKAGE_TYPE" \
             --input jpackage-input \
             --dest dist \
             --name "StarsApp" \
             --main-jar "$MAIN_JAR" \
-            --main-class com.example.appstore.Main \
+            --main-class com.example.appstore.Launcher \
             --description "Stars Desktop App Store" \
-            --vendor "Stardive"
+            --vendor "Stardive" \
+            $EXTRA_OPTS
         working-directory: frontend/web-mockup/v0-javafx-port
 
       - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-${{ matrix.os }}
-          path: frontend/web-mockup/v0-javafx-port/dist/
+          path: |
+            frontend/web-mockup/v0-javafx-port/dist/*.msi
+            frontend/web-mockup/v0-javafx-port/dist/*.dmg
+            frontend/web-mockup/v0-javafx-port/dist/*.exe
