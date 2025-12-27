@@ -65,7 +65,7 @@
     -fx-spacing: 12px;
 }
 
-.nav-button > .ikonli-font-icon {
+.nav-button>.ikonli-font-icon {
     -fx-icon-color: #898989;
     /* Match text */
 }
@@ -76,7 +76,7 @@
     /* Extracted active bg */
 }
 
-.nav-button:hover > .ikonli-font-icon {
+.nav-button:hover>.ikonli-font-icon {
     -fx-icon-color: #fafafa;
 }
 
@@ -87,7 +87,7 @@
     /* Extracted active text */
 }
 
-.nav-button:selected > .ikonli-font-icon {
+.nav-button:selected>.ikonli-font-icon {
     -fx-icon-color: #fafafa;
 }
 
@@ -160,7 +160,7 @@
     -fx-background: transparent;
 }
 
-.scroll-pane > .viewport {
+.scroll-pane>.viewport {
     -fx-background-color: transparent;
 }
 
@@ -183,21 +183,69 @@
 
 /* Cards */
 .app-card {
-    -fx-background-color: #040404;
-    /* Extracted card bg */
-    -fx-background-radius: 12px;
-    -fx-border-color: #181818;
-    /* Extracted card border */
+    -fx-background-color: #0a0a0a;
+    -fx-background-radius: 16px;
+    -fx-border-color: #1a1a1a;
     -fx-border-width: 1px;
-    -fx-border-radius: 12px;
-    -fx-effect: null;
+    -fx-border-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
 }
 
 .app-card:hover {
-    -fx-background-color: #0d0d0d;
-    -fx-border-color: #3f3f46;
-    /* Lighter border on hover */
+    -fx-background-color: #111111;
+    -fx-border-color: #2a2a2a;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 0, 6);
+}
+
+/* Featured Hero Card Gradient Styles */
+.hero-card-blue {
+    -fx-background-color: linear-gradient(to bottom right, #1e3a5f, #0d2137);
+}
+
+.hero-card-purple {
+    -fx-background-color: linear-gradient(to bottom right, #4a1942, #6b2963, #8b4585);
+}
+
+.hero-card-gold {
+    -fx-background-color: linear-gradient(to bottom right, #4a4035, #3d2f1f, #2a1f15);
+}
+
+/* Standard Card Gradient Image Areas */
+.card-gradient-blue {
+    -fx-background-color: linear-gradient(to bottom right, #1e40af, #3b82f6, #60a5fa);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+.card-gradient-purple {
+    -fx-background-color: linear-gradient(to bottom right, #7c3aed, #a855f7, #c084fc);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+.card-gradient-pink {
+    -fx-background-color: linear-gradient(to bottom right, #be185d, #ec4899, #f472b6);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+.card-gradient-orange {
+    -fx-background-color: linear-gradient(to bottom right, #c2410c, #f97316, #fb923c);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+.card-gradient-teal {
+    -fx-background-color: linear-gradient(to bottom right, #0d9488, #14b8a6, #2dd4bf);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+.card-gradient-indigo {
+    -fx-background-color: linear-gradient(to bottom right, #4338ca, #6366f1, #818cf8);
+    -fx-background-radius: 16px 16px 0 0;
+}
+
+/* Default gradient for cards without specific color */
+.card-gradient-default {
+    -fx-background-color: linear-gradient(to bottom right, #374151, #4b5563, #6b7280);
+    -fx-background-radius: 16px 16px 0 0;
 }
 
 .install-button {
@@ -264,4 +312,47 @@
 .scroll-bar .decrement-arrow {
     -fx-shape: " ";
     -fx-padding: 0;
+}
+
+/* Editor's Choice Badge */
+.editors-choice-badge {
+    -fx-text-fill: #22d3ee;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Card Icon Box */
+.card-icon-box {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 10px;
+    -fx-border-color: #2a2a2a;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+/* Rating Star */
+.rating-star {
+    -fx-icon-color: #fbbf24;
+}
+
+/* GET Button (Featured Cards) */
+.get-button {
+    -fx-background-color: #22c55e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-padding: 6px 20px;
+    -fx-cursor: hand;
+}
+
+.get-button:hover {
+    -fx-background-color: #16a34a;
+}
+
+/* Featured Label */
+.featured-label {
+    -fx-text-fill: #f97316;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
 }

@@ -10,113 +10,114 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class HeroCard extends VBox {
+public class HeroCard extends StackPane {
 
-    public HeroCard(String title, String description, boolean isInstalled) {
+    public enum GradientType {
+        BLUE, PINK_PURPLE, PURPLE_ORANGE
+    }
+
+    // Constructor for sample/featured cards with custom content
+    public HeroCard(String headline, String appName, String category, GradientType gradientType, Feather appIconType) {
         getStyleClass().add("app-card");
-        setPrefSize(350, 300); // Taller to accommodate image + text
-        setMinSize(350, 300);
-        setPadding(new Insets(0));
+        setMinWidth(280);
+        setMaxWidth(Double.MAX_VALUE);
+        setMinHeight(200);
+        setPrefHeight(220);
 
-        // Large Image Area
-        StackPane imageArea = new StackPane();
-        imageArea.setPrefHeight(180);
-        imageArea.setStyle(
-            "-fx-background-color: #27272a; -fx-background-radius: 12px 12px 0 0;"
-        );
+        // Apply gradient to the entire card
+        String gradientStyle = getGradientStyle(gradientType);
+        setStyle(gradientStyle + " -fx-background-radius: 16px;");
 
-        FontIcon bgIcon = new FontIcon(Feather.IMAGE);
-        bgIcon.setIconSize(64);
-        bgIcon.setIconColor(Color.web("#3f3f46"));
-        imageArea.getChildren().add(bgIcon);
-
-        // Content Area
+        // Main content layout
         VBox content = new VBox(12);
         content.setPadding(new Insets(20));
-        VBox.setVgrow(content, Priority.ALWAYS);
+        content.setAlignment(Pos.TOP_LEFT);
 
-        // Header
-        HBox header = new HBox(16);
-        header.setAlignment(Pos.CENTER_LEFT);
+        // "FEATURED" label at top
+        Label featuredLabel = new Label("FEATURED");
+        featuredLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 10px; -fx-font-weight: bold;");
 
-        StackPane iconBox = new StackPane();
-        iconBox.setStyle(
-            "-fx-background-color: #27272a; -fx-background-radius: 10px;"
-        );
-        iconBox.setPrefSize(48, 48);
-        FontIcon appIcon = new FontIcon(Feather.BOX);
-        appIcon.setIconColor(Color.WHITE);
-        appIcon.setIconSize(24);
-        iconBox.getChildren().add(appIcon);
+        // Headline text - large and bold
+        Label headlineLabel = new Label(headline);
+        headlineLabel.setStyle("-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
+        headlineLabel.setWrapText(true);
+        headlineLabel.setMaxWidth(250);
 
-        VBox titleBox = new VBox(4);
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle(
-            "-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 16px;"
-        );
-        Label descLabel = new Label(description);
-        descLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 13px;");
-        descLabel.setWrapText(true);
-        titleBox.getChildren().addAll(titleLabel, descLabel);
-
-        header.getChildren().addAll(iconBox, titleBox);
-
-        // Spacer
+        // Spacer to push app info to bottom
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        // Footer Actions
-        HBox footer = new HBox();
-        footer.setAlignment(Pos.CENTER_RIGHT);
+        // App info bar at bottom
+        HBox appInfoBar = new HBox(10);
+        appInfoBar.setAlignment(Pos.CENTER_LEFT);
+        appInfoBar.setPadding(new Insets(10, 12, 10, 12));
+        appInfoBar.setStyle("-fx-background-color: rgba(0,0,0,0.3); -fx-background-radius: 10px;");
 
-        if (isInstalled) {
-            HBox badge = new HBox(6);
-            badge.setAlignment(Pos.CENTER);
-            badge.getStyleClass().add("installed-badge");
-            FontIcon check = new FontIcon(Feather.CHECK);
-            check.setIconSize(14);
-            check.setIconColor(Color.WHITE);
-            Label badgeText = new Label("Installed");
-            badgeText.setTextFill(Color.WHITE);
-            badgeText.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
-            badge.getChildren().addAll(check, badgeText);
-            footer.getChildren().add(badge);
-        } else {
-            Button installBtn = new Button("Install");
-            installBtn.getStyleClass().add("install-button");
-            installBtn.setStyle("-fx-padding: 8 20; -fx-font-size: 13px;");
+        // App icon (circular)
+        StackPane iconCircle = new StackPane();
+        iconCircle.setPrefSize(32, 32);
+        iconCircle.setMinSize(32, 32);
+        iconCircle.setMaxSize(32, 32);
 
-            installBtn.setOnAction(e -> {
-                installBtn.setText("Installing...");
-                installBtn.setDisable(true);
+        // Set icon background color based on app
+        String iconBgColor = switch (gradientType) {
+            case BLUE -> "#0078d4";
+            case PINK_PURPLE -> "#1e1e1e";
+            case PURPLE_ORANGE -> "#4a154b";
+        };
 
-                // Mock delay
-                javafx.animation.PauseTransition pause =
-                    new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(1.5)
-                    );
-                pause.setOnFinished(ev -> {
-                    footer.getChildren().remove(installBtn);
-                    Button openBtn = new Button("Open");
-                    openBtn.setStyle(
-                        "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20; -fx-font-size: 13px;"
-                    );
-                    openBtn.setOnAction(openEvent -> {
-                        // TODO: Implement app launch functionality
-                    });
-                    footer.getChildren().add(openBtn);
-                });
-                pause.play();
-            });
+        Circle bgCircle = new Circle(16);
+        bgCircle.setFill(Color.web(iconBgColor));
 
-            footer.getChildren().add(installBtn);
-        }
+        FontIcon appIcon = new FontIcon(appIconType);
+        appIcon.setIconSize(16);
+        appIcon.setIconColor(Color.WHITE);
+        iconCircle.getChildren().addAll(bgCircle, appIcon);
 
-        content.getChildren().addAll(header, spacer, footer);
+        // App name and category
+        VBox appTextBox = new VBox(2);
+        HBox.setHgrow(appTextBox, Priority.ALWAYS);
 
-        getChildren().addAll(imageArea, content);
+        Label appNameLabel = new Label(appName);
+        appNameLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;");
+
+        Label categoryLabel = new Label(category);
+        categoryLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 10px;");
+
+        appTextBox.getChildren().addAll(appNameLabel, categoryLabel);
+
+        // GET button
+        Button getButton = new Button("GET");
+        getButton.setStyle(
+                "-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; " +
+                        "-fx-background-radius: 14px; -fx-padding: 6 16; -fx-font-size: 11px; -fx-cursor: hand;");
+
+        appInfoBar.getChildren().addAll(iconCircle, appTextBox, getButton);
+
+        content.getChildren().addAll(featuredLabel, headlineLabel, spacer, appInfoBar);
+
+        getChildren().add(content);
+    }
+
+    // Legacy constructor for API data
+    public HeroCard(String title, String description, boolean isInstalled) {
+        this("Featured App", title, description, GradientType.BLUE, Feather.BOX);
+    }
+
+    public HeroCard(String title, String description, boolean isInstalled, GradientType gradientType) {
+        this("Featured App", title, description, gradientType, Feather.BOX);
+    }
+
+    private String getGradientStyle(GradientType type) {
+        return switch (type) {
+            case BLUE -> "-fx-background-color: linear-gradient(to right, #0891b2, #06b6d4, #22d3ee);";
+            case PINK_PURPLE -> "-fx-background-color: linear-gradient(to right, #db2777, #a855f7, #6366f1);";
+            case PURPLE_ORANGE ->
+                "-fx-background-color: linear-gradient(to bottom right, #7c3aed, #a855f7, #f59e0b, #fbbf24);";
+        };
     }
 }

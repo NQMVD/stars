@@ -18,35 +18,53 @@ public class StandardCard extends VBox {
     private final String title;
     private final String vendor;
 
+    public enum GradientType {
+        BLUE, PURPLE, PINK, ORANGE, TEAL, INDIGO, DEFAULT
+    }
+
+    // Original constructor for backward compatibility
     public StandardCard(
-        String title,
-        String vendor,
-        String rating,
-        String count,
-        boolean isInstalled,
-        Runnable onClick
-    ) {
+            String title,
+            String vendor,
+            String rating,
+            String count,
+            boolean isInstalled,
+            Runnable onClick) {
+        this(title, vendor, rating, count, isInstalled, onClick, GradientType.DEFAULT);
+    }
+
+    // New constructor with gradient support
+    public StandardCard(
+            String title,
+            String vendor,
+            String rating,
+            String count,
+            boolean isInstalled,
+            Runnable onClick,
+            GradientType gradientType) {
         this.title = title;
         this.vendor = vendor;
         getStyleClass().add("app-card");
-        setPrefWidth(280);
-        setMinSize(240, 280);
-        setPadding(new Insets(16));
+        setMinWidth(180);
+        setMaxWidth(Double.MAX_VALUE); // Allow horizontal growth
+        setMinHeight(240);
         setCursor(javafx.scene.Cursor.HAND);
 
         setOnMouseClicked(e -> {
-            if (onClick != null) onClick.run();
+            if (onClick != null)
+                onClick.run();
         });
         setPadding(new Insets(0)); // Padding handled internally
 
-        // Top Image Placeholder
+        // Top Image Area with Gradient
         StackPane imageArea = new StackPane();
         imageArea.setPrefHeight(140);
-        imageArea.setStyle(
-            "-fx-background-color: #27272a; -fx-background-radius: 12px 12px 0 0;"
-        );
+
+        String gradientStyle = getGradientStyle(gradientType);
+        imageArea.setStyle(gradientStyle + " -fx-background-radius: 16px 16px 0 0;");
+
         FontIcon imgIcon = new FontIcon(Feather.IMAGE);
-        imgIcon.setIconColor(Color.web("#3f3f46"));
+        imgIcon.setIconColor(Color.web("#ffffff33"));
         imageArea.getChildren().add(imgIcon);
 
         // Content Area
@@ -57,8 +75,7 @@ public class StandardCard extends VBox {
         HBox header = new HBox(12);
         StackPane iconBox = new StackPane();
         iconBox.setStyle(
-            "-fx-background-color: #27272a; -fx-background-radius: 8px;"
-        );
+                "-fx-background-color: #27272a; -fx-background-radius: 8px;");
         iconBox.setPrefSize(40, 40);
         FontIcon appIcon = new FontIcon(Feather.BOX);
         appIcon.setIconColor(Color.WHITE);
@@ -67,8 +84,7 @@ public class StandardCard extends VBox {
         VBox titleBox = new VBox(2);
         Label titleLabel = new Label(title);
         titleLabel.setStyle(
-            "-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14px;"
-        );
+                "-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14px;");
         Label vendorLabel = new Label(vendor);
         vendorLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
         titleBox.getChildren().addAll(titleLabel, vendorLabel);
@@ -82,25 +98,28 @@ public class StandardCard extends VBox {
         footer.setAlignment(Pos.CENTER_LEFT);
 
         VBox ratingBox = new VBox(4);
-        HBox stars = new HBox(2);
         FontIcon star = new FontIcon(Feather.STAR);
         star.setIconColor(Color.web("#fbbf24")); // Amber 400
         star.setIconSize(12);
         Label rateLabel = new Label(rating);
         rateLabel.setStyle(
-            "-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;"
-        );
-        Label countLabel = new Label("(" + count + ")");
-        countLabel.setStyle("-fx-text-fill: #71717a; -fx-font-size: 11px;");
+                "-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;");
 
         HBox rateRow = new HBox(4);
         rateRow.setAlignment(Pos.CENTER_LEFT);
-        rateRow.getChildren().addAll(star, rateLabel, countLabel);
+        rateRow.getChildren().addAll(star, rateLabel);
 
-        Label freeLabel = new Label("Free");
-        freeLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+        // Editor's Choice badge
+        HBox editorsChoiceRow = new HBox(4);
+        editorsChoiceRow.setAlignment(Pos.CENTER_LEFT);
+        FontIcon checkIcon = new FontIcon(Feather.CHECK_CIRCLE);
+        checkIcon.setIconColor(Color.web("#22d3ee"));
+        checkIcon.setIconSize(10);
+        Label editorsChoiceLabel = new Label("Editor's Choice");
+        editorsChoiceLabel.setStyle("-fx-text-fill: #22d3ee; -fx-font-size: 10px;");
+        editorsChoiceRow.getChildren().addAll(checkIcon, editorsChoiceLabel);
 
-        ratingBox.getChildren().addAll(rateRow, freeLabel);
+        ratingBox.getChildren().addAll(rateRow, editorsChoiceRow);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -132,16 +151,13 @@ public class StandardCard extends VBox {
                 installBtn.setDisable(true);
 
                 // Mock delay
-                javafx.animation.PauseTransition pause =
-                    new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(1.5)
-                    );
+                javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(
+                        javafx.util.Duration.seconds(1.5));
                 pause.setOnFinished(ev -> {
                     actionBtnContainer.getChildren().clear();
                     Button openBtn = new Button("Open");
                     openBtn.setStyle(
-                        "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand;"
-                    );
+                            "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand;");
                     openBtn.setOnAction(openEvent -> {
                         // TODO: Implement app launch functionality
                     });
@@ -166,5 +182,17 @@ public class StandardCard extends VBox {
 
     public String getVendor() {
         return vendor;
+    }
+
+    private String getGradientStyle(GradientType type) {
+        return switch (type) {
+            case BLUE -> "-fx-background-color: linear-gradient(to bottom right, #1e40af, #3b82f6, #60a5fa);";
+            case PURPLE -> "-fx-background-color: linear-gradient(to bottom right, #7c3aed, #a855f7, #c084fc);";
+            case PINK -> "-fx-background-color: linear-gradient(to bottom right, #be185d, #ec4899, #f472b6);";
+            case ORANGE -> "-fx-background-color: linear-gradient(to bottom right, #c2410c, #f97316, #fb923c);";
+            case TEAL -> "-fx-background-color: linear-gradient(to bottom right, #0d9488, #14b8a6, #2dd4bf);";
+            case INDIGO -> "-fx-background-color: linear-gradient(to bottom right, #4338ca, #6366f1, #818cf8);";
+            case DEFAULT -> "-fx-background-color: linear-gradient(to bottom right, #374151, #4b5563, #6b7280);";
+        };
     }
 }
