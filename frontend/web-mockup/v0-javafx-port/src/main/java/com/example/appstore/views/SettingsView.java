@@ -7,152 +7,178 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+/**
+ * Claude-style settings view with German labels.
+ */
 public class SettingsView extends ScrollPane {
 
     public SettingsView() {
         setFitToWidth(true);
-        setStyle(
-            "-fx-background-color: transparent; -fx-background: transparent;"
-        );
+        setStyle("-fx-background-color: transparent; -fx-background: transparent;");
 
         VBox content = new VBox(32);
         content.setPadding(new Insets(32));
-        content.setStyle("-fx-background-color: #09090b;");
+        content.setStyle("-fx-background-color: #111111;");
 
         // Header
-        Label title = new Label("Settings");
-        title.getStyleClass().add("h1");
+        Label title = new Label("Einstellungen");
+        title.setStyle("-fx-font-size: 24px; -fx-font-weight: 300; -fx-text-fill: #ffffff;");
         content.getChildren().add(title);
 
         // General Section
-        content.getChildren().add(createSectionHeader("General"));
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Language",
-                    createComboBox("English", "Spanish", "French", "German")
-                )
-            );
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Startup",
-                    createCheckBox("Launch AppVault on startup", true)
-                )
-            );
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Notifications",
-                    createCheckBox("Enable desktop notifications", true)
-                )
-            );
+        content.getChildren().add(createSectionHeader("Allgemein"));
+        content.getChildren().add(
+                createSettingRow("Sprache", createComboBox("Deutsch", "English", "Español", "Français")));
+        content.getChildren().add(
+                createSettingRow("Autostart", createCheckBox("GitStore beim Start öffnen", false)));
+        content.getChildren().add(
+                createSettingRow("Benachrichtigungen", createCheckBox("Desktop-Benachrichtigungen aktivieren", true)));
 
-        content.getChildren().add(new Separator());
+        content.getChildren().add(createSeparator());
 
         // Appearance Section
-        content.getChildren().add(createSectionHeader("Appearance"));
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Theme",
-                    createComboBox("Dark", "Light", "System")
-                )
-            );
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Accent Color",
-                    createColorPickerMock("#fafafa")
-                )
-            );
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Compact Mode",
-                    createCheckBox("Reduce spacing in lists", false)
-                )
-            );
+        content.getChildren().add(createSectionHeader("Darstellung"));
+        content.getChildren().add(
+                createSettingRow("Theme", createComboBox("Dunkel", "Hell", "System")));
+        content.getChildren().add(
+                createSettingRow("Akzentfarbe", createColorPickerMock("#d97757")));
+        content.getChildren().add(
+                createSettingRow("Kompaktmodus", createCheckBox("Abstände in Listen reduzieren", false)));
 
-        content.getChildren().add(new Separator());
+        content.getChildren().add(createSeparator());
 
-        // Account Section
-        content.getChildren().add(createSectionHeader("Account"));
-        content
-            .getChildren()
-            .add(createSettingRow("Username", createTextField("John Doe")));
-        content
-            .getChildren()
-            .add(
-                createSettingRow(
-                    "Email",
-                    createTextField("john.doe@example.com")
-                )
-            );
-        content
-            .getChildren()
-            .add(createSettingRow("Subscription", new Label("Free Plan")));
+        // Downloads Section
+        content.getChildren().add(createSectionHeader("Downloads"));
+        content.getChildren().add(
+                createSettingRow("Download-Ordner", createTextField("C:\\Users\\zkxkx\\.stars")));
+        content.getChildren().add(
+                createSettingRow("Automatische Updates", createCheckBox("Apps automatisch aktualisieren", true)));
 
-        HBox accountActions = new HBox(16);
-        Button manageBtn = new Button("Manage Subscription");
-        manageBtn.setStyle(
-            "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-padding: 8 16; -fx-cursor: hand;"
-        );
-        Button logoutBtn = new Button("Log Out");
-        logoutBtn.setStyle(
-            "-fx-background-color: transparent; -fx-text-fill: #ef4444; -fx-border-color: #ef4444; -fx-border-radius: 6px; -fx-padding: 7 16; -fx-cursor: hand;"
-        );
-        accountActions.getChildren().addAll(manageBtn, logoutBtn);
-        content.getChildren().add(accountActions);
-
-        content.getChildren().add(new Separator());
+        content.getChildren().add(createSeparator());
 
         // About Section
-        content.getChildren().add(createSectionHeader("About"));
-        VBox aboutBox = new VBox(4);
-        Label appName = new Label("AppVault Desktop");
-        appName.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
-        Label version = new Label("Version 1.0.0-beta");
-        version.setStyle("-fx-text-fill: #a1a1aa;");
-        aboutBox.getChildren().addAll(appName, version);
+        content.getChildren().add(createSectionHeader("Über"));
+
+        VBox aboutBox = new VBox(8);
+        aboutBox.setStyle(
+                "-fx-background-color: #161616; " +
+                        "-fx-border-color: #2a2a2a; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-padding: 16px;");
+
+        Label appName = new Label("GitStore Desktop");
+        appName.setStyle("-fx-text-fill: #f0f0f0; -fx-font-weight: 500; -fx-font-size: 16px;");
+
+        Label version = new Label("Version 4.2.0");
+        version.setStyle("-fx-text-fill: #666666; -fx-font-size: 12px;");
+
+        Label copyright = new Label("© 2024 Stardive. Alle Rechte vorbehalten.");
+        copyright.setStyle("-fx-text-fill: #555555; -fx-font-size: 11px;");
+
+        aboutBox.getChildren().addAll(appName, version, copyright);
         content.getChildren().add(aboutBox);
 
-        Button checkUpdatesBtn = new Button("Check for Updates");
+        HBox aboutActions = new HBox(12);
+        aboutActions.setPadding(new Insets(8, 0, 0, 0));
+
+        Button checkUpdatesBtn = new Button("Nach Updates suchen");
+        FontIcon updateIcon = new FontIcon(Feather.DOWNLOAD);
+        updateIcon.setIconSize(14);
+        updateIcon.setIconColor(Color.web("#f0f0f0"));
+        checkUpdatesBtn.setGraphic(updateIcon);
+        checkUpdatesBtn.setGraphicTextGap(8);
         checkUpdatesBtn.setStyle(
-            "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-padding: 8 16; -fx-cursor: hand;"
-        );
-        content.getChildren().add(checkUpdatesBtn);
+                "-fx-background-color: #222222; " +
+                        "-fx-text-fill: #f0f0f0; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-padding: 8px 16px; " +
+                        "-fx-cursor: hand;");
+        checkUpdatesBtn.setOnMouseEntered(e -> checkUpdatesBtn.setStyle(
+                "-fx-background-color: #2a2a2a; " +
+                        "-fx-text-fill: #ffffff; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-padding: 8px 16px; " +
+                        "-fx-cursor: hand;"));
+        checkUpdatesBtn.setOnMouseExited(e -> checkUpdatesBtn.setStyle(
+                "-fx-background-color: #222222; " +
+                        "-fx-text-fill: #f0f0f0; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-padding: 8px 16px; " +
+                        "-fx-cursor: hand;"));
+
+        Button githubBtn = new Button("GitHub");
+        FontIcon githubIcon = new FontIcon(Feather.GITHUB);
+        githubIcon.setIconSize(14);
+        githubIcon.setIconColor(Color.web("#999999"));
+        githubBtn.setGraphic(githubIcon);
+        githubBtn.setGraphicTextGap(8);
+        githubBtn.setStyle(
+                "-fx-background-color: transparent; " +
+                        "-fx-text-fill: #999999; " +
+                        "-fx-border-color: #333333; " +
+                        "-fx-border-radius: 6px; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-padding: 7px 16px; " +
+                        "-fx-cursor: hand;");
+        githubBtn.setOnMouseEntered(e -> {
+            githubBtn.setStyle(
+                    "-fx-background-color: #1a1a1a; " +
+                            "-fx-text-fill: #cccccc; " +
+                            "-fx-border-color: #444444; " +
+                            "-fx-border-radius: 6px; " +
+                            "-fx-background-radius: 6px; " +
+                            "-fx-padding: 7px 16px; " +
+                            "-fx-cursor: hand;");
+            githubIcon.setIconColor(Color.web("#cccccc"));
+        });
+        githubBtn.setOnMouseExited(e -> {
+            githubBtn.setStyle(
+                    "-fx-background-color: transparent; " +
+                            "-fx-text-fill: #999999; " +
+                            "-fx-border-color: #333333; " +
+                            "-fx-border-radius: 6px; " +
+                            "-fx-background-radius: 6px; " +
+                            "-fx-padding: 7px 16px; " +
+                            "-fx-cursor: hand;");
+            githubIcon.setIconColor(Color.web("#999999"));
+        });
+
+        aboutActions.getChildren().addAll(checkUpdatesBtn, githubBtn);
+        content.getChildren().add(aboutActions);
 
         setContent(content);
     }
 
     private Label createSectionHeader(String text) {
         Label label = new Label(text);
-        label.setStyle(
-            "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #fafafa;"
-        );
+        label.setStyle("-fx-font-size: 16px; -fx-font-weight: 500; -fx-text-fill: #f0f0f0;");
+        label.setPadding(new Insets(8, 0, 0, 0));
         return label;
+    }
+
+    private Region createSeparator() {
+        Region separator = new Region();
+        separator.setMinHeight(1);
+        separator.setPrefHeight(1);
+        separator.setMaxHeight(1);
+        separator.setStyle("-fx-background-color: #2a2a2a;");
+        return separator;
     }
 
     private VBox createSettingRow(String labelText, javafx.scene.Node control) {
         VBox row = new VBox(8);
         Label label = new Label(labelText);
-        label.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 14px;");
+        label.setStyle("-fx-text-fill: #999999; -fx-font-size: 12px;");
         row.getChildren().addAll(label, control);
         return row;
     }
@@ -162,8 +188,11 @@ public class SettingsView extends ScrollPane {
         box.getItems().addAll(items);
         box.setValue(items[0]);
         box.setStyle(
-            "-fx-background-color: #27272a; -fx-text-fill: white; -fx-mark-color: white;"
-        );
+                "-fx-background-color: #1a1a1a; " +
+                        "-fx-text-fill: #f0f0f0; " +
+                        "-fx-border-color: #2a2a2a; " +
+                        "-fx-border-radius: 6px; " +
+                        "-fx-background-radius: 6px;");
         box.setPrefWidth(200);
         return box;
     }
@@ -171,31 +200,38 @@ public class SettingsView extends ScrollPane {
     private CheckBox createCheckBox(String text, boolean selected) {
         CheckBox box = new CheckBox(text);
         box.setSelected(selected);
-        box.setStyle("-fx-text-fill: #fafafa;");
+        box.setStyle("-fx-text-fill: #f0f0f0;");
         return box;
     }
 
     private TextField createTextField(String text) {
         TextField field = new TextField(text);
         field.setStyle(
-            "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px;"
-        );
-        field.setPrefWidth(300);
+                "-fx-background-color: #1a1a1a; " +
+                        "-fx-text-fill: #f0f0f0; " +
+                        "-fx-border-color: #2a2a2a; " +
+                        "-fx-border-radius: 6px; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-padding: 8px;");
+        field.setPrefWidth(400);
         return field;
     }
 
     private HBox createColorPickerMock(String colorHex) {
-        HBox box = new HBox(8);
+        HBox box = new HBox(12);
         box.setAlignment(Pos.CENTER_LEFT);
+
         Region colorPreview = new Region();
-        colorPreview.setPrefSize(24, 24);
+        colorPreview.setPrefSize(32, 32);
         colorPreview.setStyle(
-            "-fx-background-color: " +
-                colorHex +
-                "; -fx-background-radius: 12px; -fx-border-color: #27272a; -fx-border-radius: 12px;"
-        );
+                "-fx-background-color: " + colorHex + "; " +
+                        "-fx-background-radius: 6px; " +
+                        "-fx-border-color: #2a2a2a; " +
+                        "-fx-border-radius: 6px;");
+
         Label label = new Label(colorHex);
-        label.setStyle("-fx-text-fill: #fafafa;");
+        label.setStyle("-fx-text-fill: #666666; -fx-font-family: monospace;");
+
         box.getChildren().addAll(colorPreview, label);
         return box;
     }

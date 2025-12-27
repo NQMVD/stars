@@ -1,37 +1,30 @@
+/* ============================================
+   Claude-Inspired Dark Theme for GitStore
+   ============================================ */
+
 /* Global Styles */
 .root {
-    -fx-background-color: #010101;
-    -fx-font-family: "Violet Sans", "Inter", sans-serif;
+    -fx-background-color: #111111;
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
     -fx-font-size: 14px;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #f0f0f0;
 }
 
-@font-face {
-    font-family: "Geist";
-    src: url("fonts/Geist-Regular.ttf");
+/* Custom Selection Colors */
+.text-input:focused {
+    -fx-highlight-fill: #d9775733;
+    -fx-highlight-text-fill: #d97757;
 }
 
-@font-face {
-    font-family: "Geist";
-    font-weight: bold;
-    src: url("fonts/Geist-Bold.ttf");
-}
-
-@font-face {
-    font-family: "Geist";
-    font-weight: 500;
-    src: url("fonts/Geist-Medium.ttf");
-}
-
-/* Sidebar */
+/* ============================================
+   Sidebar - Claude Style Minimalism
+   ============================================ */
 .sidebar {
-    -fx-background-color: #010101;
-    /* Extracted */
+    -fx-background-color: #0d0d0d;
     -fx-padding: 0;
-    -fx-min-width: 260px;
-    -fx-pref-width: 260px;
-    -fx-border-color: #181818;
-    /* Extracted border */
+    -fx-min-width: 256px;
+    -fx-pref-width: 256px;
+    -fx-border-color: #2a2a2a;
     -fx-border-width: 0 1px 0 0;
 }
 
@@ -39,120 +32,139 @@
     -fx-padding: 24px 24px 12px 24px;
 }
 
+.sidebar-logo-box {
+    -fx-background-color: #d97757;
+    -fx-background-radius: 4px;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+}
+
 .sidebar-logo-text {
     -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-font-family: "Styrene A Regular", monospace;
+    -fx-font-weight: 500;
+    -fx-text-fill: #f0f0f0;
+    -fx-font-family: "Inter", sans-serif;
 }
 
 .sidebar-section-label {
-    -fx-text-fill: #71717a;
-    /* zinc-500 */
+    -fx-text-fill: #666666;
     -fx-font-size: 11px;
     -fx-font-weight: bold;
-    -fx-padding: 24px 24px 8px 24px;
+    -fx-padding: 16px 16px 8px 16px;
 }
 
 .nav-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #898989;
-    /* Extracted sidebar text */
+    -fx-text-fill: #999999;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10px 24px;
+    -fx-padding: 8px 12px;
     -fx-font-size: 14px;
     -fx-cursor: hand;
     -fx-spacing: 12px;
+    -fx-background-radius: 6px;
 }
 
 .nav-button>.ikonli-font-icon {
-    -fx-icon-color: #898989;
-    /* Match text */
+    -fx-icon-color: #999999;
 }
 
 .nav-button:hover {
-    -fx-text-fill: #fafafa;
-    -fx-background-color: #0d0d0d;
-    /* Extracted active bg */
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #cccccc;
 }
 
 .nav-button:hover>.ikonli-font-icon {
-    -fx-icon-color: #fafafa;
+    -fx-icon-color: #cccccc;
 }
 
-.nav-button:selected {
-    -fx-background-color: #0d0d0d;
-    /* Extracted active bg */
-    -fx-text-fill: #fafafa;
-    /* Extracted active text */
+.nav-button-selected {
+    -fx-background-color: #222222;
+    -fx-text-fill: #d97757;
 }
 
-.nav-button:selected>.ikonli-font-icon {
-    -fx-icon-color: #fafafa;
+.nav-button-selected>.ikonli-font-icon {
+    -fx-icon-color: #d97757;
 }
 
-/* Installation Indicator in Sidebar */
-.installation-indicator {
-    -fx-background-color: #040404;
+/* User Profile Section */
+.user-profile {
+    -fx-background-color: transparent;
+    -fx-padding: 8px;
     -fx-background-radius: 8px;
-    -fx-border-color: #181818;
-    -fx-border-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-padding: 12px;
+    -fx-cursor: hand;
 }
 
-/* TopBar */
+.user-profile:hover {
+    -fx-background-color: #1a1a1a;
+}
+
+.user-avatar {
+    -fx-background-color: linear-gradient(to bottom right, #333333, #555555);
+    -fx-background-radius: 50%;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+}
+
+/* ============================================
+   TopBar - Header with Search
+   ============================================ */
 .top-bar {
-    -fx-background-color: #010101;
-    /* Extracted */
-    -fx-padding: 16px 32px;
-    -fx-border-color: #181818;
-    /* Extracted border */
+    -fx-background-color: rgba(17, 17, 17, 0.8);
+    -fx-padding: 0 32px;
+    -fx-min-height: 64px;
+    -fx-pref-height: 64px;
+    -fx-border-color: #2a2a2a;
     -fx-border-width: 0 0 1px 0;
     -fx-alignment: CENTER_LEFT;
     -fx-spacing: 16px;
 }
 
+.search-container {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 8px;
+}
+
+.search-container:focused-within {
+    -fx-border-color: #d97757;
+}
+
 .search-field {
-    -fx-background-color: #080808;
-    /* Extracted input bg */
-    -fx-text-fill: #fafafa;
-    -fx-prompt-text-fill: #898989;
-    -fx-background-radius: 6px;
-    -fx-padding: 8px 12px;
-    -fx-pref-width: 300px;
-}
-
-.filter-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #a1a1aa;
+    -fx-text-fill: #f0f0f0;
+    -fx-prompt-text-fill: #444444;
+    -fx-padding: 0;
+    -fx-pref-width: 280px;
+}
+
+.header-action-btn {
+    -fx-background-color: transparent;
+    -fx-padding: 8px;
     -fx-cursor: hand;
-    -fx-font-size: 13px;
 }
 
-.filter-button:hover {
-    -fx-text-fill: white;
+.header-action-btn>.ikonli-font-icon {
+    -fx-icon-color: #999999;
 }
 
-.filter-button:selected {
-    -fx-background-color: #27272a;
-    -fx-text-fill: white;
-    -fx-background-radius: 4px;
+.header-action-btn:hover>.ikonli-font-icon {
+    -fx-icon-color: #ffffff;
 }
 
-.action-button {
-    -fx-background-color: #27272a;
-    -fx-text-fill: white;
-    -fx-background-radius: 6px;
-    -fx-padding: 6px 12px;
-    -fx-cursor: hand;
-    -fx-font-size: 13px;
-}
-
-/* Content Area */
+/* ============================================
+   Content Area
+   ============================================ */
 .content-area {
-    -fx-background-color: #010101;
-    /* Extracted */
+    -fx-background-color: #111111;
 }
 
 .scroll-pane {
@@ -164,148 +176,300 @@
     -fx-background-color: transparent;
 }
 
-/* Typography */
+/* ============================================
+   Typography
+   ============================================ */
 .h1 {
     -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
+    -fx-font-weight: 300;
+    -fx-text-fill: #ffffff;
 }
 
 .h2 {
     -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
+    -fx-font-weight: 300;
+    -fx-text-fill: #ffffff;
 }
 
 .text-muted {
-    -fx-text-fill: #a1a1aa;
+    -fx-text-fill: #666666;
 }
 
-/* Cards */
-.app-card {
-    -fx-background-color: #0a0a0a;
-    -fx-background-radius: 16px;
-    -fx-border-color: #1a1a1a;
+.text-secondary {
+    -fx-text-fill: #999999;
+}
+
+/* ============================================
+   Featured Cards - Claude Style
+   ============================================ */
+.featured-card {
+    -fx-background-color: #161616;
+    -fx-border-color: #2a2a2a;
     -fx-border-width: 1px;
-    -fx-border-radius: 16px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 24px;
+    -fx-cursor: hand;
+}
+
+.featured-card:hover {
+    -fx-border-color: #444444;
+}
+
+.featured-badge {
+    -fx-background-color: #d977571a;
+    -fx-text-fill: #d97757;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 8px;
+    -fx-background-radius: 4px;
+}
+
+.featured-card-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #f0f0f0;
+}
+
+.featured-card-title:hover {
+    -fx-text-fill: #d97757;
+}
+
+.featured-card-description {
+    -fx-text-fill: #999999;
+    -fx-font-size: 14px;
+}
+
+/* ============================================
+   Standard App Cards - Claude Style
+   ============================================ */
+.app-card {
+    -fx-background-color: #161616;
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+    -fx-cursor: hand;
 }
 
 .app-card:hover {
-    -fx-background-color: #111111;
-    -fx-border-color: #2a2a2a;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 0, 6);
+    -fx-background-color: #1a1a1a;
 }
 
-/* Featured Hero Card Gradient Styles */
-.hero-card-blue {
-    -fx-background-color: linear-gradient(to bottom right, #1e3a5f, #0d2137);
+.app-card-icon-box {
+    -fx-background-color: #222222;
+    -fx-background-radius: 4px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
 }
 
-.hero-card-purple {
-    -fx-background-color: linear-gradient(to bottom right, #4a1942, #6b2963, #8b4585);
+.app-card-icon-box:hover {
+    -fx-background-color: #2a2a2a;
 }
 
-.hero-card-gold {
-    -fx-background-color: linear-gradient(to bottom right, #4a4035, #3d2f1f, #2a1f15);
+.app-card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #f0f0f0;
 }
 
-/* Standard Card Gradient Image Areas */
-.card-gradient-blue {
-    -fx-background-color: linear-gradient(to bottom right, #1e40af, #3b82f6, #60a5fa);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-title:hover {
+    -fx-text-fill: #ffffff;
 }
 
-.card-gradient-purple {
-    -fx-background-color: linear-gradient(to bottom right, #7c3aed, #a855f7, #c084fc);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-vendor {
+    -fx-text-fill: #666666;
+    -fx-font-size: 12px;
 }
 
-.card-gradient-pink {
-    -fx-background-color: linear-gradient(to bottom right, #be185d, #ec4899, #f472b6);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-description {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12px;
 }
 
-.card-gradient-orange {
-    -fx-background-color: linear-gradient(to bottom right, #c2410c, #f97316, #fb923c);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-version {
+    -fx-text-fill: #555555;
+    -fx-font-size: 10px;
+    -fx-font-family: monospace;
 }
 
-.card-gradient-teal {
-    -fx-background-color: linear-gradient(to bottom right, #0d9488, #14b8a6, #2dd4bf);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-stars {
+    -fx-text-fill: #666666;
+    -fx-font-size: 10px;
 }
 
-.card-gradient-indigo {
-    -fx-background-color: linear-gradient(to bottom right, #4338ca, #6366f1, #818cf8);
-    -fx-background-radius: 16px 16px 0 0;
+.app-card-tag {
+    -fx-background-color: #222222;
+    -fx-text-fill: #666666;
+    -fx-font-size: 9px;
+    -fx-padding: 2px 6px;
+    -fx-background-radius: 2px;
 }
 
-/* Default gradient for cards without specific color */
-.card-gradient-default {
-    -fx-background-color: linear-gradient(to bottom right, #374151, #4b5563, #6b7280);
-    -fx-background-radius: 16px 16px 0 0;
-}
-
+/* ============================================
+   Buttons
+   ============================================ */
 .install-button {
-    -fx-background-color: white;
-    -fx-text-fill: black;
-    -fx-font-weight: bold;
-    -fx-background-radius: 6px;
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #111111;
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+    -fx-background-radius: 4px;
     -fx-padding: 6px 16px;
     -fx-cursor: hand;
 }
 
 .install-button:hover {
-    -fx-background-color: #e4e4e7;
-    /* zinc-200 */
+    -fx-background-color: #ffffff;
+}
+
+.install-button-primary {
+    -fx-background-color: #d97757;
+    -fx-text-fill: #000000;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-cursor: hand;
+}
+
+.install-button-primary:hover {
+    -fx-background-color: #e08a6d;
+}
+
+.github-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #333333;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #cccccc;
+    -fx-padding: 12px 24px;
+    -fx-cursor: hand;
+}
+
+.github-button:hover {
+    -fx-background-color: #222222;
 }
 
 .installed-badge {
     -fx-background-color: #27272a;
-    -fx-text-fill: white;
+    -fx-text-fill: #f0f0f0;
     -fx-background-radius: 6px;
     -fx-padding: 6px 12px;
     -fx-font-size: 12px;
 }
 
-.action-button:hover {
-    -fx-background-color: #3f3f46;
-    /* zinc-700 */
+/* ============================================
+   App Detail Modal
+   ============================================ */
+.modal-backdrop {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* Scrollbars */
+.modal-card {
+    -fx-background-color: #161616;
+    -fx-border-color: #333333;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 40, 0, 0, 10);
+}
+
+.modal-header {
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 24px;
+}
+
+.modal-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 300;
+    -fx-text-fill: #f0f0f0;
+}
+
+.modal-close-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-padding: 8px;
+    -fx-cursor: hand;
+}
+
+.modal-close-btn:hover {
+    -fx-background-color: #222222;
+}
+
+.modal-close-btn>.ikonli-font-icon {
+    -fx-icon-color: #666666;
+}
+
+.modal-close-btn:hover>.ikonli-font-icon {
+    -fx-icon-color: #ffffff;
+}
+
+.modal-footer {
+    -fx-background-color: #0d0d0d;
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 24px;
+}
+
+/* Info boxes in modal */
+.info-box {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #222222;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+}
+
+.info-box-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.info-box-value {
+    -fx-text-fill: #f0f0f0;
+    -fx-font-size: 14px;
+}
+
+/* ============================================
+   Scrollbars - Minimal Style
+   ============================================ */
 .scroll-bar:vertical,
 .scroll-bar:horizontal {
     -fx-background-color: transparent;
+    -fx-pref-width: 6px;
 }
 
 .scroll-bar:vertical .track,
 .scroll-bar:horizontal .track {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-background-radius: 0em;
+    -fx-background-radius: 0;
 }
 
 .scroll-bar:vertical .thumb,
 .scroll-bar:horizontal .thumb {
-    -fx-background-color: #27272a;
-    /* zinc-800 */
-    -fx-background-radius: 5em;
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 10px;
 }
 
 .scroll-bar:vertical .thumb:hover,
 .scroll-bar:horizontal .thumb:hover {
-    -fx-background-color: #3f3f46;
-    /* zinc-700 */
+    -fx-background-color: #3a3a3a;
 }
 
 .scroll-bar .increment-button,
 .scroll-bar .decrement-button {
     -fx-background-color: transparent;
-    -fx-background-radius: 0em;
-    -fx-padding: 0 0 0 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
 }
 
 .scroll-bar .increment-arrow,
@@ -314,45 +478,48 @@
     -fx-padding: 0;
 }
 
-/* Editor's Choice Badge */
-.editors-choice-badge {
-    -fx-text-fill: #22d3ee;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
+/* ============================================
+   Category Badge Colors
+   ============================================ */
+.category-badge {
+    -fx-background-color: #222222;
+    -fx-text-fill: #999999;
+    -fx-font-size: 12px;
+    -fx-padding: 2px 8px;
+    -fx-background-radius: 4px;
 }
 
-/* Card Icon Box */
-.card-icon-box {
-    -fx-background-color: #1a1a1a;
-    -fx-background-radius: 10px;
+/* ============================================
+   Verified & Status Badges
+   ============================================ */
+.verified-badge {
+    -fx-text-fill: #555555;
+    -fx-font-size: 12px;
+}
+
+/* ============================================
+   Installation Indicator
+   ============================================ */
+.installation-indicator {
+    -fx-background-color: #0d0d0d;
+    -fx-background-radius: 8px;
     -fx-border-color: #2a2a2a;
-    -fx-border-radius: 10px;
+    -fx-border-radius: 8px;
     -fx-border-width: 1px;
+    -fx-padding: 12px;
 }
 
-/* Rating Star */
-.rating-star {
-    -fx-icon-color: #fbbf24;
+/* Progress bar in installation */
+.progress-bar {
+    -fx-accent: #d97757;
 }
 
-/* GET Button (Featured Cards) */
-.get-button {
-    -fx-background-color: #22c55e;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 20px;
-    -fx-padding: 6px 20px;
-    -fx-cursor: hand;
+.progress-bar .track {
+    -fx-background-color: #222222;
+    -fx-background-radius: 4px;
 }
 
-.get-button:hover {
-    -fx-background-color: #16a34a;
-}
-
-/* Featured Label */
-.featured-label {
-    -fx-text-fill: #f97316;
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-text-transform: uppercase;
+.progress-bar .bar {
+    -fx-background-color: #d97757;
+    -fx-background-radius: 4px;
 }

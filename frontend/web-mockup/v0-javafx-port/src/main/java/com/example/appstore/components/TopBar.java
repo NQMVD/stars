@@ -7,45 +7,80 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+/**
+ * Claude-style top bar with search and minimal actions.
+ */
 public class TopBar extends HBox {
 
     private final java.util.function.Consumer<String> onSearch;
     private final java.util.function.Consumer<String> onFilter;
-    private final java.util.List<Button> filterButtons =
-        new java.util.ArrayList<>();
 
     public TopBar(
-        java.util.function.Consumer<String> onSearch,
-        java.util.function.Consumer<String> onFilter
-    ) {
+            java.util.function.Consumer<String> onSearch,
+            java.util.function.Consumer<String> onFilter) {
         this.onSearch = onSearch;
         this.onFilter = onFilter;
 
-        getStyleClass().add("top-bar");
         setAlignment(Pos.CENTER_LEFT);
+        setPadding(new Insets(0, 32, 0, 32));
+        setMinHeight(64);
+        setPrefHeight(64);
+        setStyle(
+                "-fx-background-color: rgba(17, 17, 17, 0.8); -fx-border-color: #2a2a2a; -fx-border-width: 0 0 1px 0;");
 
-        // Search Bar
+        // Search Container with rounded pill style
         HBox searchContainer = new HBox(8);
         searchContainer.setAlignment(Pos.CENTER_LEFT);
-        searchContainer.getStyleClass().add("search-field");
+        searchContainer.setPadding(new Insets(8, 16, 8, 16));
+        searchContainer.setStyle(
+                "-fx-background-color: #1a1a1a; " +
+                        "-fx-border-color: #2a2a2a; " +
+                        "-fx-border-width: 1px; " +
+                        "-fx-border-radius: 20px; " +
+                        "-fx-background-radius: 20px;");
+        searchContainer.setMaxWidth(512);
 
         FontIcon searchIcon = new FontIcon(Feather.SEARCH);
-        searchIcon.setIconColor(javafx.scene.paint.Color.web("#71717a"));
+        searchIcon.setIconSize(18);
+        searchIcon.setIconColor(Color.web("#666666"));
 
         TextField searchInput = new TextField();
-        searchInput.setPromptText("Search apps...");
+        searchInput.setPromptText("Apps, Entwickler oder Tools suchen...");
         searchInput.setStyle(
-            "-fx-background-color: transparent; -fx-text-fill: white; -fx-prompt-text-fill: #71717a;"
-        );
-        searchInput.setPrefWidth(250);
-        searchInput
-            .textProperty()
-            .addListener((obs, oldVal, newVal) -> {
-                if (onSearch != null) onSearch.accept(newVal);
-            });
+                "-fx-background-color: transparent; " +
+                        "-fx-text-fill: #f0f0f0; " +
+                        "-fx-prompt-text-fill: #444444; " +
+                        "-fx-padding: 0;");
+        searchInput.setPrefWidth(280);
+        HBox.setHgrow(searchInput, Priority.ALWAYS);
+
+        searchInput.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (onSearch != null)
+                onSearch.accept(newVal);
+        });
+
+        // Focus styling
+        searchInput.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+            if (isFocused) {
+                searchContainer.setStyle(
+                        "-fx-background-color: #1a1a1a; " +
+                                "-fx-border-color: #d97757; " +
+                                "-fx-border-width: 1px; " +
+                                "-fx-border-radius: 20px; " +
+                                "-fx-background-radius: 20px;");
+            } else {
+                searchContainer.setStyle(
+                        "-fx-background-color: #1a1a1a; " +
+                                "-fx-border-color: #2a2a2a; " +
+                                "-fx-border-width: 1px; " +
+                                "-fx-border-radius: 20px; " +
+                                "-fx-background-radius: 20px;");
+            }
+        });
 
         searchContainer.getChildren().addAll(searchIcon, searchInput);
 
@@ -53,53 +88,23 @@ public class TopBar extends HBox {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // Filters
-        HBox filters = new HBox(4);
-        filters.setAlignment(Pos.CENTER);
-        filters.setStyle(
-            "-fx-background-color: #18181b; -fx-background-radius: 6px; -fx-padding: 2;"
-        );
+        // Right side actions
+        HBox actions = new HBox(8);
+        actions.setAlignment(Pos.CENTER_RIGHT);
 
-        filters.getChildren().add(createFilterBtn("All", true));
-        filters.getChildren().add(createFilterBtn("Windows", false));
-        filters.getChildren().add(createFilterBtn("macOS", false));
-        filters.getChildren().add(createFilterBtn("Linux", false));
+        Button globeBtn = new Button();
+        FontIcon globeIcon = new FontIcon(Feather.GLOBE);
+        globeIcon.setIconSize(20);
+        globeIcon.setIconColor(Color.web("#999999"));
+        globeBtn.setGraphic(globeIcon);
+        globeBtn.setStyle("-fx-background-color: transparent; -fx-padding: 8px; -fx-cursor: hand;");
 
-        // Feedback Button
-        Button feedbackBtn = new Button("Feedback");
-        feedbackBtn.getStyleClass().add("action-button");
+        // Hover effect
+        globeBtn.setOnMouseEntered(e -> globeIcon.setIconColor(Color.WHITE));
+        globeBtn.setOnMouseExited(e -> globeIcon.setIconColor(Color.web("#999999")));
 
-        getChildren().addAll(searchContainer, spacer, filters, feedbackBtn);
-    }
+        actions.getChildren().add(globeBtn);
 
-    private Button createFilterBtn(String text, boolean selected) {
-        Button btn = new Button(text);
-        btn.getStyleClass().add("filter-button");
-        updateFilterBtnStyle(btn, selected);
-
-        if (text.equals("Windows")) btn.setGraphic(
-            new FontIcon(Feather.MONITOR)
-        );
-
-        btn.setOnAction(e -> {
-            filterButtons.forEach(b -> updateFilterBtnStyle(b, false));
-            updateFilterBtnStyle(btn, true);
-            if (onFilter != null) onFilter.accept(text);
-        });
-
-        filterButtons.add(btn);
-        return btn;
-    }
-
-    private void updateFilterBtnStyle(Button btn, boolean selected) {
-        if (selected) {
-            btn.setStyle(
-                "-fx-background-color: #27272a; -fx-text-fill: white;"
-            );
-        } else {
-            btn.setStyle(
-                "-fx-background-color: transparent; -fx-text-fill: #a1a1aa;"
-            );
-        }
+        getChildren().addAll(searchContainer, spacer, actions);
     }
 }
