@@ -198,7 +198,8 @@ public class HomeView extends ScrollPane implements Searchable {
                                         "1k", // Placeholder count
                                         isInstalled,
                                         () -> rootLayout.showAppDetails(app),
-                                        gradient);
+                                        gradient,
+                                        app);
                                 trendingRow.add(card, col, 0);
                                 allCards.add(card);
                                 col++;
@@ -243,7 +244,8 @@ public class HomeView extends ScrollPane implements Searchable {
                                         "1k",
                                         isInstalled,
                                         () -> rootLayout.showAppDetails(app),
-                                        gradient);
+                                        gradient,
+                                        app);
                                 allAppsGrid.add(card, col, 0);
                                 col++;
                             }
@@ -292,7 +294,8 @@ public class HomeView extends ScrollPane implements Searchable {
                         "1k",
                         isInstalled,
                         () -> rootLayout.showAppDetails(app),
-                        gradient);
+                        gradient,
+                        app);
                 trendingRow.add(card, col, row);
                 col++;
                 gradientIndex++;

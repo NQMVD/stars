@@ -29,6 +29,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -37,6 +39,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -58,6 +62,12 @@ public class AppDetailView extends ScrollPane {
         private Label versionLabel;
         private Label descriptionLabel;
 
+        // Screenshot gallery
+        private java.util.List<Node> galleryItems = new java.util.ArrayList<>();
+        private int currentImageIndex = 0;
+        private Label counterLabel;
+        private HBox dotsContainer;
+
         public AppDetailView(App app, Runnable onBack) {
                 this.app = app;
                 this.onBack = onBack;
@@ -66,396 +76,401 @@ public class AppDetailView extends ScrollPane {
                 setHbarPolicy(ScrollBarPolicy.NEVER);
                 setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 
-                VBox mainLayout = new VBox(32);
-                mainLayout.setPadding(new Insets(32, 48, 48, 48));
+                VBox mainLayout = new VBox(24);
+                mainLayout.setPadding(new Insets(24, 32, 48, 32));
                 mainLayout.getStyleClass().add("content-area");
-                mainLayout.setStyle("-fx-background-color: #010101;");
+                mainLayout.setStyle("-fx-background-color: #0a0a0a;");
 
-                // --- Header Section ---
-                VBox headerSection = new VBox(24);
-
-                // Back Button - more subtle "← Back to Discover" style
-                Button backBtn = new Button("← Back to Discover");
+                // --- Back Button ---
+                HBox backRow = new HBox();
+                Button backBtn = new Button("← Back");
                 backBtn.setStyle(
-                                "-fx-background-color: transparent; -fx-text-fill: #71717a; -fx-font-size: 13px; -fx-cursor: hand; -fx-padding: 0;");
+                                "-fx-background-color: transparent; -fx-text-fill: #3b82f6; -fx-font-size: 13px; -fx-cursor: hand; -fx-padding: 4 0;");
                 backBtn.setOnAction(e -> {
                         if (onBack != null)
                                 onBack.run();
                 });
+                backRow.getChildren().add(backBtn);
 
-                // App Info Header
-                HBox appHeader = new HBox(20);
-                appHeader.setAlignment(Pos.TOP_LEFT);
+                // --- Header Section ---
+                HBox headerSection = new HBox(16);
+                headerSection.setAlignment(Pos.CENTER_LEFT);
 
-                // Large Icon with Gradient
+                // App Icon (rounded square)
                 StackPane iconBox = new StackPane();
-                iconBox.setPrefSize(80, 80);
-                iconBox.setMinSize(80, 80);
-                iconBox.setMaxSize(80, 80);
-                // Blue gradient background like in the screenshot
+                iconBox.setPrefSize(72, 72);
+                iconBox.setMinSize(72, 72);
+                iconBox.setMaxSize(72, 72);
                 iconBox.setStyle(
-                                "-fx-background-color: linear-gradient(to bottom right, #0ea5e9, #3b82f6); -fx-background-radius: 16px;");
-                FontIcon appIcon = new FontIcon(Feather.CODE);
-                appIcon.setIconSize(36);
+                                "-fx-background-color: #1a1a1a; -fx-background-radius: 14px; -fx-border-color: #2a2a2a; -fx-border-radius: 14px;");
+                FontIcon appIcon = new FontIcon(Feather.BOX);
+                appIcon.setIconSize(32);
                 appIcon.setIconColor(Color.WHITE);
                 iconBox.getChildren().add(appIcon);
 
                 // Title & Metadata
-                VBox metaBox = new VBox(6);
+                VBox metaBox = new VBox(4);
                 HBox.setHgrow(metaBox, Priority.ALWAYS);
 
                 Label titleLabel = new Label(app.getName());
                 titleLabel.setStyle(
-                                "-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
+                                "-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
 
                 Label vendorLabel = new Label(app.getOwnerLogin());
-                vendorLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #a1a1aa;");
+                vendorLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #a1a1aa;");
 
-                // Category in cyan color
-                Label categoryLabel = new Label(app.getCategory() != null ? app.getCategory() : "Developer Tools");
-                categoryLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #22d3ee;");
+                // Platform badges row
+                HBox platformBadges = new HBox(8);
+                platformBadges.setAlignment(Pos.CENTER_LEFT);
+                platformBadges.getChildren().addAll(
+                                createPlatformBadge(Feather.MONITOR),
+                                createPlatformBadge(Feather.COMMAND),
+                                createPlatformBadge(Feather.TERMINAL));
 
-                // Rating Row with version
-                HBox ratingRow = new HBox(12);
-                ratingRow.setAlignment(Pos.CENTER_LEFT);
+                metaBox.getChildren().addAll(titleLabel, vendorLabel, platformBadges);
 
-                // Star rating
-                HBox ratingBox = new HBox(4);
-                ratingBox.setAlignment(Pos.CENTER_LEFT);
-                FontIcon starIcon = new FontIcon(Feather.STAR);
-                starIcon.setIconSize(14);
-                starIcon.setIconColor(Color.web("#fbbf24"));
-                Label ratingLabel = new Label("4.8");
-                ratingLabel.setStyle("-fx-text-fill: #fafafa; -fx-font-weight: bold; -fx-font-size: 13px;");
-                Label ratingCount = new Label("(125k)");
-                ratingCount.setStyle("-fx-text-fill: #71717a; -fx-font-size: 12px;");
-                ratingBox.getChildren().addAll(starIcon, ratingLabel, ratingCount);
+                // Button container - right aligned
+                HBox buttonsBox = new HBox(8);
+                buttonsBox.setAlignment(Pos.CENTER_RIGHT);
 
-                // Version from GitHub
-                HBox versionBox = new HBox(4);
-                versionBox.setAlignment(Pos.CENTER_LEFT);
-                FontIcon tagIcon = new FontIcon(Feather.TAG);
-                tagIcon.setIconSize(12);
-                tagIcon.setIconColor(Color.web("#71717a"));
-                versionLabel = new Label("Loading...");
-                versionLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
-                versionBox.getChildren().addAll(tagIcon, versionLabel);
+                // GitHub button - opens the app's GitHub page
+                Button githubBtn = new Button();
+                FontIcon githubIcon = new FontIcon(Feather.GITHUB);
+                githubIcon.setIconSize(16);
+                githubIcon.setIconColor(Color.WHITE);
+                githubBtn.setGraphic(githubIcon);
+                githubBtn.setStyle(
+                                "-fx-background-color: #27272a; -fx-background-radius: 8px; -fx-padding: 8 12; -fx-cursor: hand;");
+                githubBtn.setOnAction(e -> {
+                        try {
+                                String githubUrl = "https://github.com/" + app.getId();
+                                Desktop.getDesktop().browse(new URI(githubUrl));
+                                LOG.info("Opened GitHub page: {}", githubUrl);
+                        } catch (Exception ex) {
+                                LOG.warn("Failed to open GitHub page for {}: {}", app.getId(), ex.getMessage());
+                        }
+                });
 
-                ratingRow.getChildren().addAll(ratingBox, versionBox);
-
-                metaBox.getChildren().addAll(titleLabel, vendorLabel, categoryLabel, ratingRow);
-
-                appHeader.getChildren().addAll(iconBox, metaBox);
-
-                // GET Button (green, rounded, below the metadata)
+                // Install/Open button
                 LibraryService libraryService = LibraryService.getInstance();
                 boolean isInstalled = libraryService.isInstalled(app.getId());
 
-                Button installBtn = new Button(isInstalled ? "OPEN" : "GET");
-                if (isInstalled) {
-                        installBtn.setStyle(
-                                        "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 32; -fx-font-size: 13px; -fx-cursor: hand;");
-                } else {
-                        installBtn.setStyle(
-                                        "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 32; -fx-font-size: 13px; -fx-cursor: hand;");
-                }
+                Button installBtn = new Button(isInstalled ? "Open" : "Install");
+                FontIcon dlIcon = new FontIcon(isInstalled ? Feather.EXTERNAL_LINK : Feather.DOWNLOAD);
+                dlIcon.setIconSize(14);
+                dlIcon.setIconColor(Color.WHITE);
+                installBtn.setGraphic(dlIcon);
+                installBtn.setStyle(
+                                "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8 20; -fx-font-size: 13px; -fx-cursor: hand;");
 
-                // Simplified inline progress display
-                VBox progressBox = new VBox(6);
-                progressBox.setAlignment(Pos.CENTER_LEFT);
+                // Progress display (hidden initially)
+                VBox progressBox = new VBox(4);
+                progressBox.setAlignment(Pos.CENTER_RIGHT);
                 progressBox.setVisible(false);
                 progressBox.setManaged(false);
 
                 ProgressBar progressBar = new ProgressBar(0);
-                progressBar.setPrefWidth(150);
+                progressBar.setPrefWidth(120);
                 progressBar.setStyle("-fx-accent: #3b82f6;");
 
                 Label progressLabel = new Label("Preparing...");
-                progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
+                progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 10px;");
 
                 progressBox.getChildren().addAll(progressBar, progressLabel);
 
                 Label statusLabel = new Label("");
-                statusLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+                statusLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
 
                 // Check if this app is currently being installed
                 InstallationManager installManager = InstallationManager.getInstance();
                 if (installManager.isInstalling(app.getId())) {
-                        // Show progress for ongoing installation
                         installBtn.setVisible(false);
                         installBtn.setManaged(false);
                         progressBox.setVisible(true);
                         progressBox.setManaged(true);
 
-                        // Listen for progress updates
                         installManager.addProgressListener(app.getId(), progress -> {
                                 Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
                         });
                 }
 
-                installBtn.setOnAction(e -> {
-                        LOG.info(
-                                        "Install button clicked for app: {} (id: {})",
-                                        app.getName(),
-                                        app.getId());
+                installBtn.setOnAction(e -> handleInstallAction(
+                                installBtn, progressBox, progressBar, progressLabel, statusLabel,
+                                libraryService, installManager));
 
-                        if (libraryService.isInstalled(app.getId())) {
-                                // Already installed - launch the app
-                                LOG.info(
-                                                "App already installed, attempting to launch: {} (id: {})",
-                                                app.getName(),
-                                                app.getId());
-                                Optional<InstalledApp> installedApp = libraryService.getInstalledApp(app.getId());
-                                if (installedApp.isPresent() &&
-                                                installedApp.get().getExecutablePath() != null) {
-                                        String execPath = installedApp.get().getExecutablePath();
-                                        LOG.info(
-                                                        "Launching app from: {} (app: {})",
-                                                        execPath,
-                                                        app.getName());
-                                        installBtn.setText("Launching...");
-                                        installBtn.setDisable(true);
+                buttonsBox.getChildren().addAll(progressBox, statusLabel, githubBtn, installBtn);
 
-                                        try {
-                                                InstallationService.getInstance().launchApp(execPath);
-                                                LOG.info(
-                                                                "App launched successfully: {} (executable: {})",
-                                                                app.getName(),
-                                                                execPath);
-                                                statusLabel.setText("Launched!");
-                                        } catch (Exception ex) {
-                                                LOG.warn(
-                                                                "Failed to launch app: {} (executable: {})",
-                                                                app.getName(),
-                                                                execPath,
-                                                                ex);
-                                                statusLabel.setText(
-                                                                "Failed to launch: " + ex.getMessage());
-                                        }
+                headerSection.getChildren().addAll(iconBox, metaBox, buttonsBox);
 
-                                        Timeline reset = new Timeline(
-                                                        new KeyFrame(Duration.seconds(1), ev -> {
-                                                                installBtn.setText("OPEN");
-                                                                installBtn.setDisable(false);
-                                                                statusLabel.setText("");
-                                                        }));
-                                        reset.play();
-                                } else {
-                                        LOG.warn(
-                                                        "No executable path found for installed app: {} (id: {})",
-                                                        app.getName(),
-                                                        app.getId());
-                                        statusLabel.setText(
-                                                        "Path not found - reinstall recommended");
-                                }
-                        } else {
-                                // Check if another installation is in progress
-                                if (installManager.isInstalling()) {
-                                        LOG.warn(
-                                                        "Another installation is in progress, cannot start installation for: {}",
-                                                        app.getName());
-                                        statusLabel.setText("Another installation in progress");
-                                        return;
-                                }
+                // --- Version Badges ---
+                HBox badgesRow = new HBox(8);
+                badgesRow.setAlignment(Pos.CENTER_LEFT);
+                badgesRow.setPadding(new Insets(0, 0, 8, 0));
 
-                                // Start installation via InstallationManager
-                                LOG.info(
-                                                "Starting installation for app: {} (id: {})",
-                                                app.getName(),
-                                                app.getId());
-                                installBtn.setVisible(false);
-                                installBtn.setManaged(false);
-                                progressBox.setVisible(true);
-                                progressBox.setManaged(true);
-                                progressBar.setProgress(0);
-                                progressLabel.setText("Preparing...");
-                                statusLabel.setText("");
+                // Crates.io badge (or similar source badge)
+                Label sourceLabel = new Label("crates.io");
+                sourceLabel.setStyle(
+                                "-fx-background-color: #3b3b3b; -fx-text-fill: #a1a1aa; -fx-padding: 4 8; -fx-background-radius: 4; -fx-font-size: 11px;");
 
-                                // Listen for detailed progress updates
-                                installManager.addProgressListener(app.getId(), progress -> {
-                                        Platform.runLater(() -> updateProgressDisplay(
-                                                        progressBar,
-                                                        progressLabel,
-                                                        progress));
-                                });
+                // Version badge
+                versionLabel = new Label("v0.0.0");
+                versionLabel.setStyle(
+                                "-fx-background-color: #f97316; -fx-text-fill: white; -fx-padding: 4 8; -fx-background-radius: 4; -fx-font-size: 11px; -fx-font-weight: bold;");
 
-                                installManager
-                                                .installApp(app)
-                                                .thenAccept(result -> {
-                                                        Platform.runLater(() -> {
-                                                                LOG.info(
-                                                                                "Installation completed for app: {} (id: {}, version: {})",
-                                                                                app.getName(),
-                                                                                app.getId(),
-                                                                                result.getVersion());
+                badgesRow.getChildren().addAll(sourceLabel, versionLabel);
 
-                                                                // Save to library with real paths
-                                                                libraryService.installApp(
-                                                                                app.getId(),
-                                                                                app.getName(),
-                                                                                app.getOwnerLogin(),
-                                                                                app.getCategory() != null
-                                                                                                ? app.getCategory()
-                                                                                                : "Unknown",
-                                                                                result.getVersion(),
-                                                                                result.getFormattedSize(),
-                                                                                result.getInstallPath(),
-                                                                                result.getExecutablePath());
+                // --- Screenshot Gallery ---
+                VBox gallerySection = new VBox(12);
 
-                                                                // Update UI to show "Open" button
-                                                                progressBox.setVisible(false);
-                                                                progressBox.setManaged(false);
-                                                                installBtn.setVisible(true);
-                                                                installBtn.setManaged(true);
-                                                                installBtn.setText("OPEN");
-                                                                installBtn.setStyle(
-                                                                                "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 32; -fx-font-size: 13px; -fx-cursor: hand;");
-                                                                installBtn.setDisable(false);
-                                                                statusLabel.setText(
-                                                                                "Installed " + result.getVersion());
+                StackPane galleryContainer = new StackPane();
+                galleryContainer.setMinHeight(280);
+                galleryContainer.setPrefHeight(280);
+                galleryContainer.setStyle(
+                                "-fx-background-color: #111111; -fx-background-radius: 12px;");
 
-                                                                installManager.clearProgressListeners();
-                                                        });
-                                                })
-                                                .exceptionally(ex -> {
-                                                        Platform.runLater(() -> {
-                                                                LOG.error(
-                                                                                "Installation error for app: {} (id: {})",
-                                                                                app.getName(),
-                                                                                app.getId(),
-                                                                                ex);
-                                                                String errorMsg = ex.getCause() != null
-                                                                                ? ex.getCause().getMessage()
-                                                                                : ex.getMessage();
+                // Clip for rounded corners
+                Rectangle galleryClip = new Rectangle();
+                galleryClip.widthProperty().bind(galleryContainer.widthProperty());
+                galleryClip.heightProperty().bind(galleryContainer.heightProperty());
+                galleryClip.setArcWidth(24);
+                galleryClip.setArcHeight(24);
+                galleryContainer.setClip(galleryClip);
 
-                                                                // Show error and restore install button
-                                                                progressBox.setVisible(false);
-                                                                progressBox.setManaged(false);
-                                                                installBtn.setVisible(true);
-                                                                installBtn.setManaged(true);
-                                                                installBtn.setDisable(false);
-                                                                statusLabel.setText("Failed: " + errorMsg);
+                // Navigation arrows
+                Button leftArrow = new Button();
+                FontIcon leftIcon = new FontIcon(Feather.CHEVRON_LEFT);
+                leftIcon.setIconSize(24);
+                leftIcon.setIconColor(Color.WHITE);
+                leftArrow.setGraphic(leftIcon);
+                leftArrow.setStyle(
+                                "-fx-background-color: #00000080; -fx-background-radius: 50%; -fx-padding: 12; -fx-cursor: hand;");
+                StackPane.setAlignment(leftArrow, Pos.CENTER_LEFT);
+                StackPane.setMargin(leftArrow, new Insets(0, 0, 0, 16));
+                leftArrow.setOnAction(e -> navigateGallery(-1));
 
-                                                                installManager.clearProgressListeners();
-                                                        });
-                                                        return null;
-                                                });
-                        }
-                });
+                Button rightArrow = new Button();
+                FontIcon rightIcon = new FontIcon(Feather.CHEVRON_RIGHT);
+                rightIcon.setIconSize(24);
+                rightIcon.setIconColor(Color.WHITE);
+                rightArrow.setGraphic(rightIcon);
+                rightArrow.setStyle(
+                                "-fx-background-color: #00000080; -fx-background-radius: 50%; -fx-padding: 12; -fx-cursor: hand;");
+                StackPane.setAlignment(rightArrow, Pos.CENTER_RIGHT);
+                StackPane.setMargin(rightArrow, new Insets(0, 16, 0, 0));
+                rightArrow.setOnAction(e -> navigateGallery(1));
 
-                // Button container - right aligned, vertically centered in header
-                HBox buttonsBox = new HBox(12);
-                buttonsBox.setAlignment(Pos.CENTER_RIGHT);
+                // Counter label
+                counterLabel = new Label("1 / 2");
+                counterLabel.setStyle("-fx-text-fill: #3b82f6; -fx-font-size: 12px;");
+                StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
+                StackPane.setMargin(counterLabel, new Insets(0, 0, 12, 0));
 
-                // Remove button (only visible when installed) - red
-                Button removeBtn = new Button("Remove");
-                FontIcon trashIcon = new FontIcon(Feather.TRASH_2);
-                trashIcon.setIconSize(14);
-                trashIcon.setIconColor(Color.WHITE);
-                removeBtn.setGraphic(trashIcon);
-                removeBtn.setStyle(
-                                "-fx-background-color: #dc2626; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 24; -fx-font-size: 13px; -fx-cursor: hand;");
-                removeBtn.setVisible(isInstalled);
-                removeBtn.setManaged(isInstalled);
+                // Loading indicator
+                ProgressIndicator galleryLoader = new ProgressIndicator();
+                galleryLoader.setMaxSize(40, 40);
+                galleryContainer.getChildren().add(galleryLoader);
 
-                removeBtn.setOnAction(e -> {
-                        LOG.info("Remove button clicked for app: {} (id: {})", app.getName(), app.getId());
-                        libraryService.removeApp(app.getId());
+                gallerySection.getChildren().addAll(galleryContainer);
 
-                        // Update UI
-                        removeBtn.setVisible(false);
-                        removeBtn.setManaged(false);
-                        installBtn.setText("GET");
-                        installBtn.setStyle(
-                                        "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 32; -fx-font-size: 13px; -fx-cursor: hand;");
-                        statusLabel.setText("Removed");
-                });
+                // Load screenshots
+                loadGalleryScreenshots(galleryContainer, leftArrow, rightArrow);
 
-                // Order: OPEN/GET (green) then Remove (red)
-                buttonsBox.getChildren().addAll(progressBox, statusLabel, installBtn, removeBtn);
+                // --- Tabs Section ---
+                HBox tabsRow = new HBox(0);
+                tabsRow.setAlignment(Pos.CENTER_LEFT);
+                tabsRow.setPadding(new Insets(8, 0, 0, 0));
 
-                // Add buttons to the appHeader (same row as icon and metadata)
-                appHeader.getChildren().add(buttonsBox);
-                appHeader.setAlignment(Pos.CENTER_LEFT);
+                Button overviewTab = createTab("Overview", true);
+                Button changelogTab = createTab("Changelog", false);
 
-                headerSection.getChildren().addAll(backBtn, appHeader);
+                tabButtons.put("Overview", overviewTab);
+                tabButtons.put("Changelog", changelogTab);
 
-                // --- Description Section ---
-                VBox descriptionSection = new VBox(12);
-                Label descHeader = new Label("Description");
-                descHeader.setStyle(
-                                "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
+                overviewTab.setOnAction(e -> switchTab("Overview"));
+                changelogTab.setOnAction(e -> switchTab("Changelog"));
+
+                tabsRow.getChildren().addAll(overviewTab, changelogTab);
+
+                // --- Overview Content ---
+                VBox overviewContent = new VBox(24);
+                overviewContent.setPadding(new Insets(16, 0, 0, 0));
+
+                // About this app section
+                VBox aboutSection = new VBox(8);
+                Label aboutHeader = new Label("About this app");
+                aboutHeader.setStyle(
+                                "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
+
                 descriptionLabel = new Label(
                                 app.getDescription() != null
                                                 ? app.getDescription()
-                                                : "This is a powerful application that helps you be more productive. With an intuitive interface and advanced features, "
-                                                                +
-                                                                app.getName()
-                                                                + " is designed to streamline your workflow and enhance your experience. "
-                                                                +
-                                                                "Download now and discover why millions of users trust this app for their daily tasks.");
+                                                : "No description available");
                 descriptionLabel.setWrapText(true);
-                descriptionLabel.setStyle(
-                                "-fx-font-size: 13px; -fx-text-fill: #a1a1aa; -fx-line-spacing: 4px;");
-                descriptionSection.getChildren().addAll(descHeader, descriptionLabel);
+                descriptionLabel.setStyle("-fx-text-fill: #f97316; -fx-font-size: 13px;");
 
-                // --- Screenshots Section ---
-                VBox screenshotsSection = new VBox(16);
-                Label screenshotsHeader = new Label("Screenshots");
-                screenshotsHeader.setStyle(
-                                "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
+                aboutSection.getChildren().addAll(aboutHeader, descriptionLabel);
 
-                // Horizontal row of screenshot placeholders
-                HBox screenshotsRow = new HBox(16);
+                // Info boxes row
+                HBox infoBoxesRow = new HBox(12);
+                infoBoxesRow.setPadding(new Insets(8, 0, 0, 0));
 
-                // Create 3 placeholder boxes that will be populated with images
-                java.util.List<StackPane> placeholders = new java.util.ArrayList<>();
-                java.util.List<Label> placeholderLabels = new java.util.ArrayList<>();
+                // Version box
+                VBox versionInfoBox = createInfoBox("Version", versionLabel.getText());
 
-                for (int i = 1; i <= 3; i++) {
-                        VBox screenshotBox = new VBox(8);
-                        screenshotBox.setAlignment(Pos.CENTER);
+                // Category box
+                VBox categoryInfoBox = createInfoBox("Category",
+                                app.getCategory() != null ? app.getCategory() : "Unknown");
 
-                        // Screenshot placeholder - larger size
-                        StackPane placeholder = new StackPane();
-                        placeholder.setPrefSize(300, 200);
-                        placeholder.setMinHeight(200);
-                        placeholder.setMaxWidth(Double.MAX_VALUE);
-                        placeholder.setStyle(
-                                        "-fx-background-color: #1a1a1a; -fx-background-radius: 12px; -fx-border-color: #2a2a2a; -fx-border-radius: 12px;");
+                // Owner box
+                VBox ownerInfoBox = createInfoBox("Owner", app.getOwnerLogin());
 
-                        // Loading indicator
-                        ProgressIndicator loader = new ProgressIndicator();
-                        loader.setMaxSize(24, 24);
-                        placeholder.getChildren().add(loader);
+                infoBoxesRow.getChildren().addAll(versionInfoBox, categoryInfoBox, ownerInfoBox);
+                HBox.setHgrow(versionInfoBox, Priority.ALWAYS);
+                HBox.setHgrow(categoryInfoBox, Priority.ALWAYS);
+                HBox.setHgrow(ownerInfoBox, Priority.ALWAYS);
 
-                        placeholders.add(placeholder);
-                        HBox.setHgrow(placeholder, Priority.ALWAYS);
+                overviewContent.getChildren().addAll(aboutSection, infoBoxesRow);
+                tabContentNodes.put("Overview", overviewContent);
 
-                        // Label below
-                        Label screenshotLabel = new Label("Screenshot " + i);
-                        screenshotLabel.setStyle("-fx-text-fill: #71717a; -fx-font-size: 11px;");
-                        placeholderLabels.add(screenshotLabel);
+                // --- Changelog Content ---
+                VBox changelogContent = new VBox(16);
+                changelogContent.setPadding(new Insets(16, 0, 0, 0));
+                changelogContent.setVisible(false);
+                changelogContent.setManaged(false);
 
-                        screenshotBox.getChildren().addAll(placeholder, screenshotLabel);
-                        HBox.setHgrow(screenshotBox, Priority.ALWAYS);
-                        screenshotsRow.getChildren().add(screenshotBox);
-                }
+                Label changelogLoading = new Label("Loading changelog...");
+                changelogLoading.setStyle("-fx-text-fill: #71717a;");
+                changelogContent.getChildren().add(changelogLoading);
 
-                screenshotsSection.getChildren().addAll(screenshotsHeader, screenshotsRow);
+                tabContentNodes.put("Changelog", changelogContent);
 
-                // Load screenshots from API
-                loadScreenshotsIntoRow(placeholders, placeholderLabels);
-
-                // Load version from GitHub API
+                // Load release info
+                loadReleaseInfo(changelogContent);
                 loadVersionFromGitHub();
 
                 // Assemble Main Layout
-                mainLayout
-                                .getChildren()
-                                .addAll(headerSection, descriptionSection, screenshotsSection);
+                mainLayout.getChildren().addAll(
+                                backRow,
+                                headerSection,
+                                badgesRow,
+                                gallerySection,
+                                tabsRow,
+                                overviewContent,
+                                changelogContent);
 
                 setContent(mainLayout);
+        }
+
+        private void handleInstallAction(
+                        Button installBtn, VBox progressBox, ProgressBar progressBar,
+                        Label progressLabel, Label statusLabel,
+                        LibraryService libraryService, InstallationManager installManager) {
+
+                LOG.info("Install button clicked for app: {} (id: {})", app.getName(), app.getId());
+
+                if (libraryService.isInstalled(app.getId())) {
+                        // Already installed - launch the app
+                        LOG.info("App already installed, attempting to launch: {} (id: {})",
+                                        app.getName(), app.getId());
+                        Optional<InstalledApp> installedApp = libraryService.getInstalledApp(app.getId());
+                        if (installedApp.isPresent() && installedApp.get().getExecutablePath() != null) {
+                                String execPath = installedApp.get().getExecutablePath();
+                                LOG.info("Launching app from: {} (app: {})", execPath, app.getName());
+                                installBtn.setText("Launching...");
+                                installBtn.setDisable(true);
+
+                                try {
+                                        InstallationService.getInstance().launchApp(execPath);
+                                        LOG.info("App launched successfully: {} (executable: {})",
+                                                        app.getName(), execPath);
+                                        statusLabel.setText("Launched!");
+                                } catch (Exception ex) {
+                                        LOG.warn("Failed to launch app: {} (executable: {})",
+                                                        app.getName(), execPath, ex);
+                                        statusLabel.setText("Failed to launch: " + ex.getMessage());
+                                }
+
+                                Timeline reset = new Timeline(
+                                                new KeyFrame(Duration.seconds(1), ev -> {
+                                                        installBtn.setText("Open");
+                                                        installBtn.setDisable(false);
+                                                        statusLabel.setText("");
+                                                }));
+                                reset.play();
+                        } else {
+                                LOG.warn("No executable path found for installed app: {} (id: {})",
+                                                app.getName(), app.getId());
+                                statusLabel.setText("Path not found - reinstall recommended");
+                        }
+                } else {
+                        // Check if another installation is in progress
+                        if (installManager.isInstalling()) {
+                                LOG.warn("Another installation is in progress, cannot start installation for: {}",
+                                                app.getName());
+                                statusLabel.setText("Another installation in progress");
+                                return;
+                        }
+
+                        // Start installation
+                        LOG.info("Starting installation for app: {} (id: {})", app.getName(), app.getId());
+                        installBtn.setVisible(false);
+                        installBtn.setManaged(false);
+                        progressBox.setVisible(true);
+                        progressBox.setManaged(true);
+                        progressBar.setProgress(0);
+                        progressLabel.setText("Preparing...");
+                        statusLabel.setText("");
+
+                        installManager.addProgressListener(app.getId(), progress -> {
+                                Platform.runLater(() -> updateProgressDisplay(progressBar, progressLabel, progress));
+                        });
+
+                        installManager.installApp(app)
+                                        .thenAccept(result -> {
+                                                Platform.runLater(() -> {
+                                                        LOG.info("Installation completed for app: {} (id: {}, version: {})",
+                                                                        app.getName(), app.getId(),
+                                                                        result.getVersion());
+
+                                                        libraryService.installApp(
+                                                                        app.getId(), app.getName(), app.getOwnerLogin(),
+                                                                        app.getCategory() != null ? app.getCategory()
+                                                                                        : "Unknown",
+                                                                        result.getVersion(), result.getFormattedSize(),
+                                                                        result.getInstallPath(),
+                                                                        result.getExecutablePath());
+
+                                                        progressBox.setVisible(false);
+                                                        progressBox.setManaged(false);
+                                                        installBtn.setVisible(true);
+                                                        installBtn.setManaged(true);
+                                                        installBtn.setText("Open");
+                                                        installBtn.setDisable(false);
+                                                        statusLabel.setText("Installed " + result.getVersion());
+
+                                                        installManager.clearProgressListeners();
+                                                });
+                                        })
+                                        .exceptionally(ex -> {
+                                                Platform.runLater(() -> {
+                                                        LOG.error("Installation error for app: {} (id: {})",
+                                                                        app.getName(), app.getId(), ex);
+                                                        String errorMsg = ex.getCause() != null
+                                                                        ? ex.getCause().getMessage()
+                                                                        : ex.getMessage();
+
+                                                        progressBox.setVisible(false);
+                                                        progressBox.setManaged(false);
+                                                        installBtn.setVisible(true);
+                                                        installBtn.setManaged(true);
+                                                        installBtn.setDisable(false);
+                                                        statusLabel.setText("Failed: " + errorMsg);
+
+                                                        installManager.clearProgressListeners();
+                                                });
+                                                return null;
+                                        });
+                }
         }
 
         private void loadVersionFromGitHub() {
@@ -481,40 +496,30 @@ public class AppDetailView extends ScrollPane {
                                 .getLatestRelease(app.getId())
                                 .thenAccept(release -> {
                                         Platform.runLater(() -> {
+                                                changelogContent.getChildren().clear();
                                                 if (release != null) {
-                                                        versionLabel.setText(release.getTagName());
-
-                                                        // Update changelog content
-                                                        changelogContent.getChildren().clear();
-                                                        Label header = new Label(
-                                                                        "Version " + release.getTagName());
+                                                        Label header = new Label("Version " + release.getTagName());
                                                         header.setStyle(
-                                                                        "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
+                                                                        "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #fafafa;");
 
                                                         Label body = new Label(
                                                                         release.getBody() != null
                                                                                         ? release.getBody()
                                                                                         : "No release notes");
                                                         body.setWrapText(true);
-                                                        body.setStyle(
-                                                                        "-fx-text-fill: #a1a1aa; -fx-font-size: 14px;");
+                                                        body.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 13px;");
 
                                                         Label published = new Label(
-                                                                        "Published: " +
-                                                                                        (release.getPublishedAt() != null
+                                                                        "Published: " + (release
+                                                                                        .getPublishedAt() != null
                                                                                                         ? release.getPublishedAt()
                                                                                                         : "Unknown"));
                                                         published.setStyle(
-                                                                        "-fx-text-fill: #71717a; -fx-font-size: 12px;");
+                                                                        "-fx-text-fill: #71717a; -fx-font-size: 11px;");
 
-                                                        changelogContent
-                                                                        .getChildren()
-                                                                        .addAll(header, published, body);
+                                                        changelogContent.getChildren().addAll(header, published, body);
                                                 } else {
-                                                        versionLabel.setText("N/A");
-                                                        changelogContent.getChildren().clear();
-                                                        Label noRelease = new Label(
-                                                                        "No release information available");
+                                                        Label noRelease = new Label("No release information available");
                                                         noRelease.setStyle("-fx-text-fill: #71717a;");
                                                         changelogContent.getChildren().add(noRelease);
                                                 }
@@ -522,613 +527,201 @@ public class AppDetailView extends ScrollPane {
                                 });
         }
 
-        private void loadScreenshotsIntoRow(java.util.List<StackPane> placeholders, java.util.List<Label> labels) {
-                ApiService.getInstance()
-                                .getScreenshots(app.getId())
-                                .thenAccept(urls -> {
-                                        Platform.runLater(() -> {
-                                                if (urls.isEmpty()) {
-                                                        // Show "no screenshots" icon in each placeholder
-                                                        for (int i = 0; i < placeholders.size(); i++) {
-                                                                StackPane placeholder = placeholders.get(i);
-                                                                placeholder.getChildren().clear();
-                                                                FontIcon noImgIcon = new FontIcon(Feather.IMAGE);
-                                                                noImgIcon.setIconSize(24);
-                                                                noImgIcon.setIconColor(Color.web("#404040"));
-                                                                placeholder.getChildren().add(noImgIcon);
-                                                        }
-                                                        return;
-                                                }
-
-                                                // Create HttpClient for loading images
-                                                HttpClient httpClient = HttpClient.newBuilder()
-                                                                .followRedirects(HttpClient.Redirect.NORMAL)
-                                                                .connectTimeout(java.time.Duration.ofSeconds(30))
-                                                                .build();
-
-                                                // Load up to 3 screenshots
-                                                int numToLoad = Math.min(urls.size(), placeholders.size());
-                                                for (int i = 0; i < numToLoad; i++) {
-                                                        String url = urls.get(i);
-                                                        final int index = i;
-                                                        final StackPane placeholder = placeholders.get(i);
-
-                                                        LOG.debug("Loading screenshot {} for app {}: {}", index + 1,
-                                                                        app.getName(), url);
-
-                                                        // Load image asynchronously
-                                                        loadImageWithHttpClient(httpClient, url)
-                                                                        .thenAccept(imageBytes -> {
-                                                                                Platform.runLater(() -> {
-                                                                                        if (imageBytes != null
-                                                                                                        && imageBytes.length > 0) {
-                                                                                                try {
-                                                                                                        javafx.scene.image.Image img = new javafx.scene.image.Image(
-                                                                                                                        new ByteArrayInputStream(
-                                                                                                                                        imageBytes));
-
-                                                                                                        if (!img.isError()) {
-                                                                                                                javafx.scene.image.ImageView view = new javafx.scene.image.ImageView(
-                                                                                                                                img);
-                                                                                                                view.setPreserveRatio(
-                                                                                                                                true);
-                                                                                                                view.setFitHeight(
-                                                                                                                                190);
-                                                                                                                view.fitWidthProperty()
-                                                                                                                                .bind(placeholder
-                                                                                                                                                .widthProperty()
-                                                                                                                                                .subtract(10));
-
-                                                                                                                placeholder.getChildren()
-                                                                                                                                .clear();
-                                                                                                                placeholder.getChildren()
-                                                                                                                                .add(view);
-                                                                                                                LOG.debug("Successfully loaded screenshot {} for app {}",
-                                                                                                                                index + 1,
-                                                                                                                                app.getName());
-                                                                                                        } else {
-                                                                                                                showPlaceholderIcon(
-                                                                                                                                placeholder);
-                                                                                                        }
-                                                                                                } catch (Exception e) {
-                                                                                                        LOG.warn("Failed to create image for screenshot {}: {}",
-                                                                                                                        index + 1,
-                                                                                                                        e.getMessage());
-                                                                                                        showPlaceholderIcon(
-                                                                                                                        placeholder);
-                                                                                                }
-                                                                                        } else {
-                                                                                                showPlaceholderIcon(
-                                                                                                                placeholder);
-                                                                                        }
-                                                                                });
-                                                                        })
-                                                                        .exceptionally(ex -> {
-                                                                                Platform.runLater(
-                                                                                                () -> showPlaceholderIcon(
-                                                                                                                placeholder));
-                                                                                return null;
-                                                                        });
-                                                }
-
-                                                // Show placeholder icon for remaining slots
-                                                for (int i = numToLoad; i < placeholders.size(); i++) {
-                                                        showPlaceholderIcon(placeholders.get(i));
-                                                }
-                                        });
-                                });
-        }
-
-        private void showPlaceholderIcon(StackPane placeholder) {
-                placeholder.getChildren().clear();
-                FontIcon noImgIcon = new FontIcon(Feather.IMAGE);
-                noImgIcon.setIconSize(24);
-                noImgIcon.setIconColor(Color.web("#404040"));
-                placeholder.getChildren().add(noImgIcon);
-        }
-
-        private void loadScreenshots(StackPane gallery) {
+        private void loadGalleryScreenshots(StackPane gallery, Button leftArrow, Button rightArrow) {
                 ApiService.getInstance()
                                 .getScreenshots(app.getId())
                                 .thenAccept(urls -> {
                                         Platform.runLater(() -> {
                                                 gallery.getChildren().clear();
+                                                galleryItems.clear();
 
                                                 if (urls.isEmpty()) {
                                                         FontIcon noImgIcon = new FontIcon(Feather.IMAGE);
-                                                        noImgIcon.setIconSize(64);
+                                                        noImgIcon.setIconSize(48);
                                                         noImgIcon.setIconColor(Color.web("#27272a"));
-                                                        Label noImgLabel = new Label(
-                                                                        "No screenshots available");
+                                                        Label noImgLabel = new Label("No screenshots available");
                                                         noImgLabel.setStyle(
-                                                                        "-fx-text-fill: #52525b; -fx-font-size: 14px;");
-                                                        VBox noImgBox = new VBox(16, noImgIcon, noImgLabel);
+                                                                        "-fx-text-fill: #52525b; -fx-font-size: 13px;");
+                                                        VBox noImgBox = new VBox(12, noImgIcon, noImgLabel);
                                                         noImgBox.setAlignment(Pos.CENTER);
                                                         gallery.getChildren().add(noImgBox);
+                                                        counterLabel.setText("0 / 0");
                                                         return;
                                                 }
 
-                                                // Create nodes for each screenshot - use HttpClient for GitHub URLs
-                                                java.util.List<Node> galleryItems = new java.util.ArrayList<>();
-                                                final int[] currentIndex = { 0 };
-                                                final int[] loadedCount = { 0 };
-                                                final int totalUrls = urls.size();
-
-                                                // Counter label - declared early so it can be updated from progress
-                                                // listeners
-                                                final Label counterLabel = new Label("Loading...");
-                                                counterLabel.setStyle(
-                                                                "-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
-                                                StackPane.setAlignment(counterLabel, Pos.BOTTOM_CENTER);
-                                                counterLabel.setTranslateY(-10);
-
-                                                // Create shared HttpClient for loading images with proper headers
                                                 HttpClient httpClient = HttpClient.newBuilder()
                                                                 .followRedirects(HttpClient.Redirect.NORMAL)
                                                                 .connectTimeout(java.time.Duration.ofSeconds(30))
                                                                 .build();
 
-                                                for (int urlIndex = 0; urlIndex < urls.size(); urlIndex++) {
-                                                        String url = urls.get(urlIndex);
-                                                        final int imageIndex = urlIndex;
+                                                final int[] loadedCount = { 0 };
+                                                final int totalUrls = urls.size();
 
-                                                        LOG.debug(
-                                                                        "Loading screenshot {} for app {}: {}",
-                                                                        imageIndex + 1,
-                                                                        app.getName(),
-                                                                        url);
+                                                for (int i = 0; i < urls.size(); i++) {
+                                                        String url = urls.get(i);
+                                                        final int imageIndex = i;
 
-                                                        if (url.toLowerCase().contains(".svg")) {
-                                                                WebView webView = new WebView();
-                                                                webView.setPageFill(Color.TRANSPARENT);
-                                                                webView.getEngine().load(url);
+                                                        ImageView view = new ImageView();
+                                                        view.setPreserveRatio(true);
+                                                        view.fitHeightProperty()
+                                                                        .bind(gallery.heightProperty().subtract(20));
+                                                        view.fitWidthProperty()
+                                                                        .bind(gallery.widthProperty().subtract(80));
+                                                        view.setVisible(imageIndex == 0);
 
-                                                                webView.setPrefHeight(320);
-                                                                webView
-                                                                                .maxWidthProperty()
-                                                                                .bind(gallery.widthProperty()
-                                                                                                .subtract(40));
-                                                                webView.setVisible(false);
+                                                        galleryItems.add(view);
+                                                        gallery.getChildren().add(view);
 
-                                                                galleryItems.add(webView);
-                                                                gallery.getChildren().add(webView);
-
-                                                                // Treat SVG as immediately "loaded" for the counter
-                                                                loadedCount[0]++;
-
-                                                                // Show first successfully loaded item
-                                                                if (galleryItems
-                                                                                .stream()
-                                                                                .filter(v -> v != null && v.isVisible())
-                                                                                .count() == 0) {
-                                                                        webView.setVisible(true);
-                                                                        currentIndex[0] = imageIndex;
-                                                                }
-
-                                                                if (loadedCount[0] >= totalUrls) {
-                                                                        updateImageCounter(
-                                                                                        galleryItems,
-                                                                                        counterLabel,
-                                                                                        currentIndex[0]);
-                                                                }
-                                                        } else {
-                                                                // Create placeholder ImageView
-                                                                javafx.scene.image.ImageView view = new javafx.scene.image.ImageView();
-                                                                view.setPreserveRatio(true);
-                                                                view.setFitHeight(320);
-                                                                view
-                                                                                .fitWidthProperty()
-                                                                                .bind(gallery.widthProperty()
-                                                                                                .subtract(40));
-                                                                view.setVisible(false);
-
-                                                                galleryItems.add(view);
-                                                                gallery.getChildren().add(view);
-
-                                                                // Load image asynchronously using HttpClient with
-                                                                // proper headers
-                                                                loadImageWithHttpClient(httpClient, url)
-                                                                                .thenAccept(imageBytes -> {
-                                                                                        Platform.runLater(() -> {
-                                                                                                if (imageBytes != null
-                                                                                                                &&
-                                                                                                                imageBytes.length > 0) {
-                                                                                                        try {
-                                                                                                                javafx.scene.image.Image img = new javafx.scene.image.Image(
-                                                                                                                                new ByteArrayInputStream(
-                                                                                                                                                imageBytes));
-
-                                                                                                                if (!img.isError()) {
-                                                                                                                        view.setImage(img);
-                                                                                                                        LOG.debug(
-                                                                                                                                        "Successfully loaded screenshot {} for app {}: {}",
-                                                                                                                                        imageIndex + 1,
-                                                                                                                                        app.getName(),
-                                                                                                                                        url);
-
-                                                                                                                        // Show
-                                                                                                                        // first
-                                                                                                                        // successfully
-                                                                                                                        // loaded
-                                                                                                                        // image
-                                                                                                                        if (galleryItems
-                                                                                                                                        .stream()
-                                                                                                                                        .filter(
-                                                                                                                                                        v -> v != null &&
-                                                                                                                                                                        v.isVisible())
-                                                                                                                                        .count() == 0) {
-                                                                                                                                view.setVisible(true);
-                                                                                                                                currentIndex[0] = imageIndex;
-                                                                                                                        }
-                                                                                                                } else {
-                                                                                                                        LOG.warn(
-                                                                                                                                        "Image decode error for screenshot {} of app {}: {}",
-                                                                                                                                        imageIndex + 1,
-                                                                                                                                        app.getName(),
-                                                                                                                                        url);
-                                                                                                                        gallery
-                                                                                                                                        .getChildren()
-                                                                                                                                        .remove(view);
-                                                                                                                        galleryItems.set(
-                                                                                                                                        imageIndex,
-                                                                                                                                        null);
-                                                                                                                }
-                                                                                                        } catch (Exception e) {
-                                                                                                                LOG.warn(
-                                                                                                                                "Failed to create image for screenshot {} of app {}: {} - {}",
+                                                        loadImageWithHttpClient(httpClient, url)
+                                                                        .thenAccept(imageBytes -> {
+                                                                                Platform.runLater(() -> {
+                                                                                        loadedCount[0]++;
+                                                                                        if (imageBytes != null
+                                                                                                        && imageBytes.length > 0) {
+                                                                                                try {
+                                                                                                        Image img = new Image(
+                                                                                                                        new ByteArrayInputStream(
+                                                                                                                                        imageBytes));
+                                                                                                        if (!img.isError()) {
+                                                                                                                view.setImage(img);
+                                                                                                                LOG.debug("Loaded screenshot {} for app {}",
                                                                                                                                 imageIndex + 1,
-                                                                                                                                app.getName(),
-                                                                                                                                url,
-                                                                                                                                e.getMessage(),
-                                                                                                                                e);
-                                                                                                                gallery
-                                                                                                                                .getChildren()
-                                                                                                                                .remove(view);
-                                                                                                                galleryItems.set(
-                                                                                                                                imageIndex,
-                                                                                                                                null);
+                                                                                                                                app.getName());
                                                                                                         }
-                                                                                                } else {
-                                                                                                        LOG.warn(
-                                                                                                                        "Empty or null image data for screenshot {} of app {}: {}",
+                                                                                                } catch (Exception e) {
+                                                                                                        LOG.warn("Failed to load screenshot {}: {}",
                                                                                                                         imageIndex + 1,
-                                                                                                                        app.getName(),
-                                                                                                                        url);
-                                                                                                        gallery.getChildren()
-                                                                                                                        .remove(view);
-                                                                                                        galleryItems.set(
-                                                                                                                        imageIndex,
-                                                                                                                        null);
+                                                                                                                        e.getMessage());
                                                                                                 }
+                                                                                        }
 
-                                                                                                loadedCount[0]++;
-                                                                                                // Update counter and
-                                                                                                // check for all
-                                                                                                // failures when all
-                                                                                                // images attempted
-                                                                                                if (loadedCount[0] >= totalUrls) {
-                                                                                                        if (galleryItems
-                                                                                                                        .stream()
-                                                                                                                        .allMatch(v -> v == null)) {
-                                                                                                                gallery.getChildren()
-                                                                                                                                .clear();
-                                                                                                                Label errorLabel = new Label(
-                                                                                                                                "Failed to load screenshots");
-                                                                                                                errorLabel.setStyle(
-                                                                                                                                "-fx-text-fill: #71717a;");
-                                                                                                                gallery
-                                                                                                                                .getChildren()
-                                                                                                                                .add(errorLabel);
-                                                                                                        } else {
-                                                                                                                updateImageCounter(
-                                                                                                                                galleryItems,
-                                                                                                                                counterLabel,
-                                                                                                                                currentIndex[0]);
-                                                                                                        }
-                                                                                                }
-                                                                                        });
-                                                                                })
-                                                                                .exceptionally(ex -> {
-                                                                                        Platform.runLater(() -> {
-                                                                                                LOG.warn(
-                                                                                                                "HTTP error loading screenshot {} for app {}: {} - {}",
-                                                                                                                imageIndex + 1,
-                                                                                                                app.getName(),
-                                                                                                                url,
-                                                                                                                ex.getMessage(),
-                                                                                                                ex);
+                                                                                        if (loadedCount[0] >= totalUrls) {
+                                                                                                // All loaded, add
+                                                                                                // navigation
                                                                                                 gallery.getChildren()
-                                                                                                                .remove(view);
-                                                                                                galleryItems.set(
-                                                                                                                imageIndex,
-                                                                                                                null);
-
-                                                                                                loadedCount[0]++;
-                                                                                                if (loadedCount[0] >= totalUrls) {
-                                                                                                        if (galleryItems
-                                                                                                                        .stream()
-                                                                                                                        .allMatch(v -> v == null)) {
-                                                                                                                gallery.getChildren()
-                                                                                                                                .clear();
-                                                                                                                Label errorLabel = new Label(
-                                                                                                                                "Failed to load screenshots");
-                                                                                                                errorLabel.setStyle(
-                                                                                                                                "-fx-text-fill: #71717a;");
-                                                                                                                gallery
-                                                                                                                                .getChildren()
-                                                                                                                                .add(errorLabel);
-                                                                                                        } else {
-                                                                                                                updateImageCounter(
-                                                                                                                                galleryItems,
-                                                                                                                                counterLabel,
-                                                                                                                                currentIndex[0]);
-                                                                                                        }
-                                                                                                }
-                                                                                        });
-                                                                                        return null;
+                                                                                                                .addAll(leftArrow,
+                                                                                                                                rightArrow,
+                                                                                                                                counterLabel);
+                                                                                                updateCounter();
+                                                                                        }
                                                                                 });
-                                                        }
+                                                                        });
                                                 }
-
-                                                // Navigation arrows
-                                                Button leftBtn = new Button();
-                                                leftBtn.setGraphic(new FontIcon(Feather.CHEVRON_LEFT));
-                                                leftBtn.setStyle(
-                                                                "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 40px; -fx-min-height: 40px; -fx-cursor: hand;");
-
-                                                Button rightBtn = new Button();
-                                                rightBtn.setGraphic(new FontIcon(Feather.CHEVRON_RIGHT));
-                                                rightBtn.setStyle(
-                                                                "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 40px; -fx-min-height: 40px; -fx-cursor: hand;");
-
-                                                leftBtn.setOnAction(e -> {
-                                                        navigateImages(galleryItems, currentIndex, -1);
-                                                        updateImageCounter(
-                                                                        galleryItems,
-                                                                        counterLabel,
-                                                                        currentIndex[0]);
-                                                });
-
-                                                rightBtn.setOnAction(e -> {
-                                                        navigateImages(galleryItems, currentIndex, 1);
-                                                        updateImageCounter(
-                                                                        galleryItems,
-                                                                        counterLabel,
-                                                                        currentIndex[0]);
-                                                });
-
-                                                HBox navBox = new HBox();
-                                                navBox.setAlignment(Pos.CENTER);
-                                                navBox.setPadding(new Insets(0, 20, 0, 20));
-                                                Region spacer = new Region();
-                                                HBox.setHgrow(spacer, Priority.ALWAYS);
-                                                navBox.getChildren().addAll(leftBtn, spacer, rightBtn);
-
-                                                gallery.getChildren().addAll(navBox, counterLabel);
-                                                StackPane.setAlignment(navBox, Pos.CENTER);
                                         });
                                 });
         }
 
-        /**
-         * Load an image from a URL using HttpClient with proper headers.
-         * This is necessary because JavaFX's Image class doesn't send User-Agent
-         * headers,
-         * which causes GitHub's raw.githubusercontent.com to reject requests.
-         */
-        private CompletableFuture<byte[]> loadImageWithHttpClient(
-                        HttpClient client,
-                        String url) {
-                try {
-                        HttpRequest request = HttpRequest.newBuilder()
-                                        .uri(URI.create(url))
-                                        .header("User-Agent", "Stars-AppStore/1.0 (JavaFX)")
-                                        .header("Accept", "image/*")
-                                        .timeout(java.time.Duration.ofSeconds(30))
-                                        .GET()
-                                        .build();
+        private CompletableFuture<byte[]> loadImageWithHttpClient(HttpClient client, String url) {
+                HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create(url))
+                                .header("User-Agent", "Mozilla/5.0 JavaFX AppStore")
+                                .GET()
+                                .build();
 
-                        return client
-                                        .sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
-                                        .thenApply(response -> {
-                                                if (response.statusCode() >= 200 &&
-                                                                response.statusCode() < 300) {
-                                                        return response.body();
-                                                } else {
-                                                        LOG.warn(
-                                                                        "HTTP {} for screenshot URL: {} (app: {})",
-                                                                        response.statusCode(),
-                                                                        url,
-                                                                        app.getName());
-                                                        return null;
-                                                }
-                                        });
-                } catch (Exception e) {
-                        LOG.warn(
-                                        "Failed to create HTTP request for screenshot URL: {} (app: {}) - {}",
-                                        url,
-                                        app.getName(),
-                                        e.getMessage(),
-                                        e);
-                        return CompletableFuture.completedFuture(null);
+                return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
+                                .thenApply(response -> {
+                                        if (response.statusCode() == 200) {
+                                                return response.body();
+                                        }
+                                        return null;
+                                })
+                                .exceptionally(ex -> {
+                                        LOG.warn("Failed to load image from {}: {}", url, ex.getMessage());
+                                        return null;
+                                });
+        }
+
+        private void navigateGallery(int direction) {
+                if (galleryItems.isEmpty())
+                        return;
+
+                // Hide current
+                if (currentImageIndex >= 0 && currentImageIndex < galleryItems.size()) {
+                        galleryItems.get(currentImageIndex).setVisible(false);
+                }
+
+                // Navigate
+                currentImageIndex += direction;
+                if (currentImageIndex < 0) {
+                        currentImageIndex = galleryItems.size() - 1;
+                } else if (currentImageIndex >= galleryItems.size()) {
+                        currentImageIndex = 0;
+                }
+
+                // Show new
+                galleryItems.get(currentImageIndex).setVisible(true);
+                updateCounter();
+        }
+
+        private void updateCounter() {
+                if (!galleryItems.isEmpty()) {
+                        counterLabel.setText((currentImageIndex + 1) + " / " + galleryItems.size());
                 }
         }
 
         private void switchTab(String tabName) {
-                tabButtons.forEach((name, btn) -> {
-                        if (name.equals(tabName)) {
+                for (Map.Entry<String, Button> entry : tabButtons.entrySet()) {
+                        boolean isActive = entry.getKey().equals(tabName);
+                        Button btn = entry.getValue();
+                        if (isActive) {
                                 btn.setStyle(
-                                                "-fx-background-color: #27272a; -fx-text-fill: #fafafa; -fx-background-radius: 16px; -fx-padding: 6 16; -fx-font-size: 13px; -fx-font-weight: bold;");
+                                                "-fx-background-color: #27272a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 8 20; -fx-font-size: 12px; -fx-cursor: hand;");
                         } else {
                                 btn.setStyle(
-                                                "-fx-background-color: transparent; -fx-text-fill: #a1a1aa; -fx-padding: 6 16; -fx-font-size: 13px; -fx-cursor: hand;");
+                                                "-fx-background-color: transparent; -fx-text-fill: #71717a; -fx-font-weight: normal; -fx-background-radius: 20px; -fx-padding: 8 20; -fx-font-size: 12px; -fx-cursor: hand;");
                         }
-                });
+                }
 
-                contentContainer.getChildren().clear();
-                Node content = tabContentNodes.get(tabName);
-                if (content != null) {
-                        contentContainer.getChildren().add(content);
+                for (Map.Entry<String, Node> entry : tabContentNodes.entrySet()) {
+                        boolean isActive = entry.getKey().equals(tabName);
+                        entry.getValue().setVisible(isActive);
+                        entry.getValue().setManaged(isActive);
                 }
         }
 
         private StackPane createPlatformBadge(Feather icon) {
                 StackPane badge = new StackPane();
-                badge.setPrefSize(28, 28);
-                badge.setStyle(
-                                "-fx-background-color: #181818; -fx-background-radius: 6px;");
-                FontIcon i = new FontIcon(icon);
-                i.setIconColor(Color.web("#a1a1aa"));
-                i.setIconSize(14);
-                badge.getChildren().add(i);
+                badge.setPrefSize(24, 24);
+                badge.setStyle("-fx-background-color: #27272a; -fx-background-radius: 6px;");
+                FontIcon badgeIcon = new FontIcon(icon);
+                badgeIcon.setIconSize(12);
+                badgeIcon.setIconColor(Color.web("#a1a1aa"));
+                badge.getChildren().add(badgeIcon);
                 return badge;
         }
 
-        private Button createTab(String text) {
-                Button tab = new Button(text);
-                tab.setOnAction(e -> switchTab(text));
-                tabButtons.put(text, tab);
-                return tab;
+        private Button createTab(String text, boolean isActive) {
+                Button btn = new Button(text);
+                if (isActive) {
+                        btn.setStyle(
+                                        "-fx-background-color: #27272a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 8 20; -fx-font-size: 12px; -fx-cursor: hand;");
+                } else {
+                        btn.setStyle(
+                                        "-fx-background-color: transparent; -fx-text-fill: #71717a; -fx-font-weight: normal; -fx-background-radius: 20px; -fx-padding: 8 20; -fx-font-size: 12px; -fx-cursor: hand;");
+                }
+                return btn;
         }
 
         private VBox createInfoBox(String label, String value) {
-                Label v = new Label(value);
-                v.setStyle(
-                                "-fx-text-fill: #fafafa; -fx-font-weight: bold; -fx-font-size: 14px;");
-                return createInfoBox(label, v);
-        }
-
-        private VBox createInfoBox(String label, Label valueLabel) {
-                VBox box = new VBox(8);
-                box.setPadding(new Insets(16));
+                VBox box = new VBox(4);
                 box.setStyle(
-                                "-fx-background-color: #040404; -fx-background-radius: 8px; -fx-border-color: #181818; -fx-border-radius: 8px;");
+                                "-fx-background-color: #1a1a1a; -fx-background-radius: 8px; -fx-padding: 12;");
 
-                Label l = new Label(label);
-                l.setStyle("-fx-text-fill: #71717a; -fx-font-size: 12px;");
+                Label labelNode = new Label(label);
+                labelNode.setStyle("-fx-text-fill: #71717a; -fx-font-size: 11px;");
 
-                box.getChildren().addAll(l, valueLabel);
+                Label valueNode = new Label(value);
+                valueNode.setStyle("-fx-text-fill: #fafafa; -fx-font-weight: bold; -fx-font-size: 13px;");
+
+                box.getChildren().addAll(labelNode, valueNode);
                 return box;
         }
 
-        /**
-         * Update the inline progress display based on installation progress.
-         */
         private void updateProgressDisplay(
                         ProgressBar progressBar,
                         Label progressLabel,
                         InstallationService.InstallProgress progress) {
-                if (progress.isFailed()) {
-                        progressLabel.setText("Failed: " + progress.getMessage());
-                        progressLabel.setStyle(
-                                        "-fx-text-fill: #ef4444; -fx-font-size: 11px;");
-                        return;
-                }
-
-                // Calculate overall progress
-                double overallProgress = 0;
-                String message = progress.getMessage();
-
-                switch (progress.getStage()) {
-                        case FETCHING_RELEASE:
-                                overallProgress = 0.05;
-                                message = "Fetching release...";
-                                break;
-                        case DOWNLOADING:
-                                overallProgress = 0.05 + (progress.getProgress() * 0.6);
-                                message = String.format(
-                                                "Downloading... %.0f%%",
-                                                progress.getProgress() * 100);
-                                break;
-                        case EXTRACTING:
-                                overallProgress = 0.70;
-                                message = "Extracting...";
-                                break;
-                        case INSTALLING:
-                                overallProgress = 0.80;
-                                message = "Installing...";
-                                break;
-                        case VERIFYING:
-                                overallProgress = 0.95;
-                                message = "Verifying...";
-                                break;
-                        case COMPLETED:
-                                overallProgress = 1.0;
-                                message = "Complete!";
-                                break;
-                        default:
-                                break;
-                }
-
-                progressBar.setProgress(overallProgress);
-                progressLabel.setText(message);
-                progressLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 11px;");
-        }
-
-        /**
-         * Navigate through images, skipping null (failed) entries.
-         */
-        private void navigateImages(
-                        java.util.List<Node> galleryItems,
-                        int[] currentIndex,
-                        int direction) {
-                // Count valid images
-                long validCount = galleryItems
-                                .stream()
-                                .filter(v -> v != null)
-                                .count();
-                if (validCount <= 1)
-                        return;
-
-                // Hide current
-                Node current = galleryItems.get(currentIndex[0]);
-                if (current != null) {
-                        current.setVisible(false);
-                }
-
-                // Find next valid image
-                int size = galleryItems.size();
-                int next = currentIndex[0];
-                for (int i = 0; i < size; i++) {
-                        next = (next + direction + size) % size;
-                        if (galleryItems.get(next) != null) {
-                                break;
-                        }
-                }
-
-                currentIndex[0] = next;
-                Node nextView = galleryItems.get(next);
-                if (nextView != null) {
-                        nextView.setVisible(true);
-                }
-        }
-
-        /**
-         * Update the image counter label, accounting for null (failed) images.
-         */
-        private void updateImageCounter(
-                        java.util.List<Node> galleryItems,
-                        Label counterLabel,
-                        int currentIndex) {
-                // Count valid images
-                long validCount = galleryItems
-                                .stream()
-                                .filter(v -> v != null)
-                                .count();
-
-                if (validCount == 0) {
-                        counterLabel.setText("No images");
-                        return;
-                }
-
-                // Find the position of current image among valid ones
-                int position = 0;
-                for (int i = 0; i <= currentIndex && i < galleryItems.size(); i++) {
-                        if (galleryItems.get(i) != null) {
-                                position++;
-                        }
-                }
-
-                counterLabel.setText(position + " / " + validCount);
+                progressBar.setProgress(progress.getProgress());
+                progressLabel.setText(progress.getMessage());
         }
 }

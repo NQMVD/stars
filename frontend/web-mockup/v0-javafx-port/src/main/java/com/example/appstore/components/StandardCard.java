@@ -1,15 +1,27 @@
 package com.example.appstore.components;
 
+import com.example.appstore.model.App;
+import com.example.appstore.service.ApiService;
+import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -17,6 +29,9 @@ public class StandardCard extends VBox {
 
     private final String title;
     private final String vendor;
+    private final StackPane imageArea;
+    private final StackPane iconBox;
+    private String appId;
 
     public enum GradientType {
         BLUE, PURPLE, PINK, ORANGE, TEAL, INDIGO, DEFAULT
@@ -30,10 +45,10 @@ public class StandardCard extends VBox {
             String count,
             boolean isInstalled,
             Runnable onClick) {
-        this(title, vendor, rating, count, isInstalled, onClick, GradientType.DEFAULT);
+        this(title, vendor, rating, count, isInstalled, onClick, GradientType.DEFAULT, null);
     }
 
-    // New constructor with gradient support
+    // Constructor with gradient support
     public StandardCard(
             String title,
             String vendor,
@@ -42,8 +57,22 @@ public class StandardCard extends VBox {
             boolean isInstalled,
             Runnable onClick,
             GradientType gradientType) {
+        this(title, vendor, rating, count, isInstalled, onClick, gradientType, null);
+    }
+
+    // New constructor with App object for loading screenshots
+    public StandardCard(
+            String title,
+            String vendor,
+            String rating,
+            String count,
+            boolean isInstalled,
+            Runnable onClick,
+            GradientType gradientType,
+            App app) {
         this.title = title;
         this.vendor = vendor;
+        this.appId = app != null ? app.getId() : null;
         getStyleClass().add("app-card");
         setMinWidth(180);
         setMaxWidth(Double.MAX_VALUE); // Allow horizontal growth
@@ -56,16 +85,27 @@ public class StandardCard extends VBox {
         });
         setPadding(new Insets(0)); // Padding handled internally
 
-        // Top Image Area with Gradient
-        StackPane imageArea = new StackPane();
+        // Top Image Area with Gradient (will be replaced by screenshot if available)
+        imageArea = new StackPane();
         imageArea.setPrefHeight(140);
+        imageArea.setMinHeight(140);
 
         String gradientStyle = getGradientStyle(gradientType);
         imageArea.setStyle(gradientStyle + " -fx-background-radius: 16px 16px 0 0;");
 
-        FontIcon imgIcon = new FontIcon(Feather.IMAGE);
-        imgIcon.setIconColor(Color.web("#ffffff33"));
-        imageArea.getChildren().add(imgIcon);
+        // Clip the image area to have rounded corners
+        Rectangle clip = new Rectangle();
+        clip.widthProperty().bind(imageArea.widthProperty());
+        clip.heightProperty().bind(imageArea.heightProperty());
+        clip.setArcWidth(32);
+        clip.setArcHeight(32);
+        imageArea.setClip(clip);
+
+        // Loading indicator
+        ProgressIndicator loader = new ProgressIndicator();
+        loader.setMaxSize(24, 24);
+        loader.setStyle("-fx-progress-color: #ffffff66;");
+        imageArea.getChildren().add(loader);
 
         // Content Area
         VBox content = new VBox(12);
@@ -73,10 +113,12 @@ public class StandardCard extends VBox {
 
         // Header (Icon + Title)
         HBox header = new HBox(12);
-        StackPane iconBox = new StackPane();
+        iconBox = new StackPane();
         iconBox.setStyle(
                 "-fx-background-color: #27272a; -fx-background-radius: 8px;");
         iconBox.setPrefSize(40, 40);
+        iconBox.setMinSize(40, 40);
+        iconBox.setMaxSize(40, 40);
         FontIcon appIcon = new FontIcon(Feather.BOX);
         appIcon.setIconColor(Color.WHITE);
         iconBox.getChildren().add(appIcon);
@@ -90,8 +132,6 @@ public class StandardCard extends VBox {
         titleBox.getChildren().addAll(titleLabel, vendorLabel);
 
         header.getChildren().addAll(iconBox, titleBox);
-
-        // Description/Tagline (Optional, skipping for density)
 
         // Footer (Rating + Button)
         HBox footer = new HBox();
@@ -174,6 +214,94 @@ public class StandardCard extends VBox {
         content.getChildren().addAll(header, footer);
 
         getChildren().addAll(imageArea, content);
+
+        // Load screenshot if app is provided
+        if (app != null) {
+            loadScreenshotForCard(app);
+        }
+    }
+
+    private void loadScreenshotForCard(App app) {
+        ApiService.getInstance()
+                .getScreenshots(app.getId())
+                .thenAccept(urls -> {
+                    Platform.runLater(() -> {
+                        if (!urls.isEmpty()) {
+                            // Use the first screenshot
+                            String url = urls.get(0);
+                            loadImageAsync(url);
+                        } else {
+                            // Show placeholder icon
+                            imageArea.getChildren().clear();
+                            FontIcon imgIcon = new FontIcon(Feather.IMAGE);
+                            imgIcon.setIconColor(Color.web("#ffffff33"));
+                            imgIcon.setIconSize(32);
+                            imageArea.getChildren().add(imgIcon);
+                        }
+                    });
+                })
+                .exceptionally(ex -> {
+                    Platform.runLater(() -> {
+                        imageArea.getChildren().clear();
+                        FontIcon imgIcon = new FontIcon(Feather.IMAGE);
+                        imgIcon.setIconColor(Color.web("#ffffff33"));
+                        imgIcon.setIconSize(32);
+                        imageArea.getChildren().add(imgIcon);
+                    });
+                    return null;
+                });
+    }
+
+    private void loadImageAsync(String url) {
+        HttpClient httpClient = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(java.time.Duration.ofSeconds(30))
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("User-Agent", "Mozilla/5.0 JavaFX AppStore")
+                .GET()
+                .build();
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray())
+                .thenAccept(response -> {
+                    if (response.statusCode() == 200) {
+                        byte[] imageBytes = response.body();
+                        Platform.runLater(() -> {
+                            try {
+                                Image img = new Image(new ByteArrayInputStream(imageBytes));
+                                if (!img.isError()) {
+                                    ImageView view = new ImageView(img);
+                                    view.setPreserveRatio(true);
+                                    view.setFitHeight(140);
+                                    view.fitWidthProperty().bind(imageArea.widthProperty());
+
+                                    imageArea.getChildren().clear();
+                                    imageArea.getChildren().add(view);
+                                } else {
+                                    showPlaceholder();
+                                }
+                            } catch (Exception e) {
+                                showPlaceholder();
+                            }
+                        });
+                    } else {
+                        Platform.runLater(this::showPlaceholder);
+                    }
+                })
+                .exceptionally(ex -> {
+                    Platform.runLater(this::showPlaceholder);
+                    return null;
+                });
+    }
+
+    private void showPlaceholder() {
+        imageArea.getChildren().clear();
+        FontIcon imgIcon = new FontIcon(Feather.IMAGE);
+        imgIcon.setIconColor(Color.web("#ffffff33"));
+        imgIcon.setIconSize(32);
+        imageArea.getChildren().add(imgIcon);
     }
 
     public String getTitle() {
