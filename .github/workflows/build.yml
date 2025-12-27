@@ -70,24 +70,41 @@ jobs:
           
           # Determine package type based on OS
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            PACKAGE_TYPE="msi"
-            # Add console and install options for windows
-            EXTRA_OPTS="--win-console --win-dir-chooser --win-shortcut"
-          else
-            PACKAGE_TYPE="dmg"
-            EXTRA_OPTS=""
-          fi
+            # Build MSI first
+            jpackage \
+              --type msi \
+              --input jpackage-input \
+              --dest dist \
+              --name "StarsApp" \
+              --main-jar "$MAIN_JAR" \
+              --main-class com.example.appstore.Launcher \
+              --description "Stars Desktop App Store" \
+              --vendor "Stardive" \
+              --win-console --win-dir-chooser --win-shortcut
 
-          jpackage \
-            --type "$PACKAGE_TYPE" \
-            --input jpackage-input \
-            --dest dist \
-            --name "StarsApp" \
-            --main-jar "$MAIN_JAR" \
-            --main-class com.example.appstore.Launcher \
-            --description "Stars Desktop App Store" \
-            --vendor "Stardive" \
-            $EXTRA_OPTS
+            # Build EXE
+            jpackage \
+              --type exe \
+              --input jpackage-input \
+              --dest dist \
+              --name "StarsApp" \
+              --main-jar "$MAIN_JAR" \
+              --main-class com.example.appstore.Launcher \
+              --description "Stars Desktop App Store" \
+              --vendor "Stardive" \
+              --win-console --win-dir-chooser --win-shortcut
+          else
+            # Build DMG for macOS
+            jpackage \
+              --type dmg \
+              --input jpackage-input \
+              --dest dist \
+              --name "StarsApp" \
+              --main-jar "$MAIN_JAR" \
+              --main-class com.example.appstore.Launcher \
+              --description "Stars Desktop App Store" \
+              --vendor "Stardive"
+          fi
         working-directory: frontend/web-mockup/v0-javafx-port
 
       - name: Upload Frontend Artifact
