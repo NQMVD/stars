@@ -155,7 +155,6 @@ public class PlatformDetector {
                     (name.endsWith(".exe") ||
                         name.endsWith(".msi") ||
                         name.endsWith(".zip")) &&
-                    (name.contains("win") || name.contains("windows")) &&
                     isArchCompatible(name, arch)
                 );
             case MACOS:
@@ -164,9 +163,9 @@ public class PlatformDetector {
                         name.endsWith(".pkg") ||
                         name.endsWith(".zip") ||
                         name.endsWith(".app.tar.gz")) &&
-                    (name.contains("mac") ||
-                        name.contains("darwin") ||
-                        name.contains("osx")) &&
+                    // (name.contains("mac") ||
+                    //     name.contains("darwin") ||
+                    //     name.contains("osx")) &&
                     isArchCompatible(name, arch)
                 );
             case LINUX_DEB:
@@ -263,7 +262,7 @@ public class PlatformDetector {
      */
     public static int getAssetPriority(String assetName, Platform platform) {
         String name = assetName.toLowerCase();
-
+        // TODO: move this to either a config file or expose through settings panel
         switch (platform) {
             case WINDOWS:
                 if (name.endsWith(".msi")) return 10;
@@ -278,7 +277,7 @@ public class PlatformDetector {
             case MACOS:
                 if (name.endsWith(".dmg")) return 10;
                 if (name.endsWith(".pkg")) return 8;
-                if (name.endsWith(".app.tar.gz")) return 6;
+                // if (name.endsWith(".app.tar.gz")) return 6;
                 if (name.endsWith(".zip")) return 4;
                 break;
             case LINUX_DEB:
