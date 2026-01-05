@@ -9,6 +9,7 @@ pub struct App {
     pub owner_login: String,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+    pub last_release_at: Option<DateTime<Utc>>,
     pub windows_support: bool,
     pub macos_support: bool,
     pub linux_support: bool,

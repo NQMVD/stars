@@ -49,6 +49,10 @@ mod test_helpers {
         pub owner_login: String,
         pub created_at: Option<chrono::DateTime<chrono::Utc>>,
         pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+        pub last_release_at: Option<chrono::DateTime<chrono::Utc>>,
+        pub windows_support: bool,
+        pub macos_support: bool,
+        pub linux_support: bool,
     }
 
     // Minimal GitHub release struct
@@ -187,6 +191,10 @@ mod test_helpers {
         let owner_logins = df.column("owner_login")?.str()?;
         let created_ats = df.column("created_at")?.str()?;
         let updated_ats = df.column("updated_at")?.str()?;
+        let last_release_ats = df.column("last_release_at")?.str()?;
+        let windows_support = df.column("windows_support")?.bool()?;
+        let macos_support = df.column("macos_support")?.bool()?;
+        let linux_support = df.column("linux_support")?.bool()?;
 
         let mut apps = Vec::with_capacity(df.height());
 
@@ -206,12 +214,22 @@ mod test_helpers {
                     .map(|dt| dt.with_timezone(&chrono::Utc))
             });
 
+            let last_release_at = last_release_ats.get(i).and_then(|s| {
+                chrono::DateTime::parse_from_rfc3339(s)
+                    .ok()
+                    .map(|dt| dt.with_timezone(&chrono::Utc))
+            });
+
             apps.push(App {
                 id: repo_name.to_string(),
                 name: repo_name.to_string(),
                 owner_login: owner_login.to_string(),
                 created_at,
                 updated_at,
+                last_release_at,
+                windows_support: windows_support.get(i).unwrap_or(false),
+                macos_support: macos_support.get(i).unwrap_or(false),
+                linux_support: linux_support.get(i).unwrap_or(false),
             });
         }
 
@@ -230,6 +248,10 @@ mod test_helpers {
         let owner_logins = filtered.column("owner_login")?.str()?;
         let created_ats = filtered.column("created_at")?.str()?;
         let updated_ats = filtered.column("updated_at")?.str()?;
+        let last_release_ats = filtered.column("last_release_at")?.str()?;
+        let windows_support = filtered.column("windows_support")?.bool()?;
+        let macos_support = filtered.column("macos_support")?.bool()?;
+        let linux_support = filtered.column("linux_support")?.bool()?;
 
         let i = 0;
         let repo_name = repo_names.get(i).unwrap_or_default();
@@ -247,12 +269,22 @@ mod test_helpers {
                 .map(|dt| dt.with_timezone(&chrono::Utc))
         });
 
+        let last_release_at = last_release_ats.get(i).and_then(|s| {
+            chrono::DateTime::parse_from_rfc3339(s)
+                .ok()
+                .map(|dt| dt.with_timezone(&chrono::Utc))
+        });
+
         Ok(Some(App {
             id: repo_name.to_string(),
             name: repo_name.to_string(),
             owner_login: owner_login.to_string(),
             created_at,
             updated_at,
+            last_release_at,
+            windows_support: windows_support.get(i).unwrap_or(false),
+            macos_support: macos_support.get(i).unwrap_or(false),
+            linux_support: linux_support.get(i).unwrap_or(false),
         }))
     }
 

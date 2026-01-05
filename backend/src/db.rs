@@ -25,6 +25,7 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
     let owner_logins = df.column("owner_login")?.str()?;
     let created_ats = df.column("created_at")?.str()?;
     let updated_ats = df.column("updated_at")?.str()?;
+    let last_release_ats = df.column("last_release_at")?.str()?;
     let windows_support = df.column("windows_support")?.bool()?;
     let macos_support = df.column("macos_support")?.bool()?;
     let linux_support = df.column("linux_support")?.bool()?;
@@ -47,12 +48,19 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
                 .map(|dt| dt.with_timezone(&Utc))
         });
 
+        let last_release_at = last_release_ats.get(i).and_then(|s| {
+            DateTime::parse_from_rfc3339(s)
+                .ok()
+                .map(|dt| dt.with_timezone(&Utc))
+        });
+
         apps.push(App {
             id: repo_name.to_string(),
             name: repo_name.to_string(),
             owner_login: owner_login.to_string(),
             created_at,
             updated_at,
+            last_release_at,
             windows_support: windows_support.get(i).unwrap_or(false),
             macos_support: macos_support.get(i).unwrap_or(false),
             linux_support: linux_support.get(i).unwrap_or(false),
@@ -77,6 +85,7 @@ pub fn get_app(df: &DataFrame, app_id: &str) -> Result<Option<App>> {
     let owner_logins = filtered.column("owner_login")?.str()?;
     let created_ats = filtered.column("created_at")?.str()?;
     let updated_ats = filtered.column("updated_at")?.str()?;
+    let last_release_ats = filtered.column("last_release_at")?.str()?;
     let windows_support = filtered.column("windows_support")?.bool()?;
     let macos_support = filtered.column("macos_support")?.bool()?;
     let linux_support = filtered.column("linux_support")?.bool()?;
@@ -97,12 +106,19 @@ pub fn get_app(df: &DataFrame, app_id: &str) -> Result<Option<App>> {
             .map(|dt| dt.with_timezone(&Utc))
     });
 
+    let last_release_at = last_release_ats.get(i).and_then(|s| {
+        DateTime::parse_from_rfc3339(s)
+            .ok()
+            .map(|dt| dt.with_timezone(&Utc))
+    });
+
     Ok(Some(App {
         id: repo_name.to_string(),
         name: repo_name.to_string(),
         owner_login: owner_login.to_string(),
         created_at,
         updated_at,
+        last_release_at,
         windows_support: windows_support.get(i).unwrap_or(false),
         macos_support: macos_support.get(i).unwrap_or(false),
         linux_support: linux_support.get(i).unwrap_or(false),
