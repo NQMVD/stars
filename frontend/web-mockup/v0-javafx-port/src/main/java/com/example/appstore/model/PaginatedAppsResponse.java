@@ -1,17 +1,31 @@
 package com.example.appstore.model;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
  * Paginated response from the apps API endpoint.
  */
 public class PaginatedAppsResponse {
+    @SerializedName("apps")
     private List<App> apps;
+
+    @SerializedName("total")
     private int total;
+
+    @SerializedName("page")
     private int page;
+
+    @SerializedName("page_size")
     private int pageSize;
+
+    @SerializedName("total_pages")
     private int totalPages;
+
+    @SerializedName("has_next")
     private boolean hasNext;
+
+    @SerializedName("has_previous")
     private boolean hasPrevious;
 
     public PaginatedAppsResponse() {}

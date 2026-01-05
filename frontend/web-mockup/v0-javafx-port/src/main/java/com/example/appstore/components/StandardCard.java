@@ -1,6 +1,8 @@
 package com.example.appstore.components;
 
 import com.example.appstore.model.App;
+import java.io.IOException;
+import java.net.URL;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,9 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class StandardCard extends VBox {
 
@@ -56,10 +55,19 @@ public class StandardCard extends VBox {
         );
         iconBox.setPrefSize(40, 40);
 
-        if (app.getOwnerAvatarUrl() != null && !app.getOwnerAvatarUrl().isEmpty()) {
+        if (
+            app.getOwnerAvatarUrl() != null &&
+            !app.getOwnerAvatarUrl().isEmpty()
+        ) {
             ImageView avatarView = new ImageView();
             try {
-                Image avatarImage = new Image(app.getOwnerAvatarUrl(), 40, 40, true, true);
+                Image avatarImage = new Image(
+                    app.getOwnerAvatarUrl(),
+                    40,
+                    40,
+                    true,
+                    true
+                );
                 avatarView.setImage(avatarImage);
                 avatarView.setFitWidth(40);
                 avatarView.setFitHeight(40);
@@ -107,10 +115,10 @@ public class StandardCard extends VBox {
         rateRow.setAlignment(Pos.CENTER_LEFT);
         rateRow.getChildren().addAll(star, rateLabel, countLabel);
 
-        Label freeLabel = new Label("Free");
-        freeLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+        // Label freeLabel = new Label("Free");
+        // freeLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
 
-        ratingBox.getChildren().addAll(rateRow, freeLabel);
+        ratingBox.getChildren().addAll(rateRow);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -149,8 +157,7 @@ public class StandardCard extends VBox {
                     openBtn.setStyle(
                         "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand;"
                     );
-                    openBtn.setOnAction(openEvent -> {
-                    });
+                    openBtn.setOnAction(openEvent -> {});
                     actionBtnContainer.getChildren().add(openBtn);
                 });
                 pause.play();
