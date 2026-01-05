@@ -5,7 +5,7 @@ use axum::body::Body;
 use axum::http::header;
 use axum::http::StatusCode;
 use axum::{
-    extract::{Path, State},
+    extract::{Path, Query, State},
     response::{IntoResponse, Response},
     routing::get,
     Json, Router,
@@ -13,6 +13,7 @@ use axum::{
 use chrono::DateTime;
 use dotenvy::dotenv;
 use polars::prelude::DataFrame;
+use serde::Deserialize;
 use std::env;
 use std::fmt;
 use std::net::SocketAddr;
@@ -26,9 +27,11 @@ use tracing_subscriber::{
 mod db;
 mod github;
 mod models;
+mod platform;
 
 use crate::github::GithubClient;
-use crate::models::GithubAsset;
+use crate::models::{AssetInfo, GithubAsset, Platform};
+use crate::platform::{find_best_asset, get_asset_priority, get_platform_display_name, is_linux_platform};
 use regex::Regex;
 
 #[derive(Clone)]
@@ -110,7 +113,10 @@ async fn main() -> anyhow::Result<()> {
         .route("/api/catalog_info", get(get_catalog_info))
         .route("/api/apps/:id/latest", get(get_latest_version))
         .route("/api/apps/:id/download", get(download_asset))
+        .route("/api/apps/:id/download/:asset_name", get(download_specific_asset))
         .route("/api/apps/:id/screenshots", get(get_screenshots))
+        .route("/api/apps/:id/availability", get(get_app_availability))
+        .route("/api/apps/:id/release-info", get(get_release_info))
         // version of running backend service for compatibility
         .route("/api/version", get(get_version))
         .with_state(state);
@@ -156,7 +162,6 @@ async fn get_latest_version(
 ) -> Result<Json<serde_json::Value>, AppError> {
     tracing::info!("Handling get_latest_version for app_id: {}", app_id);
 
-    // 1. Get App metadata
     tracing::debug!("Fetching app metadata from DataFrame");
     let app = db::get_app(&state.df, &app_id)?.ok_or_else(|| {
         tracing::warn!("App {} not found in DB", app_id);
@@ -164,8 +169,6 @@ async fn get_latest_version(
     })?;
     tracing::debug!("Found app: {:?}", app.name);
 
-    // 2. Fetch latest release from GitHub
-    // No caching for now as per plan
     tracing::debug!(
         "Fetching latest release from GitHub for {}/{}",
         app.owner_login,
@@ -184,6 +187,158 @@ async fn get_latest_version(
 
     let release_json = serde_json::to_value(&gh_release).unwrap();
     Ok(Json(release_json))
+}
+
+#[derive(Debug, Deserialize)]
+struct AvailabilityQuery {
+    platform: String,
+}
+
+async fn get_app_availability(
+    State(state): State<Arc<AppState>>,
+    Path(app_id): Path<String>,
+    Query(query): Query<AvailabilityQuery>,
+) -> Result<Json<models::AppAvailability>, AppError> {
+    tracing::info!(
+        "Handling get_app_availability for app_id: {}, platform: {}",
+        app_id,
+        query.platform
+    );
+
+    let platform: Platform = query.platform.parse().map_err(|_| {
+        tracing::warn!("Invalid platform: {}", query.platform);
+        AppError::BadRequest(format!("Invalid platform: {}", query.platform))
+    })?;
+
+    let app = db::get_app(&state.df, &app_id)?.ok_or_else(|| {
+        tracing::warn!("App {} not found in DB", app_id);
+        AppError::NotFound(format!("App {} not found", app_id))
+    })?;
+
+    let supported = match &platform {
+        Platform::Windows => app.windows_support,
+        Platform::Macos => app.macos_support,
+        Platform::LinuxDeb | Platform::LinuxRpm | Platform::LinuxArch | Platform::LinuxGeneric => {
+            app.linux_support
+        }
+    };
+
+    let mut availability = models::AppAvailability {
+        app_id: app.id.clone(),
+        platform: platform.clone(),
+        supported,
+        has_release_assets: false,
+        best_asset: None,
+        message: None,
+    };
+
+    if !supported {
+        let platform_name = get_platform_display_name(&platform);
+        availability.message = Some(format!(
+            "{} is not officially supported on {}.",
+            app.name, platform_name
+        ));
+        return Ok(Json(availability));
+    }
+
+    let gh_release = match state
+        .github_client
+        .get_latest_release(
+            &app.owner_login,
+            &app.name,
+            &state.github_client_id,
+            &state.github_client_secret,
+        )
+        .await
+    {
+        Ok(release) => release,
+        Err(e) => {
+            tracing::warn!("Failed to fetch release for {}: {}", app_id, e);
+            availability.message = Some("Unable to fetch release information.".to_string());
+            return Ok(Json(availability));
+        }
+    };
+
+    if gh_release.assets.is_empty() {
+        availability.message = Some("No release assets available.".to_string());
+        return Ok(Json(availability));
+    }
+
+    if let Some(asset) = find_best_asset(&gh_release.assets, &platform) {
+        availability.has_release_assets = true;
+        availability.best_asset = Some(AssetInfo {
+            name: asset.name.clone(),
+            browser_download_url: asset.browser_download_url.clone(),
+            size: asset.size,
+            content_type: asset.content_type.clone(),
+            priority: get_asset_priority(&asset.name, &platform),
+        });
+    } else {
+        availability.message = Some(format!(
+            "No compatible release assets found for {}.",
+            get_platform_display_name(&platform)
+        ));
+    }
+
+    Ok(Json(availability))
+}
+
+#[derive(Debug, Deserialize)]
+struct ReleaseInfoQuery {
+    platform: String,
+}
+
+async fn get_release_info(
+    State(state): State<Arc<AppState>>,
+    Path(app_id): Path<String>,
+    Query(query): Query<ReleaseInfoQuery>,
+) -> Result<Json<models::PlatformReleaseInfo>, AppError> {
+    tracing::info!(
+        "Handling get_release_info for app_id: {}, platform: {}",
+        app_id,
+        query.platform
+    );
+
+    let platform: Platform = query.platform.parse().map_err(|_| {
+        tracing::warn!("Invalid platform: {}", query.platform);
+        AppError::BadRequest(format!("Invalid platform: {}", query.platform))
+    })?;
+
+    let app = db::get_app(&state.df, &app_id)?.ok_or_else(|| {
+        tracing::warn!("App {} not found in DB", app_id);
+        AppError::NotFound(format!("App {} not found", app_id))
+    })?;
+
+    let gh_release = state
+        .github_client
+        .get_latest_release(
+            &app.owner_login,
+            &app.name,
+            &state.github_client_id,
+            &state.github_client_secret,
+        )
+        .await?;
+
+    let best_asset = find_best_asset(&gh_release.assets, &platform);
+
+    let release_info = models::PlatformReleaseInfo {
+        tag_name: gh_release.tag_name,
+        name: gh_release.name,
+        body: gh_release.body,
+        published_at: gh_release.published_at,
+        platform: platform.clone(),
+        available: best_asset.is_some(),
+        asset: best_asset.map(|asset| AssetInfo {
+            name: asset.name.clone(),
+            browser_download_url: asset.browser_download_url.clone(),
+            size: asset.size,
+            content_type: asset.content_type.clone(),
+            priority: get_asset_priority(&asset.name, &platform),
+        }),
+        assets: gh_release.assets,
+    };
+
+    Ok(Json(release_info))
 }
 
 async fn download_asset(
@@ -232,6 +387,85 @@ async fn download_asset(
         )
         .await?;
     tracing::info!("Got response from GitHub asset download: {}", resp.status());
+
+    let content_type = resp
+        .headers()
+        .get(reqwest::header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream")
+        .to_string();
+
+    let content_length = resp
+        .headers()
+        .get(reqwest::header::CONTENT_LENGTH)
+        .and_then(|v| v.to_str().ok())
+        .map(|v| v.to_string());
+
+    let stream = Body::from_stream(resp.bytes_stream());
+
+    let mut builder = Response::builder().header(header::CONTENT_TYPE, content_type);
+
+    if let Some(len) = content_length {
+        builder = builder.header(header::CONTENT_LENGTH, len);
+    }
+
+    builder = builder.header(
+        header::CONTENT_DISPOSITION,
+        format!("attachment; filename=\"{}\"", asset.name),
+    );
+
+    Ok(builder.body(stream).unwrap())
+}
+
+#[derive(Debug, Deserialize)]
+struct DownloadQuery {
+    platform: Option<String>,
+}
+
+async fn download_specific_asset(
+    State(state): State<Arc<AppState>>,
+    Path((app_id, asset_name)): Path<(String, String)>,
+) -> Result<Response, AppError> {
+    tracing::info!(
+        "Handling download_specific_asset for app_id: {}, asset: {}",
+        app_id,
+        asset_name
+    );
+
+    let app = db::get_app(&state.df, &app_id)?.ok_or_else(|| {
+        tracing::warn!("App {} not found in DB", app_id);
+        AppError::NotFound(format!("App {} not found", app_id))
+    })?;
+
+    let gh_release = state
+        .github_client
+        .get_latest_release(
+            &app.owner_login,
+            &app.name,
+            &state.github_client_id,
+            &state.github_client_secret,
+        )
+        .await?;
+
+    let asset = gh_release
+        .assets
+        .iter()
+        .find(|a| a.name == asset_name)
+        .ok_or_else(|| {
+            tracing::warn!("Asset {} not found in release", asset_name);
+            AppError::NotFound(format!("Asset {} not found", asset_name))
+        })?;
+
+    tracing::info!("Found asset: {} (size: {} bytes)", asset.name, asset.size);
+
+    let resp = state
+        .github_client
+        .download_asset(
+            &asset.browser_download_url,
+            &state.github_client_id,
+            &state.github_client_secret,
+        )
+        .await?;
 
     let content_type = resp
         .headers()
@@ -402,6 +636,7 @@ async fn get_version() -> Result<Response, AppError> {
 
 enum AppError {
     NotFound(String),
+    BadRequest(String),
     Internal(anyhow::Error),
 }
 
@@ -409,6 +644,7 @@ impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         let (status, message) = match self {
             AppError::NotFound(msg) => (StatusCode::NOT_FOUND, msg),
+            AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
             AppError::Internal(err) => {
                 tracing::error!("Internal error: {:#}", err);
                 (

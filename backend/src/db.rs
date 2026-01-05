@@ -25,11 +25,13 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
     let owner_logins = df.column("owner_login")?.str()?;
     let created_ats = df.column("created_at")?.str()?;
     let updated_ats = df.column("updated_at")?.str()?;
+    let windows_support = df.column("windows_support")?.bool()?;
+    let macos_support = df.column("macos_support")?.bool()?;
+    let linux_support = df.column("linux_support")?.bool()?;
 
     let mut apps = Vec::with_capacity(df.height());
 
     for i in 0..df.height() {
-        // We use repo_name as ID (slug) and name for now, based on previous logic
         let repo_name = repo_names.get(i).unwrap_or_default();
         let owner_login = owner_logins.get(i).unwrap_or_default();
 
@@ -51,6 +53,9 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
             owner_login: owner_login.to_string(),
             created_at,
             updated_at,
+            windows_support: windows_support.get(i).unwrap_or(false),
+            macos_support: macos_support.get(i).unwrap_or(false),
+            linux_support: linux_support.get(i).unwrap_or(false),
         });
     }
 
@@ -61,7 +66,6 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
 pub fn get_app(df: &DataFrame, app_id: &str) -> Result<Option<App>> {
     debug!("Querying app: {}", app_id);
 
-    // Filter DataFrame
     let mask = df.column("repo_name")?.str()?.equal(app_id);
     let filtered = df.filter(&mask)?;
 
@@ -69,11 +73,13 @@ pub fn get_app(df: &DataFrame, app_id: &str) -> Result<Option<App>> {
         return Ok(None);
     }
 
-    // Should be unique, take first
     let repo_names = filtered.column("repo_name")?.str()?;
     let owner_logins = filtered.column("owner_login")?.str()?;
     let created_ats = filtered.column("created_at")?.str()?;
     let updated_ats = filtered.column("updated_at")?.str()?;
+    let windows_support = filtered.column("windows_support")?.bool()?;
+    let macos_support = filtered.column("macos_support")?.bool()?;
+    let linux_support = filtered.column("linux_support")?.bool()?;
 
     let i = 0;
     let repo_name = repo_names.get(i).unwrap_or_default();
@@ -97,5 +103,8 @@ pub fn get_app(df: &DataFrame, app_id: &str) -> Result<Option<App>> {
         owner_login: owner_login.to_string(),
         created_at,
         updated_at,
+        windows_support: windows_support.get(i).unwrap_or(false),
+        macos_support: macos_support.get(i).unwrap_or(false),
+        linux_support: linux_support.get(i).unwrap_or(false),
     }))
 }
