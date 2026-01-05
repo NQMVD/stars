@@ -1,6 +1,7 @@
 package com.example.appstore.views;
 
 import com.example.appstore.model.App;
+import com.example.appstore.model.AppAvailability;
 import com.example.appstore.model.GithubRelease;
 import com.example.appstore.model.InstalledApp;
 import com.example.appstore.service.ApiService;
@@ -8,6 +9,7 @@ import com.example.appstore.service.InstallationManager;
 import com.example.appstore.service.InstallationManager.InstallationState;
 import com.example.appstore.service.InstallationService;
 import com.example.appstore.service.LibraryService;
+import com.example.appstore.service.PlatformDetector;
 import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
@@ -57,6 +59,9 @@ public class AppDetailView extends ScrollPane {
     // Labels to update with API data
     private Label versionLabel;
     private Label descriptionLabel;
+    private Button installBtn;
+    private Label statusLabel;
+    private AppAvailability currentAvailability;
 
     public AppDetailView(App app, Runnable onBack) {
         this.app = app;
@@ -116,13 +121,11 @@ public class AppDetailView extends ScrollPane {
         vendorLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #a1a1aa;");
 
         HBox platforms = new HBox(8);
-        platforms
-            .getChildren()
-            .addAll(
-                createPlatformBadge(Feather.MONITOR),
-                createPlatformBadge(Feather.COMMAND),
-                createPlatformBadge(Feather.TERMINAL)
-            );
+        platforms.getChildren().addAll(
+            createPlatformBadge(Feather.MONITOR, app.isWindowsSupport(), "Windows"),
+            createPlatformBadge(Feather.COMMAND, app.isMacosSupport(), "macOS"),
+            createPlatformBadge(Feather.TERMINAL, app.isLinuxSupport(), "Linux")
+        );
 
         metaBox.getChildren().addAll(titleLabel, vendorLabel, platforms);
 
@@ -133,7 +136,7 @@ public class AppDetailView extends ScrollPane {
         LibraryService libraryService = LibraryService.getInstance();
         boolean isInstalled = libraryService.isInstalled(app.getId());
 
-        Button installBtn = new Button(isInstalled ? "Open" : "Install");
+        installBtn = new Button(isInstalled ? "Open" : "Install");
         FontIcon dlIcon = new FontIcon(
             isInstalled ? Feather.CHECK : Feather.DOWNLOAD
         );
@@ -166,7 +169,7 @@ public class AppDetailView extends ScrollPane {
 
         progressBox.getChildren().addAll(progressBar, progressLabel);
 
-        Label statusLabel = new Label("");
+        statusLabel = new Label("");
         statusLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
 
         // Check if this app is currently being installed
@@ -261,6 +264,21 @@ public class AppDetailView extends ScrollPane {
                         app.getName()
                     );
                     statusLabel.setText("Another installation in progress");
+                    return;
+                }
+
+                // Check if app is available for current platform
+                if (currentAvailability == null || !currentAvailability.isAvailable()) {
+                    String reason = currentAvailability != null && currentAvailability.getMessage() != null
+                        ? currentAvailability.getMessage()
+                        : "This app is not available for your platform.";
+                    LOG.warn(
+                        "App {} not available for installation: {}",
+                        app.getName(),
+                        reason
+                    );
+                    statusLabel.setText(reason);
+                    statusLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-size: 12px;");
                     return;
                 }
 
@@ -548,6 +566,107 @@ public class AppDetailView extends ScrollPane {
 
         // Load release info from API
         loadReleaseInfo(changelogContent);
+
+        // Check platform availability and update install button
+        checkAvailability();
+    }
+
+    private String getCurrentPlatformString() {
+        PlatformDetector.Platform platform = PlatformDetector.detectPlatform();
+        switch (platform) {
+            case WINDOWS:
+                return "windows";
+            case MACOS:
+                return "macos";
+            case LINUX_DEB:
+                return "linux_deb";
+            case LINUX_RPM:
+                return "linux_rpm";
+            case LINUX_ARCH:
+                return "linux_arch";
+            case LINUX_GENERIC:
+            default:
+                return "linux_generic";
+        }
+    }
+
+    private void checkAvailability() {
+        String platform = getCurrentPlatformString();
+        ApiService.getInstance()
+            .getAppAvailability(app.getId(), platform)
+            .thenAccept(availability -> {
+                Platform.runLater(() -> {
+                    currentAvailability = availability;
+                    updateInstallButtonState(availability);
+                });
+            })
+            .exceptionally(ex -> {
+                Platform.runLater(() -> {
+                    LOG.warn("Failed to check availability for {}: {}", app.getId(), ex.getMessage());
+                    statusLabel.setText("Unable to verify availability");
+                });
+                return null;
+            });
+    }
+
+    private void updateInstallButtonState(AppAvailability availability) {
+        LibraryService libraryService = LibraryService.getInstance();
+        boolean isInstalled = libraryService.isInstalled(app.getId());
+
+        if (isInstalled) {
+            return;
+        }
+
+        if (!availability.isSupported()) {
+            installBtn.setDisable(true);
+            installBtn.setStyle(
+                "-fx-background-color: #3f3f46; -fx-text-fill: #71717a; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px;"
+            );
+            FontIcon icon = new FontIcon(Feather.X_CIRCLE);
+            icon.setIconColor(Color.web("#71717a"));
+            installBtn.setGraphic(icon);
+            installBtn.setText("Not Available");
+
+            String message = availability.getMessage();
+            if (message != null && !message.isEmpty()) {
+                statusLabel.setText(message);
+            } else {
+                statusLabel.setText("Not supported on " + getPlatformDisplayName());
+            }
+            statusLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-size: 12px;");
+        } else if (!availability.hasReleaseAssets() || availability.getBestAsset() == null) {
+            installBtn.setDisable(true);
+            installBtn.setStyle(
+                "-fx-background-color: #3f3f46; -fx-text-fill: #71717a; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px;"
+            );
+            FontIcon icon = new FontIcon(Feather.ALERT_CIRCLE);
+            icon.setIconColor(Color.web("#71717a"));
+            installBtn.setGraphic(icon);
+            installBtn.setText("Not Available");
+
+            String message = availability.getMessage();
+            if (message != null && !message.isEmpty()) {
+                statusLabel.setText(message);
+            } else {
+                statusLabel.setText("No release assets available");
+            }
+            statusLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-size: 12px;");
+        } else {
+            installBtn.setDisable(false);
+            installBtn.setStyle(
+                "-fx-background-color: #fafafa; -fx-text-fill: #010101; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 10 24; -fx-font-size: 14px; -fx-cursor: hand;"
+            );
+            FontIcon icon = new FontIcon(Feather.DOWNLOAD);
+            icon.setIconColor(Color.BLACK);
+            installBtn.setGraphic(icon);
+            installBtn.setText("Install");
+            statusLabel.setText("");
+        }
+    }
+
+    private String getPlatformDisplayName() {
+        PlatformDetector.Platform platform = PlatformDetector.detectPlatform();
+        return PlatformDetector.getPlatformDisplayName(platform);
     }
 
     private void loadReleaseInfo(VBox changelogContent) {
@@ -976,14 +1095,17 @@ public class AppDetailView extends ScrollPane {
         }
     }
 
-    private StackPane createPlatformBadge(Feather icon) {
+    private StackPane createPlatformBadge(Feather icon, boolean supported, String label) {
         StackPane badge = new StackPane();
         badge.setPrefSize(28, 28);
         badge.setStyle(
-            "-fx-background-color: #181818; -fx-background-radius: 6px;"
+            "-fx-background-color: " + (supported ? "#181818" : "#1a1a1a") + "; -fx-background-radius: 6px;"
         );
+        if (!supported) {
+            badge.setOpacity(0.5);
+        }
         FontIcon i = new FontIcon(icon);
-        i.setIconColor(Color.web("#a1a1aa"));
+        i.setIconColor(supported ? Color.web("#22c55e") : Color.web("#52525b"));
         i.setIconSize(14);
         badge.getChildren().add(i);
         return badge;

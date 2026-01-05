@@ -14,6 +14,9 @@ public class App {
     private String description;
     private String created_at;
     private String updated_at;
+    private boolean windows_support;
+    private boolean macos_support;
+    private boolean linux_support;
 
     public App() {}
 
@@ -85,6 +88,46 @@ public class App {
 
     public void setUpdatedAt(String updatedAt) {
         this.updated_at = updatedAt;
+    }
+
+    public boolean isWindowsSupport() {
+        return windows_support;
+    }
+
+    public void setWindowsSupport(boolean windowsSupport) {
+        this.windows_support = windowsSupport;
+    }
+
+    public boolean isMacosSupport() {
+        return macos_support;
+    }
+
+    public void setMacosSupport(boolean macosSupport) {
+        this.macos_support = macosSupport;
+    }
+
+    public boolean isLinuxSupport() {
+        return linux_support;
+    }
+
+    public void setLinuxSupport(boolean linuxSupport) {
+        this.linux_support = linuxSupport;
+    }
+
+    public boolean isSupportedOnCurrentPlatform(String platformString) {
+        switch (platformString) {
+            case "windows":
+                return windows_support;
+            case "macos":
+                return macos_support;
+            case "linux_deb":
+            case "linux_rpm":
+            case "linux_arch":
+            case "linux_generic":
+                return linux_support;
+            default:
+                return false;
+        }
     }
 
     @Override

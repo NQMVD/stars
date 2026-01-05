@@ -1,6 +1,8 @@
 package com.example.appstore.service;
 
 import com.example.appstore.model.App;
+import com.example.appstore.model.AppAvailability;
+import com.example.appstore.model.AssetInfo;
 import com.example.appstore.model.GithubAsset;
 import com.example.appstore.model.GithubRelease;
 import com.example.appstore.service.PlatformDetector.Platform;
@@ -202,15 +204,12 @@ public class InstallationService {
         App app,
         Consumer<InstallProgress> progressCallback
     ) throws Exception {
-        Platform platform = PlatformDetector.detectPlatform();
+        String platformString = getPlatformString();
         LOG.info(
-            "Detected platform: {}, arch: {}",
-            PlatformDetector.getPlatformDisplayName(platform),
-            PlatformDetector.getArchitecture()
+            "Installing for platform: {}",
+            PlatformDetector.getPlatformDisplayName(PlatformDetector.detectPlatform())
         );
 
-        // Stage 1: Fetch release info
-        LOG.info("Stage 1: Fetching release info for app: {}", app.getId());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -220,74 +219,51 @@ public class InstallationService {
             )
         );
 
-        GithubRelease release = ApiService.getInstance()
-            .getLatestRelease(app.getId())
-            .get(); // Blocking get since we're in async context
+        com.example.appstore.model.AppAvailability availability = ApiService.getInstance()
+            .getAppAvailability(app.getId(), platformString)
+            .get();
 
-        if (release == null) {
-            LOG.warn(
-                "No release found for app: {} (id: {})",
-                app.getName(),
-                app.getId()
-            );
-            throw new RuntimeException("No release found for " + app.getName());
+        if (availability == null) {
+            throw new RuntimeException("Failed to fetch availability for " + app.getName());
         }
 
-        LOG.info(
-            "Found release: {} ({})",
-            release.getTagName(),
-            release.getName()
-        );
-
-        List<GithubAsset> assets = release.getAssets();
-        if (assets == null || assets.isEmpty()) {
-            LOG.warn(
-                "No assets in release for app: {} (id: {})",
-                app.getName(),
-                app.getId()
-            );
-            throw new RuntimeException(
-                "No downloadable assets found for " + app.getName()
-            );
+        if (!availability.isSupported()) {
+            String message = availability.getMessage() != null
+                ? availability.getMessage()
+                : app.getName() + " is not supported on this platform.";
+            throw new RuntimeException(message);
         }
 
-        LOG.info("Release has {} assets:", assets.size());
-        for (GithubAsset asset : assets) {
-            LOG.debug(
-                "  - {} ({})",
-                asset.getName(),
-                formatBytes(asset.getSize())
-            );
+        if (!availability.hasReleaseAssets()) {
+            String message = availability.getMessage() != null
+                ? availability.getMessage()
+                : "No release assets available for " + app.getName();
+            throw new RuntimeException(message);
         }
 
-        // Find the best asset for this platform
-        GithubAsset bestAsset = findBestAsset(assets, platform);
-        if (bestAsset == null) {
-            LOG.warn(
-                "No compatible asset found for platform: {} (app: {})",
-                platform,
-                app.getName()
-            );
-            throw new RuntimeException(
-                "No compatible download found for " +
-                    PlatformDetector.getPlatformDisplayName(platform)
-            );
+        AssetInfo bestAssetInfo = availability.getBestAsset();
+        if (bestAssetInfo == null) {
+            throw new RuntimeException("No compatible asset found for this platform");
         }
 
         LOG.info(
             "Selected asset: {} ({})",
-            bestAsset.getName(),
-            formatBytes(bestAsset.getSize())
+            bestAssetInfo.getName(),
+            bestAssetInfo.getFormattedSize()
         );
 
-        // Stage 2: Download
-        LOG.info("Stage 2: Downloading asset: {}", bestAsset.getName());
+        GithubAsset bestAsset = new GithubAsset();
+        bestAsset.setName(bestAssetInfo.getName());
+        bestAsset.setBrowserDownloadUrl(bestAssetInfo.getBrowserDownloadUrl());
+        bestAsset.setSize(bestAssetInfo.getSize());
+        bestAsset.setContentType(bestAssetInfo.getContentType());
+
         reportProgress(
             progressCallback,
             new InstallProgress(
                 InstallProgress.Stage.DOWNLOADING,
                 0.0,
-                "Downloading " + bestAsset.getName() + "..."
+                "Downloading " + bestAssetInfo.getName() + "..."
             )
         );
 
@@ -309,8 +285,6 @@ public class InstallationService {
             downloadPath
         );
 
-        // Stage 3: Extract/Install
-        LOG.info("Stage 3: Installing from asset: {}", bestAsset.getName());
         reportProgress(
             progressCallback,
             new InstallProgress(
@@ -321,10 +295,11 @@ public class InstallationService {
         );
 
         long installStart = System.currentTimeMillis();
+        Platform platform = PlatformDetector.detectPlatform();
         Path installPath = installAsset(
             app,
             downloadPath,
-            bestAsset.getName(),
+            bestAssetInfo.getName(),
             platform,
             progressCallback
         );
@@ -383,15 +358,35 @@ public class InstallationService {
 
         return new InstallResult(
             app.getId(),
-            release.getTagName(),
+            availability.getBestAsset() != null ? "latest" : "unknown",
             installPath.toString(),
             executablePath,
-            bestAsset.getSize()
+            bestAssetInfo.getSize()
         );
+    }
+
+    private String getPlatformString() {
+        Platform platform = PlatformDetector.detectPlatform();
+        switch (platform) {
+            case WINDOWS:
+                return "windows";
+            case MACOS:
+                return "macos";
+            case LINUX_DEB:
+                return "linux_deb";
+            case LINUX_RPM:
+                return "linux_rpm";
+            case LINUX_ARCH:
+                return "linux_arch";
+            case LINUX_GENERIC:
+            default:
+                return "linux_generic";
+        }
     }
 
     /**
      * Find the best asset for the given platform.
+     * Now delegates to backend API when available.
      */
     private GithubAsset findBestAsset(
         List<GithubAsset> assets,

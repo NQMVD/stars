@@ -1,7 +1,10 @@
 package com.example.appstore.service;
 
 import com.example.appstore.model.App;
+import com.example.appstore.model.AppAvailability;
+import com.example.appstore.model.AssetInfo;
 import com.example.appstore.model.GithubRelease;
+import com.example.appstore.model.PlatformReleaseInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
@@ -274,5 +277,168 @@ public class ApiService {
         String url = baseUrl + "/api/apps/" + appId + "/download";
         LOG.debug("Generated download URL for app {}: {}", appId, url);
         return url;
+    }
+
+    /**
+     * Get app availability for a specific platform.
+     * This is the primary method to check if an app can be installed on the current platform.
+     *
+     * @param appId The app ID (repo_name)
+     * @param platform The platform (windows, macos, linux_deb, linux_rpm, linux_arch, linux_generic)
+     * @return CompletableFuture containing AppAvailability with platform support and asset info
+     */
+    public CompletableFuture<AppAvailability> getAppAvailability(String appId, String platform) {
+        String url = baseUrl + "/api/apps/" + appId + "/availability?platform=" + platform;
+        LOG.debug("Fetching availability for app: {} on platform: {} from: {}", appId, platform, url);
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .GET()
+            .build();
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            .thenApply(response -> {
+                if (response.statusCode() == 200) {
+                    AppAvailability availability = gson.fromJson(
+                        response.body(),
+                        AppAvailability.class
+                    );
+                    if (availability != null) {
+                        LOG.info(
+                            "App {} availability for {}: supported={}, hasAssets={}, available={}",
+                            appId,
+                            platform,
+                            availability.isSupported(),
+                            availability.hasReleaseAssets(),
+                            availability.isAvailable()
+                        );
+                        return availability;
+                    }
+                    LOG.warn("Received null availability data for app: {}", appId);
+                    return createUnavailableAvailability(appId, platform, "No response from server");
+                }
+                LOG.error(
+                    "API request failed with status code: {} for URL: {} (app: {}, platform: {})",
+                    response.statusCode(),
+                    url,
+                    appId,
+                    platform
+                );
+                return createUnavailableAvailability(appId, platform, "API error: " + response.statusCode());
+            })
+            .exceptionally(e -> {
+                LOG.error(
+                    "Failed to fetch availability for app {} on platform {} from {}: {}",
+                    appId,
+                    platform,
+                    url,
+                    e.getMessage(),
+                    e
+                );
+                return createUnavailableAvailability(appId, platform, "Connection error: " + e.getMessage());
+            });
+    }
+
+    private AppAvailability createUnavailableAvailability(String appId, String platform, String reason) {
+        AppAvailability availability = new AppAvailability();
+        availability.setAppId(appId);
+        availability.setPlatform(platform);
+        availability.setSupported(false);
+        availability.setHasReleaseAssets(false);
+        availability.setBestAsset(null);
+        availability.setMessage(reason);
+        return availability;
+    }
+
+    /**
+     * Get platform-aware release information.
+     * Returns release info with the best compatible asset for the specified platform.
+     *
+     * @param appId The app ID (repo_name)
+     * @param platform The platform (windows, macos, linux_deb, linux_rpm, linux_arch, linux_generic)
+     * @return CompletableFuture containing PlatformReleaseInfo
+     */
+    public CompletableFuture<PlatformReleaseInfo> getReleaseInfo(String appId, String platform) {
+        String url = baseUrl + "/api/apps/" + appId + "/release-info?platform=" + platform;
+        LOG.debug("Fetching release info for app: {} on platform: {} from: {}", appId, platform, url);
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .GET()
+            .build();
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            .thenApply(response -> {
+                if (response.statusCode() == 200) {
+                    PlatformReleaseInfo releaseInfo = gson.fromJson(
+                        response.body(),
+                        PlatformReleaseInfo.class
+                    );
+                    if (releaseInfo != null) {
+                        LOG.info(
+                            "Release info for {} on {}: tag={}, available={}",
+                            appId,
+                            platform,
+                            releaseInfo.getTagName(),
+                            releaseInfo.isAvailable()
+                        );
+                        return releaseInfo;
+                    }
+                    LOG.warn("Received null release info for app: {}", appId);
+                    return null;
+                }
+                LOG.error(
+                    "API request failed with status code: {} for URL: {} (app: {}, platform: {})",
+                    response.statusCode(),
+                    url,
+                    appId,
+                    platform
+                );
+                return null;
+            })
+            .exceptionally(e -> {
+                LOG.error(
+                    "Failed to fetch release info for app {} on platform {} from {}: {}",
+                    appId,
+                    platform,
+                    url,
+                    e.getMessage(),
+                    e
+                );
+                return null;
+            });
+    }
+
+    /**
+     * Download a specific asset by name.
+     *
+     * @param appId The app ID (repo_name)
+     * @param assetName The name of the asset to download
+     * @return The direct download URL
+     */
+    public String getAssetDownloadUrl(String appId, String assetName) {
+        String url = baseUrl + "/api/apps/" + appId + "/download/" + assetName;
+        LOG.debug("Generated asset download URL for app {} asset {}: {}", appId, assetName, url);
+        return url;
+    }
+
+    /**
+     * Convenience method to get the best download URL for an app on the current platform.
+     * This uses the availability endpoint to get the best asset and returns its download URL.
+     *
+     * @param appId The app ID (repo_name)
+     * @param platform The current platform
+     * @return CompletableFuture containing the download URL or null if not available
+     */
+    public CompletableFuture<String> getBestDownloadUrl(String appId, String platform) {
+        return getAppAvailability(appId, platform)
+            .thenApply(availability -> {
+                if (availability != null && availability.getBestAsset() != null) {
+                    return availability.getBestAsset().getBrowserDownloadUrl();
+                }
+                return getDownloadUrl(appId);
+            });
     }
 }
