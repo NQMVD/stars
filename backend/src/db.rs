@@ -1,4 +1,4 @@
-use crate::models::App;
+use crate::models::{App, PaginatedAppsResponse};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Utc};
 use polars::prelude::*;
@@ -73,6 +73,42 @@ pub fn get_all_apps(df: &DataFrame) -> Result<Vec<App>> {
     }
 
     Ok(apps)
+}
+
+#[instrument(skip(df))]
+pub fn get_apps_paginated(df: &DataFrame, page: usize, page_size: usize) -> Result<PaginatedAppsResponse> {
+    debug!("Querying apps paginated - page: {}, page_size: {}", page, page_size);
+
+    let all_apps = get_all_apps(df)?;
+    let total = all_apps.len();
+
+    if total == 0 {
+        return Ok(PaginatedAppsResponse {
+            apps: Vec::new(),
+            total: 0,
+            page,
+            page_size,
+            total_pages: 0,
+            has_next: false,
+            has_previous: false,
+        });
+    }
+
+    let total_pages = (total + page_size - 1) / page_size;
+    let page = page.max(1).min(total_pages);
+    let start = (page - 1) * page_size;
+    let end = start + page_size;
+    let apps: Vec<App> = all_apps[start..end.min(total)].to_vec();
+
+    Ok(PaginatedAppsResponse {
+        apps,
+        total,
+        page,
+        page_size,
+        total_pages,
+        has_next: page < total_pages,
+        has_previous: page > 1,
+    })
 }
 
 #[instrument(skip(df))]

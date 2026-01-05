@@ -1,5 +1,4 @@
 use polars::prelude::*;
-use std::fs::File;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 

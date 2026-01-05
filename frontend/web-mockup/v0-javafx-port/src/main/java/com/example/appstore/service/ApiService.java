@@ -4,6 +4,7 @@ import com.example.appstore.model.App;
 import com.example.appstore.model.AppAvailability;
 import com.example.appstore.model.AssetInfo;
 import com.example.appstore.model.GithubRelease;
+import com.example.appstore.model.PaginatedAppsResponse;
 import com.example.appstore.model.PlatformReleaseInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,72 @@ public class ApiService {
 
     public String getBaseUrl() {
         return baseUrl;
+    }
+
+    /**
+     * Get paginated apps from the API.
+     *
+     * @param page The page number (1-indexed)
+     * @param pageSize The number of apps per page
+     * @return CompletableFuture containing PaginatedAppsResponse
+     */
+    public CompletableFuture<PaginatedAppsResponse> getAppsPaginated(int page, int pageSize) {
+        String url = baseUrl + "/api/apps/paged?page=" + page + "&page_size=" + pageSize;
+        LOG.debug("Fetching paginated apps from: {} (page: {}, pageSize: {})", url, page, pageSize);
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .GET()
+            .build();
+
+        return httpClient
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            .thenApply(response -> {
+                if (response.statusCode() == 200) {
+                    PaginatedAppsResponse result = gson.fromJson(
+                        response.body(),
+                        PaginatedAppsResponse.class
+                    );
+                    if (result != null) {
+                        LOG.info(
+                            "Successfully fetched {} apps (page {}/{}, total: {})",
+                            result.getApps().size(),
+                            result.getPage(),
+                            result.getTotalPages(),
+                            result.getTotal()
+                        );
+                        return result;
+                    }
+                    LOG.warn("Received null paginated response");
+                    return createEmptyPaginatedResponse();
+                }
+                LOG.error(
+                    "API request failed with status code: {} for URL: {}",
+                    response.statusCode(),
+                    url
+                );
+                return createEmptyPaginatedResponse();
+            })
+            .exceptionally(e -> {
+                LOG.error(
+                    "Failed to fetch paginated apps from {}: {}",
+                    url,
+                    e.getMessage(),
+                    e
+                );
+                return createEmptyPaginatedResponse();
+            });
+    }
+
+    private PaginatedAppsResponse createEmptyPaginatedResponse() {
+        PaginatedAppsResponse response = new PaginatedAppsResponse();
+        response.setApps(new ArrayList<>());
+        response.setTotal(0);
+        response.setPage(1);
+        response.setPageSize(20);
+        response.setTotalPages(0);
+        response.setHasNext(false);
+        response.setHasPrevious(false);
+        return response;
     }
 
     /**

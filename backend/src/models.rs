@@ -17,6 +17,17 @@ pub struct App {
     pub linux_support: bool,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct PaginatedAppsResponse {
+    pub apps: Vec<App>,
+    pub total: usize,
+    pub page: usize,
+    pub page_size: usize,
+    pub total_pages: usize,
+    pub has_next: bool,
+    pub has_previous: bool,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum Platform {
     #[serde(rename = "windows")]

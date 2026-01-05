@@ -108,6 +108,7 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/api/apps", get(get_apps))
+        .route("/api/apps/paged", get(get_apps_paged))
         .route("/api/apps/featured", get(get_featured_apps))
         // get catalog info, file name and git commit hash
         .route("/api/catalog_info", get(get_catalog_info))
@@ -133,6 +134,23 @@ async fn get_apps(State(state): State<Arc<AppState>>) -> Result<Json<Vec<models:
     tracing::info!("Handling get_apps");
     let apps = db::get_all_apps(&state.df)?;
     Ok(Json(apps))
+}
+
+#[derive(Debug, Deserialize)]
+struct PaginationQuery {
+    page: Option<usize>,
+    page_size: Option<usize>,
+}
+
+async fn get_apps_paged(
+    State(state): State<Arc<AppState>>,
+    Query(query): Query<PaginationQuery>,
+) -> Result<Json<models::PaginatedAppsResponse>, AppError> {
+    let page = query.page.unwrap_or(1);
+    let page_size = query.page_size.unwrap_or(20);
+    tracing::info!("Handling get_apps_paged - page: {}, page_size: {}", page, page_size);
+    let response = db::get_apps_paginated(&state.df, page, page_size)?;
+    Ok(Json(response))
 }
 
 async fn get_featured_apps(

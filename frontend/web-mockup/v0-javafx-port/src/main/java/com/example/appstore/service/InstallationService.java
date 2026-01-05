@@ -207,7 +207,9 @@ public class InstallationService {
         String platformString = getPlatformString();
         LOG.info(
             "Installing for platform: {}",
-            PlatformDetector.getPlatformDisplayName(PlatformDetector.detectPlatform())
+            PlatformDetector.getPlatformDisplayName(
+                PlatformDetector.detectPlatform()
+            )
         );
 
         reportProgress(
@@ -219,12 +221,15 @@ public class InstallationService {
             )
         );
 
-        com.example.appstore.model.AppAvailability availability = ApiService.getInstance()
-            .getAppAvailability(app.getId(), platformString)
-            .get();
+        com.example.appstore.model.AppAvailability availability =
+            ApiService.getInstance()
+                .getAppAvailability(app.getId(), platformString)
+                .get();
 
         if (availability == null) {
-            throw new RuntimeException("Failed to fetch availability for " + app.getName());
+            throw new RuntimeException(
+                "Failed to fetch availability for " + app.getName()
+            );
         }
 
         if (!availability.isSupported()) {
@@ -243,7 +248,9 @@ public class InstallationService {
 
         AssetInfo bestAssetInfo = availability.getBestAsset();
         if (bestAssetInfo == null) {
-            throw new RuntimeException("No compatible asset found for this platform");
+            throw new RuntimeException(
+                "No compatible asset found for this platform"
+            );
         }
 
         LOG.info(
@@ -752,7 +759,7 @@ public class InstallationService {
         try (var stream = Files.walk(directory, 3)) {
             return stream
                 .filter(p -> p.getFileName().toString().endsWith(".app"))
-                .filter(Files::isDirectory)
+                // .filter(Files::isDirectory)
                 .findFirst()
                 .orElse(null);
         }
