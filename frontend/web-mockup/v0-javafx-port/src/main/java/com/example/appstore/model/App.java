@@ -10,6 +10,8 @@ public class App {
     private String id;
     private String name;
     private String owner_login;
+    private String owner_avatar_url;
+    private long stargazers_count;
     private String category;
     private String description;
     private String created_at;
@@ -56,6 +58,22 @@ public class App {
 
     public void setOwnerLogin(String ownerLogin) {
         this.owner_login = ownerLogin;
+    }
+
+    public String getOwnerAvatarUrl() {
+        return owner_avatar_url;
+    }
+
+    public void setOwnerAvatarUrl(String ownerAvatarUrl) {
+        this.owner_avatar_url = ownerAvatarUrl;
+    }
+
+    public long getStargazersCount() {
+        return stargazers_count;
+    }
+
+    public void setStargazersCount(long stargazersCount) {
+        this.stargazers_count = stargazersCount;
     }
 
     public String getCategory() {
@@ -112,6 +130,16 @@ public class App {
 
     public void setLinuxSupport(boolean linuxSupport) {
         this.linux_support = linuxSupport;
+    }
+
+    public String getFormattedStars() {
+        if (stargazers_count >= 1000000) {
+            return String.format("%.1fM", stargazers_count / 1000000.0);
+        } else if (stargazers_count >= 1000) {
+            return String.format("%.1fK", stargazers_count / 1000.0);
+        } else {
+            return String.valueOf(stargazers_count);
+        }
     }
 
     public boolean isSupportedOnCurrentPlatform(String platformString) {

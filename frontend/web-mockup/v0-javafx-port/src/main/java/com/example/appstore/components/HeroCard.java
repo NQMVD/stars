@@ -1,27 +1,33 @@
 package com.example.appstore.components;
 
+import com.example.appstore.model.App;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class HeroCard extends VBox {
 
-    public HeroCard(String title, String description, boolean isInstalled) {
+    private final App app;
+
+    public HeroCard(App app, boolean isInstalled) {
+        this.app = app;
         getStyleClass().add("app-card");
-        setPrefSize(350, 300); // Taller to accommodate image + text
+        setPrefSize(350, 300);
         setMinSize(350, 300);
         setPadding(new Insets(0));
 
-        // Large Image Area
         StackPane imageArea = new StackPane();
         imageArea.setPrefHeight(180);
         imageArea.setStyle(
@@ -33,12 +39,10 @@ public class HeroCard extends VBox {
         bgIcon.setIconColor(Color.web("#3f3f46"));
         imageArea.getChildren().add(bgIcon);
 
-        // Content Area
         VBox content = new VBox(12);
         content.setPadding(new Insets(20));
         VBox.setVgrow(content, Priority.ALWAYS);
 
-        // Header
         HBox header = new HBox(16);
         header.setAlignment(Pos.CENTER_LEFT);
 
@@ -47,28 +51,55 @@ public class HeroCard extends VBox {
             "-fx-background-color: #27272a; -fx-background-radius: 10px;"
         );
         iconBox.setPrefSize(48, 48);
-        FontIcon appIcon = new FontIcon(Feather.BOX);
-        appIcon.setIconColor(Color.WHITE);
-        appIcon.setIconSize(24);
-        iconBox.getChildren().add(appIcon);
+
+        if (app.getOwnerAvatarUrl() != null && !app.getOwnerAvatarUrl().isEmpty()) {
+            ImageView avatarView = new ImageView();
+            try {
+                Image avatarImage = new Image(app.getOwnerAvatarUrl(), 48, 48, true, true);
+                avatarView.setImage(avatarImage);
+                avatarView.setFitWidth(48);
+                avatarView.setFitHeight(48);
+                Circle clip = new Circle(24, 24, 24);
+                avatarView.setClip(clip);
+                iconBox.getChildren().add(avatarView);
+            } catch (Exception e) {
+                FontIcon appIcon = new FontIcon(Feather.BOX);
+                appIcon.setIconColor(Color.WHITE);
+                appIcon.setIconSize(24);
+                iconBox.getChildren().add(appIcon);
+            }
+        } else {
+            FontIcon appIcon = new FontIcon(Feather.BOX);
+            appIcon.setIconColor(Color.WHITE);
+            appIcon.setIconSize(24);
+            iconBox.getChildren().add(appIcon);
+        }
 
         VBox titleBox = new VBox(4);
-        Label titleLabel = new Label(title);
+        Label titleLabel = new Label(app.getName());
         titleLabel.setStyle(
             "-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 16px;"
         );
-        Label descLabel = new Label(description);
+        Label descLabel = new Label(app.getDescription() != null ? app.getDescription() : "No description");
         descLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 13px;");
         descLabel.setWrapText(true);
-        titleBox.getChildren().addAll(titleLabel, descLabel);
+
+        HBox starsRow = new HBox(6);
+        starsRow.setAlignment(Pos.CENTER_LEFT);
+        FontIcon star = new FontIcon(Feather.STAR);
+        star.setIconColor(Color.web("#fbbf24"));
+        star.setIconSize(14);
+        Label starsLabel = new Label(app.getFormattedStars() + " stars");
+        starsLabel.setStyle("-fx-text-fill: #a1a1aa; -fx-font-size: 12px;");
+        starsRow.getChildren().addAll(star, starsLabel);
+
+        titleBox.getChildren().addAll(titleLabel, descLabel, starsRow);
 
         header.getChildren().addAll(iconBox, titleBox);
 
-        // Spacer
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        // Footer Actions
         HBox footer = new HBox();
         footer.setAlignment(Pos.CENTER_RIGHT);
 
@@ -93,7 +124,6 @@ public class HeroCard extends VBox {
                 installBtn.setText("Installing...");
                 installBtn.setDisable(true);
 
-                // Mock delay
                 javafx.animation.PauseTransition pause =
                     new javafx.animation.PauseTransition(
                         javafx.util.Duration.seconds(1.5)
@@ -105,7 +135,6 @@ public class HeroCard extends VBox {
                         "-fx-background-color: #27272a; -fx-text-fill: white; -fx-background-radius: 6px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20; -fx-font-size: 13px;"
                     );
                     openBtn.setOnAction(openEvent -> {
-                        // TODO: Implement app launch functionality
                     });
                     footer.getChildren().add(openBtn);
                 });
@@ -118,5 +147,9 @@ public class HeroCard extends VBox {
         content.getChildren().addAll(header, spacer, footer);
 
         getChildren().addAll(imageArea, content);
+    }
+
+    public App getApp() {
+        return app;
     }
 }

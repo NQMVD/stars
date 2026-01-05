@@ -7,6 +7,8 @@ pub struct App {
     pub id: String,
     pub name: String,
     pub owner_login: String,
+    pub owner_avatar_url: Option<String>,
+    pub stargazers_count: i64,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
     pub last_release_at: Option<DateTime<Utc>>,

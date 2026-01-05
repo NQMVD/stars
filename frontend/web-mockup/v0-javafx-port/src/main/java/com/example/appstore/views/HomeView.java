@@ -119,14 +119,8 @@ public class HomeView extends ScrollPane implements Searchable {
                     } else {
                         for (int i = 0; i < Math.min(3, apps.size()); i++) {
                             App app = apps.get(i);
-                            boolean highlight = i < 2; // First two are highlighted
-                            HeroCard card = new HeroCard(
-                                app.getName(),
-                                app.getDescription() != null
-                                    ? app.getDescription()
-                                    : "No description",
-                                highlight
-                            );
+                            boolean highlight = i < 2;
+                            HeroCard card = new HeroCard(app, highlight);
                             featuredRow.getChildren().add(card);
                         }
                     }
@@ -152,15 +146,11 @@ public class HomeView extends ScrollPane implements Searchable {
                     } else {
                         int col = 0;
                         int row = 0;
-                        // Show up to 6 apps in the trending section
                         for (int i = 0; i < Math.min(6, apps.size()); i++) {
                             App app = apps.get(i);
                             StandardCard card = new StandardCard(
-                                app.getName(),
-                                app.getOwnerLogin(),
-                                "4.5", // Placeholder rating
-                                "1k", // Placeholder count
-                                false, // Not installed
+                                app,
+                                false,
                                 () -> rootLayout.showAppDetails(app)
                             );
                             trendingRow.add(card, col, row);
@@ -193,10 +183,7 @@ public class HomeView extends ScrollPane implements Searchable {
                         int row = 0;
                         for (App app : apps) {
                             StandardCard card = new StandardCard(
-                                app.getName(),
-                                app.getOwnerLogin(),
-                                "4.5",
-                                "1k",
+                                app,
                                 false,
                                 () -> rootLayout.showAppDetails(app)
                             );
@@ -228,10 +215,7 @@ public class HomeView extends ScrollPane implements Searchable {
                     app.getDescription().toLowerCase().contains(lowerQuery))
             ) {
                 StandardCard card = new StandardCard(
-                    app.getName(),
-                    app.getOwnerLogin(),
-                    "4.5",
-                    "1k",
+                    app,
                     false,
                     () -> rootLayout.showAppDetails(app)
                 );

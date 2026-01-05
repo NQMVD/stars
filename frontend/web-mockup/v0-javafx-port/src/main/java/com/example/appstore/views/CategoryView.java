@@ -88,10 +88,7 @@ public class CategoryView extends ScrollPane implements Searchable {
                     } else {
                         for (App app : filtered) {
                             StandardCard card = new StandardCard(
-                                app.getName(),
-                                app.getOwnerLogin(),
-                                "4.5", // Placeholder
-                                "1k", // Placeholder
+                                app,
                                 false,
                                 () -> rootLayout.showAppDetails(app)
                             );
@@ -115,10 +112,7 @@ public class CategoryView extends ScrollPane implements Searchable {
                     app.getDescription().toLowerCase().contains(lowerQuery))
             ) {
                 StandardCard card = new StandardCard(
-                    app.getName(),
-                    app.getOwnerLogin(),
-                    "4.5",
-                    "1k",
+                    app,
                     false,
                     () -> rootLayout.showAppDetails(app)
                 );
