@@ -24,11 +24,13 @@ use tracing_subscriber::{
     util::SubscriberInitExt,
 };
 
+mod cache;
 mod db;
 mod github;
 mod models;
 mod platform;
 
+use crate::cache::CacheManager;
 use crate::github::GithubClient;
 use crate::models::{AssetInfo, GithubAsset, Platform};
 use crate::platform::{find_best_asset, get_asset_priority, get_platform_display_name, is_linux_platform};
@@ -97,7 +99,8 @@ async fn main() -> anyhow::Result<()> {
     let df = db::init_db(&csv_path)?;
     let df = Arc::new(df);
 
-    let github_client = GithubClient::new()?;
+    let cache = CacheManager::default();
+    let github_client = GithubClient::new(cache)?;
 
     let state = Arc::new(AppState {
         df,
